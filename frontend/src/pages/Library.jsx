@@ -2,16 +2,37 @@ import styles from '../styles/library.module.css'
 import searchIcon from '../assets/search-icon.svg'
 
 import { useState, useEffect } from 'react';
-import { getBooks } from '../api/books'
+import { getAllBorrowedBooks, getBooks } from '../api/books'
 
-export default function Library({ setViewBook, setBookTitle, setBookAuthor, setBookCoverURL, setWorkKey }){
+export default function Library({ setViewBook, setBook, book }){
+
     const [booksByCategory, setBooksByCategory] = useState({
-        computer: [],
-        math: [],
+        gen_info: [],
+        phil_psych: [],
+        religion: [],
+        soc_sci: [],
+        languange: [],
         science: [],
+        technology: [],
+        arts_rec: [],
+        literature: [],
+        hist_geo: [],
     });
 
-    const [categories, setCategories] = useState(["Computer","Math","Science"]);
+    const categories = {
+            '001' : "001 | General Information",
+            '100' : "100 | Philosophy & Psychology",
+            '200' : "200 | Religion",
+            '300' : "300 | Social Sciences",
+            '400' : "400 | Language",
+            '500' : "500 | Science",
+            '600' : "600 | Technology",
+            '700' : "700 | Arts & Recreation",
+            '800' : "800 | Literature",
+            '900' : "900 | History & Geology",
+        };
+
+    const allBooks = Object.values(booksByCategory).flat();
 
     const [booksBySearch, setBooksBySearch] = useState([]);
     const [search, setSearch] = useState("");
@@ -19,57 +40,78 @@ export default function Library({ setViewBook, setBookTitle, setBookAuthor, setB
 
     useEffect(() => {
         async function fetchBooks() {
-            try {
-                const books = await Promise.all(
-                    categories.map((category) => getBooks({category : category.toLowerCase()}))
+            try{
+                const fetchedBooks = await getBooks();
+                const fetchBorrowedBooks = await getAllBorrowedBooks();
+
+                const borrowedBooksCallNumber = new Set(
+                    fetchBorrowedBooks.map(b => b.book.call_number)
                 );
+                
+                console.log(fetchBorrowedBooks);
+
+                const borrowedBooks = fetchedBooks.map(book => ({
+                    ...book,
+                    isBorrowed: borrowedBooksCallNumber.has(book.call_number)
+                }));
 
                 const booksData = {};
-                categories.forEach((category, index) => {
-                    booksData[category.toLowerCase()] = books[index];
+    
+                Object.keys(categories).forEach((key) => {
+                    booksData[key.toLowerCase()] = [];
+                });
+
+                borrowedBooks.forEach((book) => {
+                    const categoryKey = book.call_number.substring(0,3);
+
+                    if(booksData[categoryKey]) {
+                        booksData[categoryKey].push(book);
+                    }
                 });
 
                 setBooksByCategory(booksData);
-                /* booksData.computer.forEach((e) => console.log(e.work_key)); */ //make function for fetching book datas
-            }catch (err) {
+            } catch (err) {
                 console.log(err);
             }
         }
         
         fetchBooks();
-    }, []);
+    }, [book]);
 
-    const handleSearch = async () => {
-
-        if(!search.trim()){
+    useEffect(() => {
+        if(!search){
             setSearching(false);
+        }
+    }, [search]);
+
+    const handleSearch = (e) => {
+        if(e) e.preventDefault();
+
+        const query = search.trim().toLowerCase();
+
+        if(!query) {
+            setSearching(false);
+            setBooksBySearch([]);
             return;
         }
 
-        try {
-            const data = await getBooks({ generalSearch: search});
-            setBooksBySearch(data);
-        }catch (err){
-            console.log(err);
-        }
+        const filteredBooks = allBooks.filter(book => 
+            book.title.toLowerCase().includes(query) ||
+            book.author.toLowerCase().includes(query) || 
+            book.call_number.toLowerCase().includes(query)
+        )
 
+        setBooksBySearch(filteredBooks);
         setSearching(true);
     };
 
-    const handleViewBook = (title, author, coverURL, work_key) => {
-        setBookTitle(title);
-        setBookAuthor(author);
-        setBookCoverURL(coverURL);
-        setWorkKey(work_key);
-        setViewBook(true);
-    }
-
     return(
         <>
-            <div className={styles.library}>
-                <div className={styles.header}>
+            <div className={styles.library} onSubmit={handleSearch}>
+                <form className={styles.header}>
                     <p>Find all the literatures you want in just one search</p>
                     <div className={styles.searchBarContainer}>
+                        <img src={searchIcon} className={styles.searchIcon} onClick={handleSearch}/>
                         <input
                             type="text"
                             className={styles.searchBar}
@@ -77,48 +119,72 @@ export default function Library({ setViewBook, setBookTitle, setBookAuthor, setB
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
                         />
-                        <div className={styles.searchIconContainer} onClick={handleSearch}><img src={searchIcon}/></div>
                     </div>
-                </div>
+                </form>
 
                 <div className={`${styles.searchScroll} ${searching ? styles.show : ""}`}>
-                    {booksBySearch.map((book, i) => (
-                        <div key ={i} className={styles.bookPanels} onClick={() => handleViewBook(book.title, book.author, book.cover_url, book.work_key)}>
-                            {book.cover_url && (
-                                <img
-                                    src={book.cover_url ? book.cover_url : searchIcon}
-                                    alt="Cover"
-                                    className={styles.bookCover}
-                                />
-                            )}
-                            <p>{book.title}</p>
-                            <p>{book.author}</p>
+                    {booksBySearch.length > 0 ? (
+                        booksBySearch.map((book, i) => (
+                            <div key = {i}
+                                className={styles.bookPanels}
+                                onClick={() => {
+                                                setViewBook(true);
+                                                setBook({...book});
+                                            }
+                                        }
+                                >
+                                {book.cover_path && (
+                                    <img
+                                        src={book.cover_path ? book.cover_path : searchIcon}
+                                        alt="Cover"
+                                        className={styles.bookCover}
+                                    />
+                                )}
+                                <p>{book.title}</p>
+                                <p>{book.author}</p>
+                            </div>
+                        ))
+                    ) : (
+                        <div>
+                            <h1>No Book Found</h1>
                         </div>
-                    ))}
+                    )}
                 </div>
 
                 <div className={`${styles.scroll} ${searching ? styles.hide : ""}`}>
-                    {categories.map((category,i) => (
-                     <div key={i} className={styles.category}>
-                        <div className={styles.categoryHeader}>
-                            <p>{category}</p>
+                    {Object.keys(categories).map((category, i) => (
+                        <div key={i} className={styles.category}>
+                            <div className={styles.categoryHeader}>
+                                <p>{categories[category]}</p>
+                            </div>
+                            <div className={styles.books}>
+                                {booksByCategory[category.toLowerCase()]?.length > 0 ? (
+                                    booksByCategory[category.toLowerCase()].map((book, j) => (
+                                        <div key={j}
+                                            className={styles.bookPanels}
+                                            onClick={() => {
+                                                setViewBook(true);
+                                                setBook({...book});
+                                            }
+                                        }>
+                                            {book.cover_path && (
+                                                <img
+                                                    src={book.cover_path}
+                                                    alt={book.title}
+                                                    className={styles.bookCover}
+                                                />
+                                            )}
+                                            <p>{book.title}</p>
+                                            <p>{book.author}</p>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <div className={styles.noBooks}>
+                                        <h1>No Books Available</h1>
+                                    </div>
+                                )}
+                            </div>
                         </div>
-                        <div className={styles.books}>
-                            {booksByCategory[category.toLowerCase()]?.map((book, j) => (
-                                <div key={j} className={styles.bookPanels} onClick={() => handleViewBook(book.title, book.author, book.cover_url, book.work_key)}>
-                                    {book.cover_url && (
-                                        <img
-                                            src={book.cover_url}
-                                            alt={book.title}
-                                            className={styles.bookCover}
-                                        />
-                                    )}
-                                    <p>{book.title}</p>
-                                    <p>{book.author}</p>
-                                </div>
-                            ))}
-                        </div>
-                    </div>   
                     ))}
                 </div>
             </div>

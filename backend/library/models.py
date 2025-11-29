@@ -102,7 +102,8 @@ class BorrowRecords(models.Model):
     )
 
     borrow_date = models.DateTimeField(
-        default=timezone.localdate,
+        blank=True,
+        null=True,
         editable=False
     )
 

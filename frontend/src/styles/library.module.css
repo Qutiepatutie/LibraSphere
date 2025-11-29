@@ -26,41 +26,36 @@
 .searchBarContainer {
     margin-top: 15px;
     display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
     height: 45%;
     width: 50%;
-    border-radius: 10px;
-    border: 0.5px solid;
-    border-color: #ededed;
+    border-radius: 40px;
+    border: 2px solid transparent;
+    background-color: #ededed;
+    transition: border-color 0.25s;
+}
+
+.searchBarContainer:focus-within {
+    border-color: #4D643A;
 }
 
 .searchBar{
     height: 95%;
-    width: 90%;
+    width: 95%;
     border: none;
     padding-left: 10px;
     font-size: 1rem;
-    border-radius: 10px 0px 0px 10px;
-    background-color: #ededed;
+    background: transparent;
+    outline: none;
 }
 
-.searchBar:focus {
-    outline-color: #4D643A;
-}
+.searchIcon {
+    height: 50%;
+    width: 5%;
 
-.searchIconContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 10%;
-    height: 100%;
-    background-color: #ededed;
-    border-radius: 0px 10px 10px 0px;
-    border-left: 2px solid;
-    border-color: #b8b8b8;
-}
-
-.searchIconContainer:hover{
-    cursor: pointer;
+    /* background-color: #4D643A; */
 }
 
 .searchScroll {

@@ -6,8 +6,8 @@ import styles from './styles/app.module.css'
 import Sidebar from './components/Sidebar.jsx'
 import Header from './components/Header.jsx'
 import Dashboard from './pages/Dashboard.jsx'
-import Library from './pages/Library.jsx'
-import LibraryCopy from './pages/LibraryCopy.jsx'
+import AdminDashboard from './pages/AdminDashboard.jsx'
+import LibraryCopy from './pages/Library.jsx'
 import BorrowedBooks from './pages/BorrowedBooks.jsx'
 import BorrowerLogs from './pages/BorrowerLogs.jsx'
 import AddBooks from './pages/AddBooks.jsx'
@@ -48,7 +48,8 @@ export default function App(){
                         setBook={setBook}
                     />
 
-                    {currentPage === "Dashboard" && <Dashboard />}
+                    {currentPage === "Dashboard" && (sessionStorage.getItem("role") === "admin" ? <AdminDashboard /> : <Dashboard />)}
+                    {currentPage === "Dashboard"}
                     {currentPage === "Library" &&  <LibraryCopy setViewBook={setViewBook} setBook={setBook} book={book}/>}
 
                     {currentPage === "Borrowed Books" && <BorrowedBooks />}

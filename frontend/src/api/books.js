@@ -83,3 +83,67 @@ export async function addBook(data){
 
   return await response.json();
 }
+
+export async function borrowBook(data){
+  const response = await fetch('http://127.0.0.1:8000/borrowBook/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data)
+  });
+
+  return await response.json();
+}
+
+export async function getUserBorrowedBooks(id) {
+    const response = await fetch('http://127.0.0.1:8000/getUserBorrowedBooks/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(id)
+  });
+
+    return response.json();
+}
+
+export async function getAllBorrowedBooks() {
+    const resp = await fetch("http://127.0.0.1:8000/getAllBorrowedBooks/");
+
+    if(!resp.ok){
+        throw new Error("Failed to fetch Books");
+    }
+
+    const data = await resp.json();
+
+    return data;
+}
+
+export async function acceptBorrowedBook(isbn, call_num) {
+    const resp = await fetch("http://127.0.0.1:8000/acceptBorrowedBook/" , {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({isbn, call_num})
+    });
+
+    const data = await resp.json();
+
+    return data;
+}
+
+export async function returnBook(isbn, call_num) {
+    const resp = await fetch("http://127.0.0.1:8000/returnBook/" , {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json',
+      },
+      body: JSON.stringify({isbn, call_num})
+    });
+
+    const data = await resp.json();
+
+    return data;
+}

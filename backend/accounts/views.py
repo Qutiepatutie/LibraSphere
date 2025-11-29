@@ -30,6 +30,7 @@ def get_users(request):
             return JsonResponse({'status': 'failed', 'message': 'User Not Found'})
 
         return JsonResponse({'status': 'success',
+                             'id' : user.id,
                              'user' : profile.first_name,
                              'student_number' : profile.student_number,
                              'role': user.role

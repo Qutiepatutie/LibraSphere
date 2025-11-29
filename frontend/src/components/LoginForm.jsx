@@ -27,6 +27,7 @@ export default function LoginForm({onSetForm, onLogIn }) {
         
         if(data.status == 'success'){
             sessionStorage.setItem("isLoggedIn", "true");
+            sessionStorage.setItem("id", data.id);
             sessionStorage.setItem("user", data.user);
             sessionStorage.setItem("student_number", data.student_number);
             sessionStorage.setItem("role", data.role);
