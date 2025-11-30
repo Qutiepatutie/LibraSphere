@@ -19,7 +19,7 @@ bookly-lms/
 ### 1. Clone repo
 
 ```
-git clone https://github.com/Qutiepatutie/bookly-lms.git
+git clone https://github.com/Qutiepatutie/LibraSphere.git
 cd bookly-lms
 ```
 
