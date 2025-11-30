@@ -12,6 +12,16 @@ export default function AdminDashboard() {
     const [message, setMessage] = useState();
     const [show, setShow] = useState(false);
 
+    const [query, setQuery] = useState();
+    const [searchedPending, setSearchedPending] = useState([]);
+    const [searchedCurrent, setSearchedCurrent] = useState([]);
+    const [searchingPending, setSearchingPending] = useState(false);
+    const [searchingCurrent, setSearchingCurrent] = useState(false);
+    const [searchingOn, setSearchingOn] = useState();
+
+    const allPending = Object.values(pendingBooks).flat();
+    const allCurrent = Object.values(currrentBorrowedBooks).flat();
+
     const notify = () => {
         setShow(true);
         setTimeout(() => setShow(false), 2000);
@@ -43,6 +53,54 @@ export default function AdminDashboard() {
         }
         fetchPendingBooks();
     }, [])
+
+    const handleChange = (e) => {
+        setSearchingOn(e.target.name);
+        setQuery(e.target.value);
+
+        console.log(e.target.name);
+        console.log(e.target.value);
+    }
+
+    useEffect(() => {
+        if(!query){
+            setSearchingPending(false);
+            setSearchingCurrent(false);
+            setQuery("");
+        }else {
+            handleSearch();
+        }
+    }, [query]);
+
+    const handleSearch = (e) => {
+        if(e) e.preventDefault();
+
+        const qry = query.trim().toLowerCase();
+
+        if(!qry) {
+            setSearchedPending([]);
+            setSearchedCurrent([])
+            return;
+        }
+        
+        if(searchingOn === 'pending'){
+            const filteredBooks = allPending.filter(b =>
+                b.user.first_name.toLowerCase().includes(qry) ||
+                b.user.student_number.includes(qry)
+            )
+
+            setSearchedPending(filteredBooks);
+            setSearchingPending(true);
+        }else {
+            const filteredBooks = allCurrent.filter(b =>
+                b.user.first_name.toLowerCase().includes(qry) ||
+                b.user.student_number.includes(qry)
+            )
+
+            setSearchedCurrent(filteredBooks);
+            setSearchingCurrent(true);
+        }
+    };
     
     const handleAccept = async (isbn, callNum) => {
         try{
@@ -100,17 +158,25 @@ export default function AdminDashboard() {
             <div className={`${styles.toast} ${show ? styles.show : ""}`}>{message}</div>
 
             <div className={styles.adminDashboard}>
-                <form className={styles.header}>
-                    <div className={styles.searchContainer}>
-                       <img src={search} className={styles.searchIcon}/>
-                        <input type="text" className={styles.searchBar}/> 
-                    </div>
-                </form>
                 <div className={styles.mainContainer}>
                     <div className={styles.innerContainer}>
-                        <p>Pending Borrowers</p>
+                        <div className={styles.innerHeader}>
+                            <p className={styles.panelTitle}>Pending Borrowers</p>
+                        <form className={styles.searchContainer} onSubmit={handleSearch}>
+                            <div className={styles.searchBarContainer}>
+                                <img src={search} className={styles.searchIcon} onClick={handleSearch}/>
+                                <input
+                                    type='text'
+                                    name='pending'
+                                    className={styles.searchBar}
+                                    onChange={handleChange}
+                                    placeholder='Search by name or student number'
+                                /> 
+                            </div>
+                        </form>
+                        </div>
                         <div className={styles.pendingContainer}>
-                            {pendingBooks.map((b, i) => (
+                            {(searchingPending ? searchedPending : pendingBooks).map((b, i) => (
                                 <div key={i} className={styles.borrowerPanel}>
                                     <div className={styles.borrowerHeader}>
                                         <img src={avatar} className={styles.avatar}/>
@@ -144,9 +210,23 @@ export default function AdminDashboard() {
                     </div>
 
                     <div className={styles.innerContainer}>
-                            <p>Current Borrowed Books</p>
+                            <div className={styles.innerHeader}>
+                                <p className={styles.panelTitle}>Current Borrowed Books</p>
+                                <form className={styles.searchContainer} onSubmit={handleSearch}>
+                                    <div className={styles.searchBarContainer}>
+                                        <img src={search} className={styles.searchIcon} onClick={handleSearch}/>
+                                        <input
+                                            type='text'
+                                            name='current'
+                                            className={styles.searchBar}
+                                            onChange={handleChange}
+                                            placeholder='Search by name or student number'
+                                        /> 
+                                    </div>
+                                </form>
+                            </div>
                             <div className={styles.currentContainer}>
-                                {currrentBorrowedBooks.map((b, i) => (
+                                {(searchingCurrent ? searchedCurrent : currrentBorrowedBooks).map((b, i) => (
                                 <div key={i} className={styles.borrowerPanel}>
                                     <div className={styles.borrowerHeader}>
                                         <img src={avatar} className={styles.avatar}/>

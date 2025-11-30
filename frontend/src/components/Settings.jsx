@@ -7,9 +7,9 @@ export default function Settings({isOpen, setIsOpen, onLogOut, setCurrentPage}){
         sessionStorage.removeItem("isLoggedIn");
         sessionStorage.removeItem("user");
         sessionStorage.removeItem("role");
+        setCurrentPage("Dashboard");
         onLogOut(false);
         setIsOpen(false);
-        setCurrentPage("dashboard");
     }
 
     return(
