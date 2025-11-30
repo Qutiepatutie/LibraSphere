@@ -13,18 +13,73 @@ export default function BorrowedBooks(){
     const [borrowedBooks, setBorrowedBooks] = useState([]);
 
     const totalBorrowed = borrowedBooks.length;
-    const overdues = borrowedBooks.filter(book => book.status === "Overdue").length
-    const dues = borrowedBooks.filter(book => book.status === "Due").length
+    const overdues = borrowedBooks.filter(book => book.status === "Overdue").length;
+    const dues = borrowedBooks.filter(book => isDueThisWeek(book.due_date)).length;
 
     const fines = overdues * 50;
+
+    function getStartAndEndOfWeek() {
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        const diffToMonday = today.getDay() === 0 ? -6 : 1 - today.getDay();
+        
+        const weekStart = new Date(today);
+        weekStart.setDate(today.getDate() + diffToMonday);
+
+        const weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+
+        return { weekStart, weekEnd};
+    }
+
+    function isDueThisWeek(dueDate) {
+        if(!dueDate) return false;
+
+        const {weekStart, weekEnd} = getStartAndEndOfWeek();
+        
+        const due = new Date(dueDate);
+        due.setHours(0,0,0,0);
+
+        return due >= weekStart && due <= weekEnd;
+    }
+
+    function getBookStatus(b) {
+        if(!b.due_date) return b.status;
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        const due = new Date(b.due_date);
+        due.setHours(0,0,0,0);
+
+        if(due < today) return "Overdue";
+        else if(due.getTime() === today.getTime()) return "Due";
+
+        return b.status;
+    }
 
     useEffect(() => {
         async function fetchBorrowedBooks(){
             try{
-                const borrowedBooks = await getUserBorrowedBooks( {"id" : sessionStorage.getItem("id")} );
+                const borrowedBooks = await getUserBorrowedBooks({
+                    "id" : sessionStorage.getItem("id")
+                });
 
                 if(borrowedBooks.status === "success") {
-                    setBorrowedBooks(borrowedBooks.books);
+                    {/*FOR TESTING*/}
+
+                    /* const updatedBooks = borrowedBooks.books.map(b => {
+                        const test = {...b, due_date: '2025-12-06'};
+                        return {...test, status: getBookStatus(test)};
+                    }); */
+
+                    const updatedBooks = borrowedBooks.books.map(b => ({
+                        ...b,
+                        status: getBookStatus(b)
+                    }));
+
+                    setBorrowedBooks(updatedBooks);
                     console.log(borrowedBooks.books);
                 } else {
                     console.log(borrowedBooks.message);
@@ -40,8 +95,6 @@ export default function BorrowedBooks(){
 
     return(
         <>
-            {/*TODO: FIX STATISTICS */}
-            
             <div className={styles.borrowedBooks}>
                 <div className={styles.upper}>
                     <div className={styles.infoPanel}>

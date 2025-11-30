@@ -50,8 +50,8 @@
 
 .books {
     display: flex;
-    padding: 50px;
-    justify-content: center;
+    padding: 20px 50px;
+    justify-content: start;
     box-sizing: border-box;
     flex-wrap: wrap;
     overflow-y: scroll;
@@ -60,26 +60,25 @@
     height: 100%;
     border-radius: 6px;
     outline: 2px solid #ededed;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
+                rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 }
 
 .bookPanel {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    gap:5px;
+    /* justify-content: center; */
     text-align: center;
     align-items: center;
     box-sizing: border-box;
+    gap:5px;
     padding: 20px;
     height: 350px;
-    width: 250px;
+    width: 200px;
     font-size: 0.8rem;
     border-radius: 10px;
 
     user-select: none;
-
-    border: 1px solid #ededed;
 }
 
 .bookPanel .status {
@@ -96,7 +95,6 @@
 .bookPanel img{
     width: 160px;
     height: 240px;
-    object-fit: cover;
     border-radius: 1px;
     border-radius: 10px;
 
@@ -106,22 +104,26 @@
 }
 
 .Active {
-    background-color: rgba(85, 101, 64, 0.6);
-    border: 3px solid rgb(85, 101, 64);
+    /* background-color: rgba(85, 101, 64, 0.6); */
+    background-color: white;
+    border: 2px solid rgb(85, 101, 64);
     color: rgb(85, 101, 64);
 }
 .Due {
-    background-color: rgba(255, 192, 0, 0.8);
-    border: 3px solid rgb(255, 192, 0);
+    /* background-color: rgba(255, 192, 0, 0.8); */
+    background-color: white;
+    border: 2px solid rgb(255, 192, 0);
     color: rgb(255, 192, 0);
 }
 .Pending {
-    background-color: rgba(88, 114, 242, 0.6);
-    border: 3px solid rgb(88, 114, 242);
+    /* background-color: rgba(88, 114, 242, 0.6); */
+    background-color: white;
+    border: 2px solid rgb(88, 114, 242);
     color: rgb(88, 114, 242);
 }
 .Overdue {
-    background-color: rgba(242, 91, 88, 0.8);
-    border: 3px solid rgb(242, 91, 88);
+    /* background-color: rgba(242, 91, 88, 0.8); */
+    background-color: white;
+    border: 2px solid rgb(242, 91, 88);
     color: rgb(242, 91, 88);
 }

@@ -36,13 +36,16 @@
 
 .innerHeader {
     display: flex;
+    align-items: center;
     gap: 5px;
 }
 
 .innerContainer .panelTitle {
+    display: block;
     margin-left: 10px;
     font-size: 1.2rem;
     width: 30%;
+    height: 1.5rem;
 }
 
 .pendingContainer {
@@ -115,7 +118,7 @@
 .searchBar {
     width: 95%;
     height: 100%;
-    font-size: 1rem;
+    font-size: 0.9rem;
     
     border: none;
     outline: none;

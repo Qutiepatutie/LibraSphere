@@ -1,8 +1,10 @@
-import styles from '../styles/borrowerlogs.module.css'
+import styles from '../styles/borrowerlogs.module.css';
 
-import { useState, useEffect } from 'react'
+import search from '../assets/search-icon.svg';
 
-import { getAllBorrowedBooks } from '../api/books'
+import { useState, useEffect } from 'react';
+
+import { getAllBorrowedBooks } from '../api/books';
 
 export default function BorrowerLogs(){
 
@@ -25,9 +27,18 @@ export default function BorrowerLogs(){
     return(
         <>
             <div className={styles.borrowerLogs}>
-                <div className={styles.header}>
-                    <input type="text"/>
-                </div>
+                <form className={styles.searchContainer} /* onSubmit={handleSearch} */>
+                    <div className={styles.searchBarContainer}>
+                        <img src={search} className={styles.searchIcon} /* onClick={handleSearch} *//>
+                        <input
+                            type='text'
+                            name='pending'
+                            className={styles.searchBar}
+                            /* onChange={handleChange} */
+                            placeholder='Search by name or student number'
+                        /> 
+                    </div>
+                </form>
 
                 {/*TODO: propose change of status col to date borrowed */}
                 <div className={styles.table}>
