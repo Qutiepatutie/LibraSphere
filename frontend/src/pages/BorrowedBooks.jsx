@@ -70,7 +70,7 @@ export default function BorrowedBooks(){
                     {/*FOR TESTING*/}
 
                     /* const updatedBooks = borrowedBooks.books.map(b => {
-                        const test = {...b, due_date: '2025-12-06'};
+                        const test = {...b, due_date: '2025-12-01'};
                         return {...test, status: getBookStatus(test)};
                     }); */
 

@@ -9,6 +9,12 @@ import { getAllBorrowedBooks } from '../api/books';
 export default function BorrowerLogs(){
 
     const [borrowedBooks, setBorrowedBooks] = useState([]);
+    
+    const [query, setQuery] = useState();
+    const [searching, setSearching] = useState(false);
+    const [searchedBorrower, setSearchedBorrower] = useState([]);
+
+    const allBooks = Object.values(borrowedBooks).flat();
 
     useEffect(() => {
         async function fetchBorrowedBooks() {
@@ -24,17 +30,47 @@ export default function BorrowerLogs(){
         fetchBorrowedBooks();
     }, []);
 
+    useEffect(() => {
+        if(!query){
+            setSearching(false);
+            setQuery("");
+        }else {
+            handleSearch();
+        }
+    }, [query]);
+
+    const handleSearch = (e) => {
+        if(e) e.preventDefault();
+
+        const qry = query.trim().toLowerCase();
+
+        if(!qry){
+            setSearchedBorrower([]);
+            return;
+        }
+
+        const filteredBorrowers = allBooks.filter(b =>
+            b.user.first_name.toLowerCase().includes(qry) ||
+            b.user.email.toLowerCase().includes(qry) ||
+            b.user.student_number.includes(qry) ||
+            b.status.toLowerCase().includes(qry)
+        )
+
+        setSearchedBorrower(filteredBorrowers);
+        setSearching(true);
+    }
+
     return(
         <>
             <div className={styles.borrowerLogs}>
-                <form className={styles.searchContainer} /* onSubmit={handleSearch} */>
+                <form className={styles.searchContainer} onSubmit={handleSearch}>
                     <div className={styles.searchBarContainer}>
-                        <img src={search} className={styles.searchIcon} /* onClick={handleSearch} *//>
+                        <img src={search} className={styles.searchIcon}/>
                         <input
                             type='text'
                             name='pending'
                             className={styles.searchBar}
-                            /* onChange={handleChange} */
+                            onChange={(e) => setQuery(e.target.value)}
                             placeholder='Search by name or student number'
                         /> 
                     </div>
@@ -55,7 +91,7 @@ export default function BorrowerLogs(){
                         </thead>
                         
                         <tbody>
-                            {borrowedBooks.map((b, i) => (
+                            {(searching ? searchedBorrower : borrowedBooks).map((b, i) => (
                                 <tr key={i}>
                                     <td>{i+1}</td>
                                     <td>{`${b.user.first_name} ${b.user.last_name}`}</td>

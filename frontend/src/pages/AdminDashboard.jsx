@@ -87,7 +87,7 @@ export default function AdminDashboard() {
             const filteredBooks = allPending.filter(b =>
                 b.user.first_name.toLowerCase().includes(qry) ||
                 b.user.student_number.includes(qry)
-            )
+            );
 
             setSearchedPending(filteredBooks);
             setSearchingPending(true);
@@ -95,7 +95,7 @@ export default function AdminDashboard() {
             const filteredBooks = allCurrent.filter(b =>
                 b.user.first_name.toLowerCase().includes(qry) ||
                 b.user.student_number.includes(qry)
-            )
+            );
 
             setSearchedCurrent(filteredBooks);
             setSearchingCurrent(true);
