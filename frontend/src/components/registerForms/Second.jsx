@@ -28,11 +28,17 @@ export default function Second({ sex, setSex, handleChange, setRegisterData, reg
             <label>Program</label>
             <select name="program" value={registerData.program} onChange={handleChange} className={emptyProgram ? styles.empty : ""}>
                 <option value="" disabled hidden></option>
-                <option value="BSCS">BSCS</option>
-                <option value="BSN">BSN</option>
-                <option value="BSPT">BSPT</option>
-                <option value="BSMLS">BSMLS</option>
-                <option value="BSCRIM">BSCRIM</option>
+                <option value="BSPSYCH">BS in Psychology</option>
+                <option value="BSAIS">BS in Accounting Information System</option>
+                <option value="BSA">BS in Accountancy</option>
+                <option value="BSCS">BS in Computer Science</option>
+                <option value="BSITM">BS in International Tourism Management</option>
+                <option value="BSCRIM">BS in Criminology</option>
+                <option value="BSIHM">BS in International Hospitality Management</option>
+                <option value="BSMLS">BS in Medical Laboratory Science </option>
+                <option value="BSPT">BS in Physical Therapy</option>
+                <option value="BSP">BS in Pharmacy</option>
+                <option value="BSN">BS in Nursing</option>
             </select>
 
             <label>Student Number</label>

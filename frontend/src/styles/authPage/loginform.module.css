@@ -44,6 +44,9 @@
     padding-left: 3%;
     box-sizing: border-box;
     background-color: #ededed;
+
+    outline: 2px solid transparent;
+    transition: outline 0.25s;
 }
 
 input.empty {

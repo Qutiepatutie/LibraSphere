@@ -116,6 +116,10 @@
     padding-left: 15px;
     padding-right: 5px;
     font-size: 1rem;
+    
+    outline: 2px solid transparent;
+
+    transition: outline 0.25s;
 }
 
 .infos textarea {
