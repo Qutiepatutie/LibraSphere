@@ -169,7 +169,7 @@ export default function AdminDashboard() {
 
             <div className={styles.adminDashboard}>
                 <div className={styles.mainContainer}>
-                    <div className={styles.innerContainer}>
+                    <div className={styles.leftInnerContainer}>
                         <div className={styles.innerHeader}>
                             <p className={styles.panelTitle}>Pending Borrowers</p>
                         <form className={styles.searchContainer} onSubmit={handleSearch}>
@@ -185,7 +185,7 @@ export default function AdminDashboard() {
                             </div>
                         </form>
                         </div>
-                        <div className={styles.borowersContainer}>
+                        <div className={styles.borrowersContainer}>
                             {(searchingPending ? searchedPending : pendingBooks).map((b, i) => (
                                 <div key={i} className={styles.borrowerPanel}>
                                     <div className={styles.borrowerHeader}>
@@ -219,7 +219,7 @@ export default function AdminDashboard() {
                         </div>
                     </div>
 
-                    <div className={styles.innerContainer}>
+                    <div className={styles.rightInnerContainer}>
                             <div className={styles.innerHeader}>
                                 <p className={styles.panelTitle}>Current Borrowed Books</p>
                                 <form className={styles.searchContainer} onSubmit={handleSearch}>
@@ -235,7 +235,7 @@ export default function AdminDashboard() {
                                     </div>
                                 </form>
                             </div>
-                            <div className={styles.borowersContainer}>
+                            <div className={styles.borrowersContainer}>
                                 {(searchingCurrent ? searchedCurrent : currrentBorrowedBooks).map((b, i) => (
                                 <div key={i} className={styles.borrowerPanel}>
                                     <div className={styles.borrowerHeader}>

@@ -96,6 +96,7 @@
     border-right: 1px solid #ededed;
 }
 .table td:nth-child(2) { padding-left: 10px;}
+
 .table td:nth-child(5),
 .table td:nth-child(6),
 .table td:nth-child(7) { text-align: center;}
