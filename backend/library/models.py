@@ -104,7 +104,6 @@ class BorrowRecords(models.Model):
     borrow_date = models.DateTimeField(
         blank=True,
         null=True,
-        editable=False
     )
 
     return_date = models.DateField(

@@ -39,6 +39,12 @@ export default function AddBooks() {
     const [show, setShow] = useState(false);
     const [error, setError] = useState(false);
 
+    // Message pop up
+    const notify = () => {
+        setShow(true);
+        setTimeout(() => setShow(false), 2000);
+    };
+
     // Clear fields
     const handleClear = () => {
         setInvalidISBN(false);
@@ -77,45 +83,52 @@ export default function AddBooks() {
 
     // Autofill fields
     const handleAutoFill = async (e) => {
-        if(!e.value.trim() || autofilled){
+        try{
+            if(!e.value.trim() || autofilled){
+                setInvalidISBN(false);
+                return
+            }
+            if(isNaN(Number(e.value)) || (e.value.length !== 10 && e.value.length !== 13)){
+                setInvalidISBN(true);
+                return;
+            }
+
+            setLoading(true);
             setInvalidISBN(false);
-            return
+            setBookData(handleLoadData("Autofilling..."));
+
+            const data = await autofillBookInfo(e.value);
+
+            if(data.message === "no book found"){
+                setBookData(handleLoadData("Unknown"));
+                console.log(data.message);
+                return;
+            }
+
+            const updatedData = {
+                ...bookData,
+                "title": data.title,
+                "author": data.author,
+                "edition": data.edition,
+                "description": data.description,
+                "publisher": data.publisher,
+                "yearPublished": data.year_published,
+                "dateAcquired": data.date_acquired,
+                "pages": data.pages,
+                "tags" : data.tags,
+                "coverURL" : data.book_cover_url
+            };
+
+            setBookData(updatedData);
+            setEmptyFields(handleEmptyFields(updatedData));
+            setAutofilled(true);
+            setLoading(false); 
+        }catch {
+            setConfirmMessage("Connection to server failed");
+            setBookData(initialBookData);
+            notify();
         }
-        if(isNaN(Number(e.value)) || (e.value.length !== 10 && e.value.length !== 13)){
-            setInvalidISBN(true);
-            return;
-        }
-
-        setLoading(true);
-        setInvalidISBN(false);
-        setBookData(handleLoadData("Autofilling..."));
-
-        const data = await autofillBookInfo(e.value);
-
-        if(data.message === "no book found"){
-            setBookData(handleLoadData("Unknown"));
-            console.log(data.message);
-            return;
-        }
-
-        const updatedData = {
-            ...bookData,
-            "title": data.title,
-            "author": data.author,
-            "edition": data.edition,
-            "description": data.description,
-            "publisher": data.publisher,
-            "yearPublished": data.year_published,
-            "dateAcquired": data.date_acquired,
-            "pages": data.pages,
-            "tags" : data.tags,
-            "coverURL" : data.book_cover_url
-        };
-
-        setBookData(updatedData);
-        setEmptyFields(handleEmptyFields(updatedData));
-        setAutofilled(true);
-        setLoading(false);
+        
     }
 
     // Check valid cover image
@@ -185,13 +198,6 @@ export default function AddBooks() {
 
     const openPopUp = () => confirmRef.current?.showModal();
     const closePopUp = () => {confirmRef.current?.close(); setOpen(false);}
-        
-
-    // Message pop up
-    const notify = () => {
-        setShow(true);
-        setTimeout(() => setShow(false), 2000);
-    };
 
     // Check book infos
     const handleCheckFields = () => {

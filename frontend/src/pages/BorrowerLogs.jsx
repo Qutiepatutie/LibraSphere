@@ -20,8 +20,8 @@ export default function BorrowerLogs(){
         async function fetchBorrowedBooks() {
             try{
               const fetchedBorrowedBooks = await getAllBorrowedBooks();
-              setBorrowedBooks(fetchedBorrowedBooks);
-              console.log(fetchedBorrowedBooks);
+              setBorrowedBooks(fetchedBorrowedBooks.data);
+              console.log(fetchedBorrowedBooks.data);
             }catch(err){
                 console.log(err);
             }

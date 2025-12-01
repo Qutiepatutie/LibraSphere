@@ -11,6 +11,9 @@ import fineIcon from '../assets/borrowedbooks/fine-icon.svg'
 export default function BorrowedBooks(){
 
     const [borrowedBooks, setBorrowedBooks] = useState([]);
+    
+    const [message, setMessage] = useState();
+    const [show, setShow] = useState(false);
 
     const totalBorrowed = borrowedBooks.length;
     const overdues = borrowedBooks.filter(book => book.status === "Overdue").length;
@@ -59,6 +62,11 @@ export default function BorrowedBooks(){
         return b.status;
     }
 
+    const notify = () => {
+        setShow(true);
+        setTimeout(() => setShow(false), 2000);
+    };
+
     useEffect(() => {
         async function fetchBorrowedBooks(){
             try{
@@ -82,10 +90,11 @@ export default function BorrowedBooks(){
                     setBorrowedBooks(updatedBooks);
                     console.log(borrowedBooks.books);
                 } else {
-                    console.log(borrowedBooks.message);
+                    setMessage(borrowedBooks.message);
+                    notify();
                 }
 
-            }catch(err){
+            }catch(err){z
                 console.log(err);
             }
         }
@@ -95,6 +104,7 @@ export default function BorrowedBooks(){
 
     return(
         <>
+            <div className={`${styles.toast} ${show ? styles.show : ""}`}>{message}</div>
             <div className={styles.borrowedBooks}>
                 <div className={styles.upper}>
                     <div className={styles.infoPanel}>

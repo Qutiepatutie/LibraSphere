@@ -33,7 +33,9 @@ export async function getAllBorrowedBooks() {
         return ({"status":"failed", "message":"Connection to Server Failed"});
     }
 
-    return await resp.json();
+    const data = await resp.json();
+
+    return data;
 }
 
 export async function editBook(data){
@@ -54,10 +56,6 @@ export async function editBook(data){
 
 export async function autofillBookInfo(isbn) {
     const resp = await fetch(`${API_URL}/autofill/?isbn=${isbn}`);
-
-    if(!resp.ok){
-        throw new Error("Failed to retrieve data");
-    }
 
     if(!resp.ok){
         return ({"status":"failed", "message":"Connection to Server Failed"});

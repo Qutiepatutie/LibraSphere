@@ -54,17 +54,11 @@ export default function Library({ setViewBook, setBook, book }){
 
                 console.log(fetchedBooks.message);
 
-                if(fetchedBooks.status === "failed" || fetchBorrowedBooks.status === "failed"){
-                    setMessage(fetchedBooks.message);
-                    notify();
-                    return;
-                }
-
                 const borrowedBooksCallNumber = new Set(
-                    fetchBorrowedBooks.map(b => b.book.call_number)
+                    fetchBorrowedBooks.data.map(b => b.book.call_number)
                 );
 
-                const borrowedBooks = fetchedBooks.map(book => ({
+                const borrowedBooks = fetchedBooks.data.map(book => ({
                     ...book,
                     isBorrowed: borrowedBooksCallNumber.has(book.call_number)
                 }));
@@ -85,6 +79,8 @@ export default function Library({ setViewBook, setBook, book }){
 
                 setBooksByCategory(booksData);
             } catch (err) {
+                setMessage("Connection to server failed");
+                notify();
                 console.log(err);
             }
         }

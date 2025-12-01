@@ -43,7 +43,7 @@ export default function AdminDashboard() {
                 const pending = [];
                 const currentBorrowed = [];
 
-                fetchedPendingBooks.forEach(b => {
+                fetchedPendingBooks.data.forEach(b => {
                     if(b.status === 'Pending'){
                        pending.push(b) ;
                     } else {
@@ -56,6 +56,8 @@ export default function AdminDashboard() {
                 setCurrentBorrowedBooks(currentBorrowed);
                 console.log(fetchedPendingBooks);
             } catch(err){
+                setMessage("Connection to server failed");
+                notify();
                 console.log(err);
             }
         }
