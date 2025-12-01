@@ -1,6 +1,7 @@
-// Example: sending login form data
+const API_URL = "https://librasphere-production.up.railway.app";
+
 export async function login(email, pass) {
-  const response = await fetch('http://127.0.0.1:8000/login/', {
+  const response = await fetch(`${API_URL}/login/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -16,7 +17,7 @@ export async function login(email, pass) {
 }
 
 export async function register(data){
-  const response = await fetch('http://127.0.0.1:8000/register/', {
+  const response = await fetch(`${API_URL}/register/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

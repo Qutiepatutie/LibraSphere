@@ -1,5 +1,7 @@
+const API_URL = "https://librasphere-production.up.railway.app";
+
 export async function getBooks() {
-    const resp = await fetch("http://127.0.0.1:8000/getBooks/");
+    const resp = await fetch(`${API_URL}/getBooks/`);
 
     if(!resp.ok){
         throw new Error("Failed to fetch Books");
@@ -11,7 +13,7 @@ export async function getBooks() {
 }
 
 export async function editBook(data){
-  const response = await fetch('http://127.0.0.1:8000/editBook/', {
+  const response = await fetch(`${API_URL}/editBook/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -24,7 +26,7 @@ export async function editBook(data){
 
 
 /* export async function viewBookInfo(work_key) {
-    const resp = await fetch(`http://127.0.0.1:8000/viewBook/?work_key=${work_key}`);
+    const resp = await fetch(`${API_URL}/viewBook/?work_key=${work_key}`);
 
     if(!resp.ok){
         throw new Error("Failed to retrieve data");
@@ -40,7 +42,7 @@ export async function editBook(data){
 } */
 
 export async function autofillBookInfo(isbn) {
-    const resp = await fetch(`http://127.0.0.1:8000/autofill/?isbn=${isbn}`);
+    const resp = await fetch(`${API_URL}/autofill/?isbn=${isbn}`);
 
     if(!resp.ok){
         throw new Error("Failed to retrieve data");
@@ -56,7 +58,7 @@ export async function autofillBookInfo(isbn) {
 }
 
 export async function addBook(data){
-  const response = await fetch('http://127.0.0.1:8000/addBook/', {
+  const response = await fetch(`${API_URL}/addBook/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -68,7 +70,7 @@ export async function addBook(data){
 }
 
 export async function borrowBook(data){
-  const response = await fetch('http://127.0.0.1:8000/borrowBook/', {
+  const response = await fetch(`${API_URL}/borrowBook/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -80,7 +82,7 @@ export async function borrowBook(data){
 }
 
 export async function getUserBorrowedBooks(id) {
-    const response = await fetch('http://127.0.0.1:8000/getUserBorrowedBooks/', {
+    const response = await fetch(`${API_URL}/getUserBorrowedBooks/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -92,7 +94,7 @@ export async function getUserBorrowedBooks(id) {
 }
 
 export async function getAllBorrowedBooks() {
-    const resp = await fetch("http://127.0.0.1:8000/getAllBorrowedBooks/");
+    const resp = await fetch(`${API_URL}/getAllBorrowedBooks/`);
 
     if(!resp.ok){
         throw new Error("Failed to fetch Books");
@@ -104,7 +106,7 @@ export async function getAllBorrowedBooks() {
 }
 
 export async function acceptBorrowedBook(isbn, call_num) {
-    const resp = await fetch("http://127.0.0.1:8000/acceptBorrowedBook/" , {
+    const resp = await fetch(`${API_URL}/acceptBorrowedBook/` , {
       method: 'POST',
       headers: {
         'Content-Type':'application/json',
@@ -118,7 +120,7 @@ export async function acceptBorrowedBook(isbn, call_num) {
 }
 
 export async function returnBook(isbn, call_num) {
-    const resp = await fetch("http://127.0.0.1:8000/returnBook/" , {
+    const resp = await fetch(`${API_URL}/returnBook/` , {
       method: 'POST',
       headers: {
         'Content-Type':'application/json',
