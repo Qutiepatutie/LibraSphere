@@ -32,6 +32,14 @@ export default function AdminDashboard() {
             try{
                 const fetchedPendingBooks = await getAllBorrowedBooks();
 
+                console.log(fetchedPendingBooks.status);
+
+                if(fetchedPendingBooks.status === "failed"){
+                    setMessage(fetchedPendingBooks.message);
+                    notify();
+                    return;
+                }
+
                 const pending = [];
                 const currentBorrowed = [];
 
@@ -120,7 +128,7 @@ export default function AdminDashboard() {
                 });
                 
             } else {
-                setMessage(`Error: ${data.message}`);
+                setMessage(data.message);
             }
             
         }catch(err){
@@ -143,11 +151,11 @@ export default function AdminDashboard() {
                 );
 
             } else {
-                setMessage(`Error: ${data.message}`);
+                setMessage(data.message);
             }
         }catch(err){
             console.log("Return Book Error:", err);
-            setMessage("An Undexpected error occured");
+            setMessage("An Unexpected error occured");
         }
 
         notify();

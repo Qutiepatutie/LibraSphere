@@ -7,9 +7,11 @@ from django.utils import timezone
 from .models import Books, BorrowRecords, UserProfile
 
 def get_books(request):
-    
-    books = list(Books.objects.values())
-    return JsonResponse(books, safe=False)
+    try:
+        books = list(Books.objects.values())
+        return JsonResponse({"status":"success", "message":"Books fetched Successfully", "data": books})
+    except:
+        return JsonResponse({"status":"failed", "message":"Cannot Fetch Books", "data":[]})
 
 @csrf_exempt
 def add_books(request):
@@ -32,7 +34,7 @@ def add_books(request):
         date_acquired = data.get("dateAcquired")
         
     except:
-        return JsonResponse({"status":"error", "message":"Invalid JSON"})
+        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
 
     if not all([call_number, isbn, title, author]):
         return JsonResponse({'status': 'failed', 'message': 'missing important fields'})
@@ -60,21 +62,21 @@ def add_books(request):
 @csrf_exempt
 def edit_book(request):
     if request.method != 'POST':
-        return JsonResponse({"status":"error", "message":"Invalid request method"})
+        return JsonResponse({"status":"failed", "message":"Invalid request method"})
     
     try:
         data = json.loads(request.body)
     except:
-        return JsonResponse({"status":"error", "message":"Invalid JSON"})
+        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
     
     isbn = data.get("ISBN")
     if not isbn:
-        return JsonResponse({"status":"error", "message":"Missing ISBN"})
+        return JsonResponse({"status":"failed", "message":"Missing ISBN"})
     
     try:
         book = Books.objects.get(ISBN=isbn)
     except Books.DoesNotExist:
-        return JsonResponse({"status":"error", "message":"Book does not exist"})
+        return JsonResponse({"status":"failed", "message":"Book does not exist"})
     
     book.description = data.get("description", book.description)
     book.title = data.get("title", book.title)
@@ -92,14 +94,14 @@ def edit_book(request):
 @csrf_exempt
 def borrow_book(request):
     if request.method != 'POST':
-        return JsonResponse({"status":"error", "message":"Invalid request method"})
+        return JsonResponse({"status":"failed", "message":"Invalid request method"})
     
     try:
         data = json.loads(request.body)
         student_number = data.get("student_number")
         call_number = data.get("call_number")
     except:
-        return JsonResponse({"status":"error", "message":"Invalid JSON"})
+        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
     
     try:
         user = UserProfile.objects.get(student_number=student_number)
@@ -156,34 +158,36 @@ def get_user_borrowed_books(request):
 
 @csrf_exempt
 def get_all_borrowed_books(request):
+    try:
+        records = BorrowRecords.objects.select_related("user__user", "book")
 
-    records = BorrowRecords.objects.select_related("user__user", "book")
+        data=[]
+        for r in records:
+            record = model_to_dict(r)
 
-    data=[]
-    for r in records:
-        record = model_to_dict(r)
+            user_dict = model_to_dict(r.user)
+            user_dict["email"] = r.user.user.email
 
-        user_dict = model_to_dict(r.user)
-        user_dict["email"] = r.user.user.email
+            book_dict = model_to_dict(r.book)
 
-        book_dict = model_to_dict(r.book)
+            record["user"] = user_dict
+            record["book"] = book_dict
 
-        record["user"] = user_dict
-        record["book"] = book_dict
+            data.append(record)
 
-        data.append(record)
-
-    return JsonResponse(data, safe=False)
+        return JsonResponse({"status":"success", "message":"Borrowed books fetched successfully", "data":data})
+    except:
+        return JsonResponse({"status":"failed", "message":"Borrowed books fetch failed", "data":[]})
 
 @csrf_exempt
 def accept_borrowed_book(request):
     if request.method != "POST":
-        return JsonResponse({"status":"error", "message":"Invalid request method"})
+        return JsonResponse({"status":"failed", "message":"Invalid request method"})
     
     try:
         data = json.loads(request.body)
     except:
-        return JsonResponse({"status":"error", "message":"Invalid JSON"})
+        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
     
     isbn = data.get("isbn")
     call_num = data.get("call_num")
@@ -191,7 +195,7 @@ def accept_borrowed_book(request):
     try:
         book_record = BorrowRecords.objects.get(book__ISBN=isbn, book__call_number=call_num)
     except BorrowRecords.DoesNotExist:
-        return JsonResponse({"status":"error", "message":"Book not found"})
+        return JsonResponse({"status":"failed", "message":"Book not found"})
 
     book_record.borrow_date = timezone.now()
     book_record.due_date = timezone.now().date() + timezone.timedelta(days=7)
@@ -204,12 +208,12 @@ def accept_borrowed_book(request):
 @csrf_exempt
 def return_book(request):
     if request.method != "POST":
-        return JsonResponse({"status":"error", "message":"Invalid request method"})
+        return JsonResponse({"status":"failed", "message":"Invalid request method"})
     
     try:
         data = json.loads(request.body)
     except:
-        return JsonResponse({"status":"error", "message":"Invalid JSON"})
+        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
     
     isbn = data.get("isbn")
     call_num = data.get("call_num")

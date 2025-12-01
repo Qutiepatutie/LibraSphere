@@ -38,17 +38,31 @@ export default function Library({ setViewBook, setBook, book }){
     const [search, setSearch] = useState("");
     const [searching, setSearching] = useState(false);
 
+    const [message, setMessage] = useState();
+    const [show, setShow] = useState(false);
+
+    const notify = () => {
+        setShow(true);
+        setTimeout(() => setShow(false), 2000);
+    };
+
     useEffect(() => {
         async function fetchBooks() {
             try{
                 const fetchedBooks = await getBooks();
                 const fetchBorrowedBooks = await getAllBorrowedBooks();
 
+                console.log(fetchedBooks.message);
+
+                if(fetchedBooks.status === "failed" || fetchBorrowedBooks.status === "failed"){
+                    setMessage(fetchedBooks.message);
+                    notify();
+                    return;
+                }
+
                 const borrowedBooksCallNumber = new Set(
                     fetchBorrowedBooks.map(b => b.book.call_number)
                 );
-                
-                console.log(fetchBorrowedBooks);
 
                 const borrowedBooks = fetchedBooks.map(book => ({
                     ...book,
@@ -107,6 +121,7 @@ export default function Library({ setViewBook, setBook, book }){
 
     return(
         <>
+            <div className={`${styles.toast} ${show ? styles.show : ""}`}>{message}</div>
             <div className={styles.library} onSubmit={handleSearch}>
                 <form className={styles.header}>
                     <p>Find all the literatures you want in just one search</p>

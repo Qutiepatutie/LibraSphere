@@ -13,6 +13,14 @@ export default function LoginForm({onSetForm, onLogIn }) {
     const [emptyPass, setEmptyPass] = useState(false);
     const [invalid, setInvalid] = useState(false);
 
+    const [message, setMessage] = useState();
+    const [show, setShow] = useState(false);
+
+    const notify = () => {
+        setShow(true);
+        setTimeout(() => setShow(false), 2000);
+    };
+
     const handleLogIn = async () => {
         setInvalid(false);
         if(!emailInput || !passInput || loading){
@@ -36,17 +44,19 @@ export default function LoginForm({onSetForm, onLogIn }) {
             onLogIn(true);
             setEmailInput("");
             setPassInput("");
+            return;
         
         }else if(data.status == 'failed'){
             console.log(data.status);
-            setInvalid(true);
-        }else if(data.status = 'error'){
-            
+            setMessage(data.message);
+            notify();
+            return;
         }
     }
 
     return(
         <>
+            <div className={`${styles.toast} ${show ? styles.show : ""}`}>{message}</div>
             <div className={styles.container}>
 
                 <FormSwitcher onSetForm={onSetForm} isFocused = "login"/>

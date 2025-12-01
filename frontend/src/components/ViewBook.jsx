@@ -74,7 +74,6 @@ export default function ViewBook({ viewBook, setViewBook, book, setBook}) {
 
         if(data.status == "failed"){
             setConfirmMessage(data.message);
-            setError(true);
             notify();
             return;
         }

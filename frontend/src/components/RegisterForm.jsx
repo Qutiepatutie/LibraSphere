@@ -26,6 +26,7 @@ export default function RegisterForm({onSetForm}) {
     const [loading, setLoading] = useState(false);
     const [showPopUp, setShowPopUp] = useState(false);
     const [message, setMessage] = useState("");
+    const [show, setShow] = useState(false);
 
     const [currentForm, setCurrentForm] = useState("First");
 
@@ -41,6 +42,12 @@ export default function RegisterForm({onSetForm}) {
         confirm_password: "",
         role: "student",
     });
+
+    const notify = () => {
+        setShow(true);
+        setTimeout(() => setShow(false), 2000);
+    };
+
     const handleChange = (e) => {
         setRegisterData({ ...registerData, [e.target.name]: e.target.value });
         console.log(e.target.value);
@@ -104,7 +111,7 @@ export default function RegisterForm({onSetForm}) {
 
         if(data.status == "failed"){
             setMessage(data.message);
-            setShowPopUp(true);
+            notify();
             return;
         }
 
@@ -157,7 +164,9 @@ export default function RegisterForm({onSetForm}) {
     }
 
     return (
-        <>  {showPopUp && (
+        <>  
+            <div className={`${styles.toast} ${show ? styles.show : ""}`}>{message}</div>
+            {showPopUp && (
                 <div className={styles.popupContainer}>
                     <div className={styles.popup}>
                         <h2>{message}</h2>

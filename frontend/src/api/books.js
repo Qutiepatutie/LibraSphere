@@ -4,16 +4,40 @@ export async function getBooks() {
     const resp = await fetch(`${API_URL}/getBooks/`);
 
     if(!resp.ok){
-        throw new Error("Failed to fetch Books");
+        return ({"status":"failed", "message":"Connection to Server Failed"});
     }
 
-    const data = await resp.json();
+    return await resp.json();
+}
 
-    return data;
+export async function getUserBorrowedBooks(id) {
+    const resp = await fetch(`${API_URL}/getUserBorrowedBooks/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(id)
+  });
+
+  if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
+    }
+
+    return await resp.json();
+}
+
+export async function getAllBorrowedBooks() {
+    const resp = await fetch(`${API_URL}/getAllBorrowedBooks/`);
+
+    if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
+    }
+
+    return await resp.json();
 }
 
 export async function editBook(data){
-  const response = await fetch(`${API_URL}/editBook/`, {
+  const resp = await fetch(`${API_URL}/editBook/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,25 +45,12 @@ export async function editBook(data){
     body: JSON.stringify(data)
   });
 
-  return await response.json();
+  if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
+  }
+
+  return await resp.json();
 }
-
-
-/* export async function viewBookInfo(work_key) {
-    const resp = await fetch(`${API_URL}/viewBook/?work_key=${work_key}`);
-
-    if(!resp.ok){
-        throw new Error("Failed to retrieve data");
-    }
-
-    const data = await resp.json();
-    
-    if(!data){
-        return null;
-    }
-
-    return data;
-} */
 
 export async function autofillBookInfo(isbn) {
     const resp = await fetch(`${API_URL}/autofill/?isbn=${isbn}`);
@@ -48,17 +59,15 @@ export async function autofillBookInfo(isbn) {
         throw new Error("Failed to retrieve data");
     }
 
-    const data = await resp.json();
-    
-    if(!data){
-        return null;
+    if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
     }
 
-    return data;
+    return await resp.json();
 }
 
 export async function addBook(data){
-  const response = await fetch(`${API_URL}/addBook/`, {
+  const resp = await fetch(`${API_URL}/addBook/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -66,11 +75,15 @@ export async function addBook(data){
     body: JSON.stringify(data)
   });
 
-  return await response.json();
+  if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
+    }
+
+  return await resp.json();
 }
 
 export async function borrowBook(data){
-  const response = await fetch(`${API_URL}/borrowBook/`, {
+  const resp = await fetch(`${API_URL}/borrowBook/`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -78,31 +91,11 @@ export async function borrowBook(data){
     body: JSON.stringify(data)
   });
 
-  return await response.json();
-}
+  if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
+  }
 
-export async function getUserBorrowedBooks(id) {
-    const response = await fetch(`${API_URL}/getUserBorrowedBooks/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(id)
-  });
-
-    return response.json();
-}
-
-export async function getAllBorrowedBooks() {
-    const resp = await fetch(`${API_URL}/getAllBorrowedBooks/`);
-
-    if(!resp.ok){
-        throw new Error("Failed to fetch Books");
-    }
-
-    const data = await resp.json();
-
-    return data;
+  return await resp.json();
 }
 
 export async function acceptBorrowedBook(isbn, call_num) {
@@ -114,9 +107,11 @@ export async function acceptBorrowedBook(isbn, call_num) {
       body: JSON.stringify({isbn, call_num})
     });
 
-    const data = await resp.json();
+    if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
+    }
 
-    return data;
+    return await resp.json();
 }
 
 export async function returnBook(isbn, call_num) {
@@ -128,7 +123,9 @@ export async function returnBook(isbn, call_num) {
       body: JSON.stringify({isbn, call_num})
     });
 
-    const data = await resp.json();
+    if(!resp.ok){
+        return ({"status":"failed", "message":"Connection to Server Failed"});
+    }
 
-    return data;
+    return await resp.json();
 }

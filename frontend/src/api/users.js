@@ -12,6 +12,10 @@ export async function login(email, pass) {
     }),
   });
 
+  if(!response.ok){
+    return ({"status":"failed", "message":"Server Connection Error"});
+  }
+
   const data = await response.json();
   return data;
 }
@@ -25,5 +29,9 @@ export async function register(data){
     body: JSON.stringify(data)
   });
 
+  if(!response.ok){
+    return ({"status":"failed","message":"Server Connection Error"});
+  }
+  
   return await response.json();
 }
