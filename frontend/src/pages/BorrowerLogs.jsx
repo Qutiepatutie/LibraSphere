@@ -86,6 +86,7 @@ export default function BorrowerLogs(){
                                 <th>Student ID</th>
                                 <th>Email</th>
                                 <th>Program</th>
+                                <th>Borrow Date</th>
                                 <th>Status</th>
                             </tr> 
                         </thead>
@@ -98,6 +99,7 @@ export default function BorrowerLogs(){
                                     <td>{b.user.student_number}</td>
                                     <td>{b.user.email}</td>
                                     <td>{b.user.program}</td>
+                                    <td>{b.borrow_date ? b.borrow_date.substring(0,10) : "--"}</td>
                                     <td><span className={`${styles.status} ${styles[b.status]}`}>{b.status}</span></td>
                                 </tr>
                             ))}
