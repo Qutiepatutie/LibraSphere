@@ -36,7 +36,7 @@ def get_users(request):
                              'role': user.role
         })
     except json.JSONDecodeError:
-        return JsonResponse({'error':'Invalid JSON'})
+        return JsonResponse({'status':'failed', 'message':'Invalid JSON'})
 
 @csrf_exempt
 def register_user(request):

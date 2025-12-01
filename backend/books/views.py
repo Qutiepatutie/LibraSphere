@@ -6,7 +6,7 @@ import re
 
 # Create your views here.
 
-def getBooks(request):
+""" def getBooks(request):
     books = []
 
     generalSearch = request.GET.get("generalsearch", "") or request.GET.get("generalSearch", "") or ""
@@ -52,8 +52,7 @@ def viewBook(request):
 
     work_key = request.GET.get("work_key")
     if not work_key:
-        return JsonResponse({"error" : "Missing work key"})
-    
+        return JsonResponse({"status": "failed", "message" : "Missing work key"})
 
     resp = requests.get(f"https://openlibrary.org/works/{work_key}/editions.json")
     data = resp.json()
@@ -78,7 +77,7 @@ def viewBook(request):
         "genres": edition_data.get("subjects", []),
     })
     
-    return JsonResponse(info, safe=False)
+    return JsonResponse(info, safe=False) """
 
 def autofillBookInfo(request):
     today = timezone.localtime(timezone.now()).strftime("%B %d, %Y")

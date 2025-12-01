@@ -76,7 +76,7 @@ export default function BorrowerLogs(){
                     </div>
                 </form>
 
-                {/*TODO: propose change of status col to date borrowed */}
+                {/*TODO: add borrow date row*/}
                 <div className={styles.table}>
                     <table>
                         <thead>

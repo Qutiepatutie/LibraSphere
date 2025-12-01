@@ -62,7 +62,7 @@ export default function AddBooks() {
                                         bookData.yearPublished
                                     );
 
-        setEmptyFields(prev => ({ ...prev, [name]: value.trim() === ""}));
+        setEmptyFields(prev => ({ ...prev, [name]: !value.trim()}));
     }
 
     // Autofill indicator
@@ -77,7 +77,7 @@ export default function AddBooks() {
 
     // Autofill fields
     const handleAutoFill = async (e) => {
-        if(e.value.trim() === '' || autofilled){
+        if(!e.value.trim() || autofilled){
             setInvalidISBN(false);
             return
         }
