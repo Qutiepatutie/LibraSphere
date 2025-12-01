@@ -175,7 +175,7 @@ export default function AdminDashboard() {
                             </div>
                         </form>
                         </div>
-                        <div className={styles.pendingContainer}>
+                        <div className={styles.borowersContainer}>
                             {(searchingPending ? searchedPending : pendingBooks).map((b, i) => (
                                 <div key={i} className={styles.borrowerPanel}>
                                     <div className={styles.borrowerHeader}>
@@ -225,7 +225,7 @@ export default function AdminDashboard() {
                                     </div>
                                 </form>
                             </div>
-                            <div className={styles.currentContainer}>
+                            <div className={styles.borowersContainer}>
                                 {(searchingCurrent ? searchedCurrent : currrentBorrowedBooks).map((b, i) => (
                                 <div key={i} className={styles.borrowerPanel}>
                                     <div className={styles.borrowerHeader}>
