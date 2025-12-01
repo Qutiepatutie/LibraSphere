@@ -7,8 +7,7 @@ import library from '../assets/sidebar/library.svg'
 import borrowedBooks from '../assets/sidebar/borrowedBooks.svg'
 import addbook from '../assets/sidebar/addbook-icon.svg'
 import settings from '../assets/sidebar/settings.svg'
-import greenLogo from '../assets/green-libraSphere-logo.svg'
-import redLogo from '../assets/red-libraSphere-logo.svg'
+import logo from '../assets/libraSphere-logo.svg'
 
 export default function Sidebar({ onNavigate, isOpen, role }){
 
@@ -19,7 +18,7 @@ export default function Sidebar({ onNavigate, isOpen, role }){
         <>
             <div className={styles.sidebar}>
                 <div className={styles.header}>
-                    <img src={sessionStorage.getItem("role") === "admin" ? greenLogo : greenLogo} className={styles.logo}/>
+                    <img src={logo} className={styles.logo}/>
                     <h1>LibraSphere</h1>
                 </div>
                 <hr className={styles.divider} />

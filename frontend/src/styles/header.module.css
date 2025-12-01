@@ -12,12 +12,12 @@
     width: 95.5vw;
     height: 8vh;
     background-color: white;
-    -webkit-box-shadow: 1px 23px 0px -21px var(--color); box-shadow: 1px 22px 0px -21px var(--color);
+    -webkit-box-shadow: 1px 23px 0px -21px #4D643A;
+    box-shadow: 1px 22px 0px -21px #4D643A;
 }
 
 .container p {
     margin: 0;
-    
 }
 
 .id {

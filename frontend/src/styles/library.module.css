@@ -99,7 +99,7 @@
     justify-content: left;
     align-items: center;
     font-size: 1.3rem;
-    background-color: var(--color);
+    background-color: #4D643A;
     color: white;
     border-radius: 5px 5px 0px 0px;
     user-select: none;
@@ -144,7 +144,7 @@
         background-color: #ededed;
     }::-webkit-scrollbar-thumb
     {
-        background-color: var(--color);
+        background-color: #4D643A;
         border-radius: 15px;
     }
 

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import './styles/theme.css'
-
 import styles from './styles/app.module.css'
 import Sidebar from './components/Sidebar.jsx'
 import Header from './components/Header.jsx'

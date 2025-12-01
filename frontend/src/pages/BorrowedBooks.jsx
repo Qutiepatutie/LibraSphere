@@ -67,7 +67,7 @@ export default function BorrowedBooks(){
                 });
 
                 if(borrowedBooks.status === "success") {
-                    {/*FOR TESTING*/}
+                    /* FOR TESTING */
 
                     /* const updatedBooks = borrowedBooks.books.map(b => {
                         const test = {...b, due_date: '2025-12-01'};
