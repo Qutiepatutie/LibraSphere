@@ -49,7 +49,7 @@ export async function changePass(email, newPass){
   });
 
   if(!response.ok){
-    return ({"status":"failed","message":"Server Connection Error"});
+    return ({"status":"error", "message":"Server Connection Error"});
   }
 
   return await response.json();

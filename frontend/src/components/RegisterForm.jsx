@@ -75,13 +75,14 @@ export default function RegisterForm({onSetForm}) {
         }
 
         let email = "";
-        let role = "student"
+        let role = "";
         if(registerData.email.includes("student.fatima")){
             const first = registerData.first_name.toLowerCase().charAt(0);
             const second = (registerData.middle_name) ? registerData.middle_name.toLowerCase().charAt(0) : "";
             const last = registerData.last_name.toLowerCase();
             const num = registerData.student_number.substring(7);
-            email = `${first}${second}${last}${num}lag@student.fatima.edu.ph`; 
+            email = `${first}${second}${last}${num}lag@student.fatima.edu.ph`;
+            role = "student";
         }else if(!registerData.email.includes("student")){
             const first = registerData.first_name.toLowerCase().charAt(0);
             const last = registerData.last_name.toLowerCase();
@@ -91,11 +92,14 @@ export default function RegisterForm({onSetForm}) {
             setInvalidEmailError(true);
             return;
         }
+        
+        const updatedData = {
+            ...registerData,
+            email:email,
+            role:role
+        };
 
-        setRegisterData(prev => ({
-            ...prev,
-            role: role
-        })); 
+        setRegisterData(updatedData);
 
         if(email !== registerData.email){
             console.log(email);
@@ -105,7 +109,7 @@ export default function RegisterForm({onSetForm}) {
         }
 
         setLoading(true)
-        const data = await register(registerData);
+        const data = await register(updatedData);
         console.log(data.message);
         setLoading(false)
 

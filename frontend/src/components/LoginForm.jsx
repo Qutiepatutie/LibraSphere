@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { login } from '../api/users.js'
 
 import styles from '../styles/authPage/loginform.module.css'
 import FormSwitcher from './FormSwitcher'
+import ForgotPassword from './ForgotPassword.jsx';
 
 export default function LoginForm({onSetForm, onLogIn }) {
 
@@ -16,16 +17,23 @@ export default function LoginForm({onSetForm, onLogIn }) {
     const [message, setMessage] = useState();
     const [show, setShow] = useState(false);
 
+    const [isForgotPass, setIsForgotPass] = useState(false);
+
     const notify = () => {
         setShow(true);
         setTimeout(() => setShow(false), 2000);
     };
 
+    useEffect(() => {
+        setMessage("");
+        setInvalid(false);
+    },[emailInput, passInput]);
+
     const handleLogIn = async () => {
         setInvalid(false);
         if(!emailInput || !passInput || loading){
-            setEmptyEmail((!emailInput) ? true : false);
-            setEmptyPass((!passInput) ? true : false);
+            setEmptyEmail(!emailInput);
+            setEmptyPass(!passInput);
             return;
         }
 
@@ -49,8 +57,13 @@ export default function LoginForm({onSetForm, onLogIn }) {
         }else if(data.status == 'failed'){
             console.log(data.status);
             setMessage(data.message);
-            notify();
+            setInvalid(true);
             return;
+        }else {
+          console.log(data.status);
+            setMessage(data.message);
+            notify();
+            return;  
         }
     }
 
@@ -59,42 +72,54 @@ export default function LoginForm({onSetForm, onLogIn }) {
             <div className={`${styles.toast} ${show ? styles.show : ""}`}>{message}</div>
             <div className={styles.container}>
 
-                <FormSwitcher onSetForm={onSetForm} isFocused = "login"/>
+                {isForgotPass ? <ForgotPassword setIsForgotPass={setIsForgotPass} /> :
+                    <>
+                        <FormSwitcher onSetForm={onSetForm} isFocused = "login"/>
 
-                <form className={styles.form} onSubmit={(e) => {e.preventDefault(); handleLogIn;}}>
-                    <label>Email</label>
-                       <input className={(emptyEmail) ? styles.empty : ""}
-                            type="text"
-                            name="email"
-                            value={emailInput}
-                            onChange={(e) => {
-                                setEmailInput(e.target.value)
-                                setEmptyEmail(false);
-                            }}
-                        /> 
+                        <form className={styles.form} onSubmit={(e) => {e.preventDefault(); handleLogIn;}}>
+                            <label>Email</label>
+                            <input className={(emptyEmail) ? styles.empty : ""}
+                                    type="text"
+                                    name="email"
+                                    value={emailInput}
+                                    onChange={(e) => {
+                                        setEmailInput(e.target.value)
+                                        setEmptyEmail(false);
+                                    }}
+                                /> 
 
-                    <label>Password</label>
-                        <input className={(emptyPass) ? styles.empty : ""}
-                            type="password"
-                            name="password"
-                            value={passInput}
-                            onChange={(e) => {
-                                setPassInput(e.target.value)
-                                setEmptyPass(false);
-                            }}
-                        /> 
-                    <div className={invalid ? styles.message : styles.hidden}>
-                        <p>Invalid Email/Password</p>
-                    </div>
-                    <div className={styles.button}>
-                        <div className={styles.forgotPass}><u>Forgot Password?</u></div>
+                            <label>Password</label>
+                                <input className={(emptyPass) ? styles.empty : ""}
+                                    type="password"
+                                    name="password"
+                                    value={passInput}
+                                    onChange={(e) => {
+                                        setPassInput(e.target.value)
+                                        setEmptyPass(false);
+                                    }}
+                                /> 
+                            <div className={invalid ? styles.message : styles.hidden}>
+                                <p>Invalid Email/Password</p>
+                            </div>
 
-                        <button type ="submit" onClick={handleLogIn} className={styles.loginButton}>
-                            {(loading) ? "Logging in..." : "Login"}
-                        </button>
-                    </div>
-                </form>
-                
+                            <div className={styles.button}>
+                                <div
+                                    className={styles.forgotPass}
+                                    onClick={() => {setIsForgotPass(true);
+                                                    setEmptyEmail(false);
+                                                    setEmptyPass(false);
+                                                    setEmailInput("");
+                                                    setPassInput("");}}>
+                                        <u>Forgot Password?</u>
+                                </div>
+
+                                <button type ="submit" onClick={handleLogIn} className={styles.loginButton}>
+                                    {(loading) ? "Logging in..." : "Login"}
+                                </button>
+                            </div>
+                        </form>
+                    </>
+                }
             </div>
         </>
     )
