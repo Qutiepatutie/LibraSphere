@@ -35,3 +35,22 @@ export async function register(data){
   
   return await response.json();
 }
+
+export async function changePass(email, newPass){
+  const response = await fetch(`${API_URL}/changePass/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email:email,
+      newPass:newPass
+    })
+  });
+
+  if(!response.ok){
+    return ({"status":"failed","message":"Server Connection Error"});
+  }
+
+  return await response.json();
+}

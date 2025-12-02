@@ -80,3 +80,30 @@ def register_user(request):
 
         return JsonResponse({'status': 'success', 'message':'Registered Successfully'})
     return JsonResponse({'status': 'failed', 'message': 'invalid request'})
+
+@csrf_exempt
+def change_password(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'POST request required'})
+    
+    try:
+        data = json.loads(request.body)
+    except:
+        return JsonResponse({'status':'failed', 'message':'Invalid JSON'})
+    
+    email = data.get("email")
+    try:
+        user = UserLogin.objects.get(email=email)
+    except UserLogin.DoesNotExist:
+        return JsonResponse({'status':'failed', 'message':'Email does not exist'})
+    
+    newPass = data.get("newPass")
+
+    if check_password(newPass, user.password):
+        return JsonResponse({'status':'failed', 'message':'Old password can\'t be the new password'})
+
+    user.password = make_password(newPass)
+
+    user.save()
+
+    return JsonResponse({'status':'success', 'message':'Password Reset Successfully'})
