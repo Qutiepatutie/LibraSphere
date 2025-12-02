@@ -61,6 +61,12 @@ export default function ForgotPassword({ setIsForgotPass }){
             return;
         }
 
+        if(inputs.email === "admin"){
+            setMessage("Invalid input");
+            notify();
+            return;
+        }
+
         setLoading(true);
         const data = await changePass(inputs.email, inputs.confirmNewPass);
         setLoading(false);
