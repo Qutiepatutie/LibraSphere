@@ -1,4 +1,4 @@
-import { useState, useRef, } from "react";
+import { useState, useEffect, useRef, } from "react";
 import { editBook, borrowBook } from "../api/books";
 
 import close from "../assets/close-icon.svg"
@@ -21,6 +21,15 @@ export default function ViewBook({ viewBook, setViewBook, book, setBook}) {
         setShow(true);
         setTimeout(() => setShow(false), 2000);
     };
+
+    useEffect(() => {
+        const handleEsc = (e) => {
+            if(e.key === "Escape" && viewBook) setViewBook(false);
+        };
+
+        window.addEventListener("keydown", handleEsc);
+        return () => window.removeEventListener("keydown", handleEsc);
+    }, [viewBook]);
 
     const handleChange = (e) => {
         const {name, value} = e.target;
@@ -112,8 +121,16 @@ export default function ViewBook({ viewBook, setViewBook, book, setBook}) {
                 
             </dialog>
 
-            <div className={viewBook ? styles.container : styles.hidden}>
-                <div className={styles.viewBook}>
+            <div 
+                className={viewBook ? styles.container : styles.hidden}
+                onClick={(e => {
+                    if(e.target.classList.contains(styles.container)) setViewBook(false);
+                })}
+            >
+                <div
+                    className={styles.viewBook}
+                    onClick={(e) => e.stopPropagation()}
+                >
                     <div className={styles.bookCoverContainer}>
                         <img src={book.cover_path} className={styles.bookCover} />
                     </div>
