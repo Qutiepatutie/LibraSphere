@@ -58,6 +58,9 @@
 
 .searchIcon {
     height: 70%;
+    
+    user-select: none;
+    pointer-events: none;
 }
 
 .table {

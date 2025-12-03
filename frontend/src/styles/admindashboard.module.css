@@ -117,6 +117,9 @@
 .searchIcon {
     height: 70%;
     margin-left: 5px;
+
+    user-select: none;
+    pointer-events: none;
 }
 
 .borrowerPanel {
