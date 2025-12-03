@@ -135,6 +135,11 @@
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
 
+.borrowerPanel:hover {
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.16),
+                -2px -2px 5px rgba(0,0,0,0.16);
+}
+
 .borrowerHeader {
     height: 45%;
 

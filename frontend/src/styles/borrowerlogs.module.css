@@ -103,13 +103,14 @@
 
 .table td {
     height: 50px;
-}
-
-.table td {
     box-sizing: border-box;
     vertical-align: center;
     justify-items: center;
     /* padding: 5px; */
+}
+
+.table tr:hover td:not(:first-child){
+    background-color: rgba(0, 0, 0, 0.15);
 }
 
 .table thead tr:first-child{
@@ -146,4 +147,32 @@
     background-color: white;
     border: 2px solid rgb(242, 91, 88);
     color: rgb(242, 91, 88);
+}
+
+.toast {
+    position: fixed;
+    top: 20px;
+    left:50%;
+    transform: translateX(-50%);
+
+    width: auto;
+    height: auto;
+    pointer-events: none;
+
+    padding: 10px;
+    box-sizing: border-box;
+    color: white;
+
+    z-index: 100;
+    border: none;
+    border-radius: 10px;
+    background-color: #4D643A;
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 4px;
+
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.toast.show {
+    opacity: 1;
 }

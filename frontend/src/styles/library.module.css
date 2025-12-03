@@ -181,12 +181,11 @@
     border-radius: 4px;
 
     user-select: none;
-    
 }
 
 .bookPanels:hover {
     background-color: #ededed;
-    font-weight: bold;
+    outline: 2px solid rgba(0, 0, 0, 0.1);
 }
 
 .bookPanels img {

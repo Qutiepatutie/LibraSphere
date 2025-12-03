@@ -5,6 +5,9 @@ import styles from '../styles/authPage/loginform.module.css'
 import FormSwitcher from './FormSwitcher'
 import ForgotPassword from './ForgotPassword.jsx';
 
+import openIcon from '../assets/eye-icon.svg';
+import hideIcon from '../assets/closed-eye-icon.svg';
+
 export default function LoginForm({onSetForm, onLogIn }) {
 
     const [emailInput, setEmailInput] = useState("");
@@ -13,6 +16,7 @@ export default function LoginForm({onSetForm, onLogIn }) {
     const [emptyEmail, setEmptyEmail] = useState(false);
     const [emptyPass, setEmptyPass] = useState(false);
     const [invalid, setInvalid] = useState(false);
+    const [showPass, setShowPass] = useState(false);
 
     const [message, setMessage] = useState();
     const [show, setShow] = useState(false);
@@ -78,7 +82,7 @@ export default function LoginForm({onSetForm, onLogIn }) {
 
                         <form className={styles.form} onSubmit={(e) => {e.preventDefault(); handleLogIn;}}>
                             <label>Email</label>
-                            <input className={(emptyEmail) ? styles.empty : ""}
+                            <input className={`${styles.emailInput} ${emptyEmail ? styles.empty : ""}`}
                                     type="text"
                                     name="email"
                                     value={emailInput}
@@ -89,15 +93,23 @@ export default function LoginForm({onSetForm, onLogIn }) {
                                 /> 
 
                             <label>Password</label>
-                                <input className={(emptyPass) ? styles.empty : ""}
-                                    type="password"
+                            <div className={`${styles.passContainer} ${emptyPass ? styles.empty : ""}`}>
+                                <input
+                                    type={showPass ? "text" : "password"}
                                     name="password"
                                     value={passInput}
                                     onChange={(e) => {
                                         setPassInput(e.target.value)
                                         setEmptyPass(false);
                                     }}
-                                /> 
+                                />
+                                <img
+                                    src={showPass ? openIcon : hideIcon}
+                                    className={styles.showPassIcon}
+                                    onClick={() => setShowPass(!showPass)}
+                                />
+                            </div>
+                            
                             <div className={invalid ? styles.message : styles.hidden}>
                                 <p>Invalid Email/Password</p>
                             </div>

@@ -39,7 +39,6 @@ export default function Second({ sex, setSex, handleChange, setRegisterData, reg
                 <option value="BSPT">BS in Physical Therapy</option>
                 <option value="BSP">BS in Pharmacy</option>
                 <option value="BSN">BS in Nursing</option>
-                <option value="Faculty">Faculty</option>
             </select>
 
             <label>Student Number</label>

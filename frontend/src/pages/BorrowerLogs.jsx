@@ -14,9 +14,17 @@ export default function BorrowerLogs(){
     const [searching, setSearching] = useState(false);
     const [searchedBorrower, setSearchedBorrower] = useState([]);
 
+    const [message, setMessage] = useState();
+    const [show, setShow] = useState(false);
+
     const allBooks = Object.values(borrowedBooks).flat();
 
-    useEffect(() => {
+    const notify = () => {
+        setShow(true);
+        setTimeout(() => setShow(false), 2000);
+    };
+
+    /* useEffect(() => {
         async function fetchBorrowedBooks() {
             try{
               const fetchedBorrowedBooks = await getAllBorrowedBooks();
@@ -28,7 +36,57 @@ export default function BorrowerLogs(){
         }
 
         fetchBorrowedBooks();
-    }, []);
+    }, []); */
+
+    function getBookStatus(b) {
+        if(!b.due_date) return b.status;
+
+        const today = new Date();
+        today.setHours(0,0,0,0);
+
+        const due = new Date(b.due_date);
+        due.setHours(0,0,0,0);
+
+        if(due < today) return "Overdue";
+        else if(due.getTime() === today.getTime()) return "Due";
+
+        return b.status;
+    }
+
+    useEffect(() => {
+            async function fetchBorrowedBooks(){
+                try{
+                    const borrowedBooks = await getAllBorrowedBooks({
+                        "id" : sessionStorage.getItem("id")
+                    });
+    
+                    if(borrowedBooks.status === "success") {
+                        /* FOR TESTING */
+    
+                        /* const updatedBooks = borrowedBooks.data.map(b => {
+                            const test = {...b, due_date: '2025-10-01'};
+                            return {...test, status: getBookStatus(test)};
+                        }); */
+    
+                        const updatedBooks = borrowedBooks.data.map(b => ({
+                            ...b,
+                            status: getBookStatus(b)
+                        }));
+    
+                        setBorrowedBooks(updatedBooks);
+                        console.log(borrowedBooks.books);
+                    } else {
+                        setMessage(borrowedBooks.message);
+                        notify();
+                    }
+    
+                }catch(err){
+                    console.log(err);
+                }
+            }
+    
+            fetchBorrowedBooks();
+        }, []);
 
     useEffect(() => {
         if(!query){
@@ -62,6 +120,7 @@ export default function BorrowerLogs(){
 
     return(
         <>
+            <div className={`${styles.toast} ${show ? styles.show : ""}`}>{message}</div>
             <div className={styles.borrowerLogs}>
                 <form className={styles.searchContainer} onSubmit={handleSearch}>
                     <div className={styles.searchBarContainer}>
