@@ -1,5 +1,3 @@
-import styles from '../styles/header.module.css'
-
 import icon from '../assets/profile-icon.svg'
 
 export default function Header({currentPage}) {
