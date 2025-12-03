@@ -31,6 +31,10 @@ export default function Library({ setViewBook, setBook, book }){
             '800' : "800 | Literature",
             '900' : "900 | History & Geology",
         };
+    
+    const categoryOrder = [
+        '001','100','200','300','400','500','600','700','800','900'
+    ];
 
     const allBooks = Object.values(booksByCategory).flat();
 
@@ -66,7 +70,7 @@ export default function Library({ setViewBook, setBook, book }){
                 const booksData = {};
     
                 Object.keys(categories).forEach((key) => {
-                    booksData[key.toLowerCase()] = [];
+                    booksData[key] = [];
                 });
 
                 borrowedBooks.forEach((book) => {
@@ -167,14 +171,14 @@ export default function Library({ setViewBook, setBook, book }){
                 </div>
 
                 <div className={`${styles.scroll} ${searching ? styles.hide : ""}`}>
-                    {Object.keys(categories).map((category, i) => (
-                        <div key={i} className={styles.category}>
+                    {categoryOrder.map((key) => (
+                        <div key={key} className={styles.category}>
                             <div className={styles.categoryHeader}>
-                                <p>{categories[category]}</p>
+                                <p>{categories[key]}</p>
                             </div>
                             <div className={styles.books}>
-                                {booksByCategory[category.toLowerCase()]?.length > 0 ? (
-                                    booksByCategory[category.toLowerCase()].map((book, j) => (
+                                {booksByCategory[key.toLowerCase()]?.length > 0 ? (
+                                    booksByCategory[key.toLowerCase()].map((book, j) => (
                                         <div key={j}
                                             className={styles.bookPanels}
                                             onClick={() => {
