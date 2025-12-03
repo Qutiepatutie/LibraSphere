@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import styles from '../styles/admindashboard.module.css'
 import search from '../assets/search-icon.svg'
-import avatar from '../assets/placeholder.jpg'
+import avatar from '../assets/profile-icon.svg'
 import { getAllBorrowedBooks, acceptBorrowedBook, returnBook } from '../api/books';
 
 export default function AdminDashboard() {
