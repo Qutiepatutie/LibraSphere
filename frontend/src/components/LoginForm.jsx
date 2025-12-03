@@ -60,7 +60,7 @@ export default function LoginForm({onSetForm, onLogIn }) {
             setInvalid(true);
             return;
         }else {
-          console.log(data.status);
+            console.log(data.status);
             setMessage(data.message);
             notify();
             return;  

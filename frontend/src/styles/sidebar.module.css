@@ -29,16 +29,17 @@
     display:flex;
     justify-content: left;
     align-items: center;
-    padding-left: 13px;
+    padding-left: 5%;
     color: #4D643A;
     user-select: none;
     height: 8vh
 }
 
 .logo {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
+    /* width: 75%; */
+    width: clamp(1%, 75%, 40px);
+    height: auto;
+    margin-right: 5%;
     user-select: none;
 }
 
@@ -55,8 +56,8 @@
     align-items: center;
     border-radius: 5px;
     margin-bottom: 27px;
-    padding-left: 12px;
-    height: 40px;
+    gap: 10px;
+    height: 5%;
     font-size: 19.06px;
     user-select: none;
 }
@@ -87,9 +88,8 @@
 }
 
 .icons {
-    width: 20px;
-    height: 20px;
-    margin-right: 27px;
+    width: 20%;
+    height: 50%;
 }
 
 .footer {
@@ -100,16 +100,23 @@
 }
 
 @container (max-width: 14vw) {
-    .sidebar p:not(.burger),
+    .sidebar p,
     .sidebar h1 {
         display: none;
     }
 
-    .burger {
-        padding-left: 0;
+    .buttons div {
+        justify-content: center;
+        padding: 0;
+    }
+    
+    .icons {
+        width: 50%;
+        height: 50%;
     }
 
-    .icons {
-        margin-right: 0;
+    .header {
+        justify-content: center;
+        padding-left: 0;
     }
 }

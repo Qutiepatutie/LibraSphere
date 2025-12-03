@@ -13,42 +13,35 @@
 
     padding: 20px;
     box-sizing: border-box;
-
-    /*background-color: bisque;*/
 }
 
 .mainContainer {
-    width: 80%;
+    width: 85%;
     height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 5%;
-
-    /* background-color: grey; */
 }
 
 .rightInnerContainer,
 .leftInnerContainer {
-    min-width: 50%;
+    width: 47.5%;
     height: 100%;
 
     display: flex;
     justify-content: center;
     flex-direction: column;
     box-sizing: border-box;
-    gap: 10px;
-
-    /* background-color: #4D643A; */
+    gap: 10px;    
 }
 
 .innerHeader {
     display: flex;
-    width: 85%;
+    width: 100%;
     align-items: center;
     align-self: center;
     justify-content: space-between;
-    /* gap: 5px; */
     
 }
 
@@ -56,16 +49,13 @@
 .leftInnerContainer .panelTitle {
     display: block;
     font-size: 1.2rem;
-    /* width: 40%; */
     height: 1.5rem;
-
-    /* background-color: antiquewhite; */
 }
 
 .borrowersContainer {
-    width: 85%;
+    width: 100%;
     height: 100%;
-
+    
     border: 2px solid #ededed;
     border-radius: 5px;
     padding: 20px;
@@ -74,12 +64,11 @@
 
     display: flex;
     flex-wrap: wrap;
-    overflow-y: scroll;
+    overflow-y: auto;
     align-content: flex-start;
     justify-content: center;
 
-    align-self: center;
-    
+    align-self: center;  
 }
 
 .currentContainer::-webkit-scrollbar,

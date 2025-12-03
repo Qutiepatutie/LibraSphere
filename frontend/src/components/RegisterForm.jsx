@@ -50,7 +50,6 @@ export default function RegisterForm({onSetForm}) {
 
     const handleChange = (e) => {
         setRegisterData({ ...registerData, [e.target.name]: e.target.value });
-        console.log(e.target.value);
     }
 
     const setFields = () =>{

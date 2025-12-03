@@ -83,30 +83,39 @@ export default function AddBooks() {
 
     // Autofill fields
     const handleAutoFill = async (e) => {
+        let isbn = e.value.trim();
+
         try{
-            if(!e.value.trim() || autofilled){
+            if(!isbn|| autofilled){
                 setInvalidISBN(false);
                 return
             }
-            if(isNaN(Number(e.value)) || (e.value.length !== 10 && e.value.length !== 13)){
+
+            if(isbn.includes("-")){
+                isbn = isbn.replaceAll("-", "");
+                setBookData(prev => ({ ...prev, isbn }));
+            }
+
+            if(isNaN(Number(isbn)) || (isbn.length !== 10 && isbn.length !== 13)){
                 setInvalidISBN(true);
                 return;
             }
 
             setLoading(true);
             setInvalidISBN(false);
-            setBookData(handleLoadData("Autofilling..."));
+            setBookData(prev => ({...prev, ...handleLoadData("Autofilling...")}));
 
-            const data = await autofillBookInfo(e.value);
+            const data = await autofillBookInfo(isbn);
 
             if(data.message === "no book found"){
-                setBookData(handleLoadData("Unknown"));
+                setBookData(prev => ({...prev, ...handleLoadData("Unknown")}));
                 console.log(data.message);
                 return;
             }
 
             const updatedData = {
                 ...bookData,
+                "isbn":isbn,
                 "title": data.title,
                 "author": data.author,
                 "edition": data.edition,

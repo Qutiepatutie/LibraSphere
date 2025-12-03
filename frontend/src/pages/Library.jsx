@@ -133,7 +133,11 @@ export default function Library({ setViewBook, setBook, book }){
                     </div>
                 </form>
 
-                <div className={`${styles.searchScroll} ${searching ? styles.show : ""}`}>
+                <div 
+                    className={`${styles.searchScroll}
+                                ${searching ? styles.show : ""}
+                                ${searching && booksBySearch.length === 0 ? styles.noResults : ""}`}
+                >
                     {booksBySearch.length > 0 ? (
                         booksBySearch.map((book, i) => (
                             <div key = {i}
@@ -156,8 +160,8 @@ export default function Library({ setViewBook, setBook, book }){
                             </div>
                         ))
                     ) : (
-                        <div>
-                            <h1>No Book Found</h1>
+                        <div style={{color:"#ededed", userSelect:"none"}}>
+                            <h1>No Books Found</h1>
                         </div>
                     )}
                 </div>

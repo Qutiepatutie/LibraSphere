@@ -26,11 +26,13 @@
 
 .userContainer {
     display: flex;
+    width: 10%;
+    height: 50%;
 }
 
 .icon {
-    width: 40px;
-    height: 40px;
-    margin-right: 10px;
-    border-radius: 50px;
+    width: 25%;
+    height: 100%;
+    margin-right: 5%;
+    border-radius: 50%;
 }

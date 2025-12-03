@@ -1,6 +1,6 @@
 import styles from '../styles/header.module.css'
 
-import placeholder from '../assets/placeholder.jpg'
+import icon from '../assets/profile-icon.svg'
 
 export default function Header({currentPage}) {
     return (
@@ -10,7 +10,7 @@ export default function Header({currentPage}) {
                     <p style={{fontSize: 25}}>{currentPage}</p>
                 </div>
                 <div className={styles.userContainer}>
-                    <img src={placeholder} className={styles.icon}/>
+                    <img src={icon} className={styles.icon}/>
                     <div>
                         <p>{sessionStorage.getItem("user")}</p>
                         <p className={styles.id}>ID:{sessionStorage.getItem("student_number")} </p>

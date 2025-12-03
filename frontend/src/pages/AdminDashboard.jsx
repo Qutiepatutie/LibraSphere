@@ -8,7 +8,7 @@ import { getAllBorrowedBooks, acceptBorrowedBook, returnBook } from '../api/book
 export default function AdminDashboard() {
 
     const [pendingBooks, setPendingBooks] = useState([]);
-    const [currrentBorrowedBooks, setCurrentBorrowedBooks] = useState([]);
+    const [currentBorrowedBooks, setCurrentBorrowedBooks] = useState([]);
     const [message, setMessage] = useState();
     const [show, setShow] = useState(false);
 
@@ -20,7 +20,7 @@ export default function AdminDashboard() {
     const [searchingOn, setSearchingOn] = useState();
 
     const allPending = Object.values(pendingBooks).flat();
-    const allCurrent = Object.values(currrentBorrowedBooks).flat();
+    const allCurrent = Object.values(currentBorrowedBooks).flat();
 
     const notify = () => {
         setShow(true);
@@ -62,16 +62,9 @@ export default function AdminDashboard() {
             }
         }
         fetchPendingBooks();
-    }, [])
 
-    const handleChange = (e) => {
-        setSearchingOn(e.target.name);
-        setQuery(e.target.value);
-
-        console.log(e.target.name);
-        console.log(e.target.value);
-    }
-
+    }, []);
+    
     useEffect(() => {
         if(!query){
             setSearchingPending(false);
@@ -81,6 +74,15 @@ export default function AdminDashboard() {
             handleSearch();
         }
     }, [query]);
+
+    useEffect(() => {
+        if(query) handleSearch();
+    }, [pendingBooks, currentBorrowedBooks])
+
+    const handleChange = (e) => {
+        setSearchingOn(e.target.name);
+        setQuery(e.target.value);
+    }
 
     const handleSearch = (e) => {
         if(e) e.preventDefault();
@@ -135,7 +137,7 @@ export default function AdminDashboard() {
             
         }catch(err){
             console.log("Fetch Error:", err);
-            setMessage("An Undexpected error occured");
+            setMessage("An Unexpected error occured");
         }
 
         notify();
@@ -236,7 +238,7 @@ export default function AdminDashboard() {
                                 </form>
                             </div>
                             <div className={styles.borrowersContainer}>
-                                {(searchingCurrent ? searchedCurrent : currrentBorrowedBooks).map((b, i) => (
+                                {(searchingCurrent ? searchedCurrent : currentBorrowedBooks).map((b, i) => (
                                 <div key={i} className={styles.borrowerPanel}>
                                     <div className={styles.borrowerHeader}>
                                         <img src={avatar} className={styles.avatar}/>

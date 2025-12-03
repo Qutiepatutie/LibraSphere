@@ -31,7 +31,6 @@ export default function ForgotPassword({ setIsForgotPass }){
         const {name, value} = e.target;
 
         setInputs({ ...inputs, [name]: value});
-        console.log(value);
     }
 
     useEffect(() => {
