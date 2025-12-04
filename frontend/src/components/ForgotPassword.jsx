@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { changePass } from '../api/users';
 
 import styles from '../styles/authPage/forgotpass.module.css';
+import openIcon from '../assets/eye-icon.svg';
+import hideIcon from '../assets/closed-eye-icon.svg';
 
 export default function ForgotPassword({ setIsForgotPass }){
 
@@ -21,6 +23,9 @@ export default function ForgotPassword({ setIsForgotPass }){
 
     const [message, setMessage] = useState();
     const [show, setShow] = useState(false);
+
+    const [showNewPass, setShowNewPass] = useState(false);
+    const [showConfirmNewPass, setShowConfirmNewPass] = useState(false);
 
     const notify = () => {
         setShow(true);
@@ -97,22 +102,38 @@ export default function ForgotPassword({ setIsForgotPass }){
                         onChange={(e) => handleChange(e)}
                         className={emptyEmail ? styles.empty : ""}    
                     />
-                    <label>Enter new password</label>
-                    <input
-                        type="password"
-                        name="newPass"
-                        value={inputs.newPass}
-                        onChange={(e) => handleChange(e)}
-                        className={emptyNewPass ? styles.empty : ""}  
-                    />
-                    <label>Confirm new password</label>
-                    <input
-                        type="password"
-                        name="confirmNewPass"
-                        value={inputs.confirmNewPass}
-                        onChange={(e) => handleChange(e)} 
-                        className={emptyConfirmNewPass ? styles.empty : ""}     
-                    />
+                    <label>Enter New Password</label>
+                    <div className={`${styles.newPassContainer} ${emptyNewPass ? styles.empty : ""}`}>
+                        <input
+                            type={showNewPass ? "text" : "password"}
+                            name="newPass"
+                            value={inputs.newPass}
+                            onChange={handleChange}
+                            className={styles.newPass}
+                        />
+                        <img
+                            src={showNewPass ? openIcon : hideIcon}
+                            className={styles.showPassIcon}
+                            onClick={() => setShowNewPass(!showNewPass)}
+                        />
+                    </div>
+                    
+        
+                    <label>Confirm New Password</label>
+                    <div className={`${styles.confirmNewPassContainer} ${emptyNewPass ? styles.empty : ""}`}>
+                        <input
+                            type={showConfirmNewPass ? "text" : "password"}
+                            name="confirmNewPass"
+                            value={inputs.confirmNewPass}
+                            onChange={handleChange}
+                            className={styles.confirmNewPass}
+                        />
+                        <img
+                            src={showConfirmNewPass ? openIcon : hideIcon}
+                            className={styles.showPassIcon}
+                            onClick={() => setShowConfirmNewPass(!showConfirmNewPass)}
+                        />
+                    </div>
 
                     <div className={`${styles.invalidMessage} ${isValid ? styles.hidden : ""}`} >
                         <p>{message}</p> 

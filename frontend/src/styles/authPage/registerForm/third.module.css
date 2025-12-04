@@ -1,4 +1,6 @@
-input.empty {
+input.empty,
+.newPassContainer.empty,
+.confirmNewPassContainer.empty {
     outline: 2px solid red;
 }
 
