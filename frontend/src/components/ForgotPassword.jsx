@@ -120,7 +120,7 @@ export default function ForgotPassword({ setIsForgotPass }){
                     
         
                     <label>Confirm New Password</label>
-                    <div className={`${styles.confirmNewPassContainer} ${emptyNewPass ? styles.empty : ""}`}>
+                    <div className={`${styles.confirmNewPassContainer} ${emptyConfirmNewPass ? styles.empty : ""}`}>
                         <input
                             type={showConfirmNewPass ? "text" : "password"}
                             name="confirmNewPass"
