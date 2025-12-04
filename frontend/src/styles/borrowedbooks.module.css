@@ -64,6 +64,11 @@
                 rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
 }
 
+.noBorrowed {
+    justify-content: center;
+    align-items: center;
+}
+
 .bookPanel {
     display: flex;
     flex-direction: column;

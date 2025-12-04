@@ -137,15 +137,22 @@ export default function BorrowedBooks(){
                     </div>
                 </div>
 
-                <div className={styles.books}>
-                    {borrowedBooks.map((book, i) => (
-                    <div key={i} className={styles.bookPanel}>
-                        <div className={styles.coverPlaceholder}>
-                            <img src={book.cover_path}/>
+                <div className={`${styles.books} ${borrowedBooks.length === 0 ? styles.noBorrowed : ""}`}>
+                    {borrowedBooks.length > 0 ? (
+                        borrowedBooks.map((book, i) => (
+                        <div key={i} className={styles.bookPanel}>
+                            <div className={styles.coverPlaceholder}>
+                                <img src={book.cover_path}/>
+                            </div>
+                            <p className={`${styles.status} ${styles[book.status]}`}>{book.status}</p>
+                            <p>{!book.due_date ? "" :`Due Date: ${book.due_date}`}</p>
+                        </div>))
+                        ) : (
+                        <div style={{color:"#ededed", userSelect:"none"}}>
+                            <h1>No Books Borrowed</h1>
                         </div>
-                        <p className={`${styles.status} ${styles[book.status]}`}>{book.status}</p>
-                        <p>{!book.due_date ? "" :`Due Date: ${book.due_date}`}</p>
-                    </div>))}
+
+                    )}
                 </div>
             </div>
         </>
