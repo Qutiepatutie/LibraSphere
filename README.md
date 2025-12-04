@@ -36,7 +36,7 @@ venv\Scripts\activate # to activate venv
 #### Install dependencies
 
 ```
-pip install -r requirements.txt
+pip install -r oldRequirements.txt
 ```
 
 #### Run migrations on Django
