@@ -58,11 +58,6 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://lbrsphr.vercel.app",
-    "https://*.onrender.com",
-]
-
 ROOT_URLCONF = 'backend.urls'
 
 TEMPLATES = [
