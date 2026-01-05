@@ -46,8 +46,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -58,9 +58,9 @@ MIDDLEWARE = [
 
 CORS_ALLOW_ALL_ORIGINS = False
 
-CORS_ALLOWED_ORIGINS_REGEXES = [
-    r"^https://.*\.vercel\.app$",
-    r"http://localhost(:\d+)?"
+CORS_ALLOWED_ORIGINS = [
+    "^https://lbrsph.vercel.app",
+    "http://localhost:5173"
 ]
 
 CSRF_TRUSTED_ORIGINS = [
