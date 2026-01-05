@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "").lower() == "true"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["librasphere-vfmb.onrender.com"]
 
 
 # Application definition
@@ -45,8 +45,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,7 +56,17 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_ALL_ORIGINS = False
+
+CORS_ALLOWED_ORIGINS_REGEXES = [
+    r"^https://.*\.vercel\.app$",
+    r"http://localhost(:\d+)?"
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://lbrsphr.vercel.app",
+    "https://*.onrender.com",
+]
 
 ROOT_URLCONF = 'backend.urls'
 
