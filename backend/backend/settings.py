@@ -59,7 +59,7 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = False
 
 CORS_ALLOWED_ORIGINS = [
-    "^https://lbrsph.vercel.app",
+    "https://lbrsph.vercel.app",
     "http://localhost:5173"
 ]
 
