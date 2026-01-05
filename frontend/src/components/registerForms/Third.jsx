@@ -22,13 +22,13 @@ export default function Third({ handleChange, registerData, emptyEmail, emptyPas
             />
 
             <label>Password</label>
-            <div className={styles.newPassContainer}>
+            <div className={`${styles.newPassContainer} ${emptyPassword ? styles.empty : ""}`}>
                 <input
                     type={showNewPass ? "text" : "password"}
                     name="password"
                     value={registerData?.password}
                     onChange={handleChange}
-                    className={`${styles.newPass} ${emptyPassword ? styles.empty : ""}`}
+                    className={styles.newPass}
                 />
                 <img
                     src={showNewPass ? openIcon : hideIcon}
@@ -39,13 +39,13 @@ export default function Third({ handleChange, registerData, emptyEmail, emptyPas
             
 
             <label>Confirm Password</label>
-            <div className={styles.confirmNewPassContainer}>
+            <div className={`${styles.confirmNewPassContainer} ${emptyConfirmPassword ? styles.empty : ""}`}>
                 <input
                     type={showConfirmNewPass ? "text" : "password"}
                     name="confirm_password"
                     value={registerData?.confirm_password}
                     onChange={handleChange}
-                    className={`${styles.confirmNewPass} ${emptyConfirmPassword ? styles.empty : ""}`}
+                    className={styles.confirmNewPass}
                 />
                 <img
                     src={showConfirmNewPass ? openIcon : hideIcon}

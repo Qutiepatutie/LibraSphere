@@ -52,6 +52,7 @@ export default function LoginForm({onSetForm, onLogIn }) {
             sessionStorage.setItem("student_number", data.student_number);
             sessionStorage.setItem("role", data.role);
 
+            setShowPass(false);
             setInvalid(false);
             onLogIn(true);
             setEmailInput("");
