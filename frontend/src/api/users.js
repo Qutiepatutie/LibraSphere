@@ -1,5 +1,5 @@
-//const API_URL = "https://librasphere-production.up.railway.app"; // Online
-const API_URL = "http://127.0.0.1:8000/"; // Local
+const API_URL = "https://librasphere-vfmb.onrender.com"; // Online
+//const API_URL = "http://127.0.0.1:8000/"; // Local
 
 export async function login(email, pass) {
   const response = await fetch(`${API_URL}/login/`, {
