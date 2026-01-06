@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret')
 DEBUG = os.environ.get("DEBUG", "").lower() == "true"
 
 ALLOWED_HOSTS = ["librasphere-vfmb.onrender.com"]
-
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
@@ -57,6 +57,12 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://lbrsphr.vercel.app",
+    "https://librasphere-vfmb.onrender.com",
+]
+
 
 ROOT_URLCONF = 'backend.urls'
 
