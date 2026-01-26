@@ -20,13 +20,13 @@ bookly-lms/
 
 ```
 git clone https://github.com/Qutiepatutie/LibraSphere.git
-cd bookly-lms
+cd LibraSphere
 ```
 
 ### 2. Setup backend
 
 #### Setup venv
-> (You can skip this)
+> (You can skip this if you don't have venv)
 
 ```
 python -m venv venv
@@ -36,7 +36,7 @@ venv\Scripts\activate # to activate venv
 #### Install dependencies
 
 ```
-pip install -r oldRequirements.txt
+pip install -r dev-Requirements.txt
 ```
 
 #### Run migrations on Django
