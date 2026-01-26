@@ -6,7 +6,7 @@ import { SearchBar } from "../../../components/ui/Inputs.jsx"
 
 import CategoryPanel from "../../../components/library/CategoryPanel.jsx"
 import ExpandedCategory from "../../../components/library/ExpandedCategory.jsx"
-import ShowBook from "../../../components/library/ShowBook/ShowBook.jsx"
+import ShowBook from "../../../components/library/showbook/ShowBook.jsx"
 import BookPanel from "../../../components/library/BookPanel.jsx"
 
 import { categories } from "./library.constants.js"
