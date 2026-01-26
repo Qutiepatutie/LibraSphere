@@ -1,0 +1,27 @@
+:root {
+    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+    background-image: url("./assets/background.webp");
+
+    --primary-color: #4D643A;
+    --sidebar-width: 3.5vw;
+    --header-height: 10vh;
+}
+
+::-webkit-scrollbar {
+        height: 10px;
+        width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #ededed;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color); 
+    border-radius: 15px;
+}
+
+*{
+    margin: 0;
+    box-sizing: border-box;
+}

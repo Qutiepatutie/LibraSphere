@@ -1,0 +1,138 @@
+.sidebar {
+    position: fixed;
+    width: var(--sidebar-width);
+    height: 100vh;
+
+    background-color: white;
+
+    display: grid;
+    grid-template-rows: auto 1fr;
+    container-type: inline-size;
+
+    box-shadow: 2px 2px 10px #ededed;
+
+    z-index: 10;
+
+    transition: width 0.2s ease; 
+}
+
+.sidebar:hover {
+    width: 13vw
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 3%;
+
+    color: var(--primary-color);
+    /* background-color: antiquewhite; */
+}
+
+.header::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 85%;
+    border-bottom: 1px solid var(--primary-color);
+}
+
+.logo {
+    height: 50%;
+    width: auto;
+    user-select:none;
+}
+
+.buttons {
+    /* background-color: beige; */
+
+    display: flex;
+    flex-direction: column;
+
+    padding: calc(5% + 0.5em);
+    gap: 2%;
+
+    transition: padding 0.1s ease;
+}
+
+.buttons .navButton {
+    height: clamp(20px, 4.5%, 80px);
+    width: 100%;
+
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 2%;
+    box-sizing: border-box;
+
+    color: black;
+    text-decoration: none;
+
+    border:none;
+    border-radius: 7px;    
+    outline: 2px solid transparent;
+    transition: outline 0.2s ease;
+
+    user-select: none;
+    cursor: pointer;
+}
+
+
+.buttons .navButton:hover:not(.active) {
+    background-color: #ededed;
+    outline-color: #ededed; 
+}
+
+.buttons .navButton:last-child {
+    margin-top: auto;
+}
+
+.navButton .icon {
+    height: 50%;
+    width: 25%;
+    object-fit: contain;
+    user-select: none;
+    pointer-events: none;
+}
+
+.buttons .navButton.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.navButton.active .icon {   
+    filter: invert(1);
+}
+
+.footer {
+    position: absolute;
+    font-size: 0.5em;
+    color: grey;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+
+    user-select: none;
+}
+
+@container (max-width: 12vw) {
+
+    .header h1,
+    .buttons p,
+    .footer {
+        display: none;
+    }
+
+    .buttons .navButton {
+        justify-content: center;
+        align-items: center;
+        padding: 0;
+    } 
+
+    .buttons .icon {
+        width: 50%;
+    }
+
+}

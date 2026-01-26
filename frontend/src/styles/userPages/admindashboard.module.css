@@ -1,0 +1,33 @@
+.adminDashboard {
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+
+    row-gap: 1em;
+    padding: 2em 10em 2em 10em;
+}
+
+.panel {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.panel .carouselHeader {
+    height: 15%;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 2px;
+    align-items: center;
+    font-weight: 600;
+}
+
+.panel .carouselContainer {
+    height: 85%;
+    width: 100%;
+}
+
+.carouselContainer.loading button {
+    opacity: 0.5;
+}

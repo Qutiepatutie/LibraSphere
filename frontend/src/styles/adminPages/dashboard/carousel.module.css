@@ -1,0 +1,132 @@
+.carousel {
+    width: 100%;
+    height: 100%;
+    border: 2px solid #ededed;
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    padding: 1em;
+    gap: 1em;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 1em;;
+}
+
+.card {
+    scroll-snap-align: start;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.5);
+    height: 100%;
+    flex: 0 0 30em;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5em 1em;
+}
+
+.header::after {
+    content: '';
+    position: absolute;
+    width: 95%;
+    bottom: 0;
+    border: 1px solid rgba(0,0,0,0.2);
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.header .profile {
+    display: flex;
+    gap: 0.5em;
+}
+
+.avatar {
+    height: 2.5em;
+    width: 2.5em;
+}
+
+.header .status {
+    width: 5em;
+    height: 2em;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border-radius: 50px;
+
+    padding-bottom: 0.2em;
+}
+
+.body {
+    display: flex;
+    align-items: center;
+    
+    gap: 1em;
+    padding: 0.5em 1em;
+}
+
+.body .bookCover {
+    border: 1px solid black;
+    width: 20%;
+
+    aspect-ratio: 2/3;
+}
+
+.body .bookInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5em;
+}
+
+.button {
+    position: relative;
+    display: flex;
+    justify-content: end;
+    padding: 1em;
+    gap: 0.5em;
+}
+
+.button::after {
+    content: '';
+    position: absolute;
+    width: 95%;
+    top: 0;
+    border: 1px solid rgba(0,0,0,0.2);
+    left: 50%;
+    transform: translateX(-50%);
+
+}
+
+.button p {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-80%);
+    top: 30%;
+    color: lightgrey;
+}
+
+.Active {
+    border: 2px solid rgb(85, 101, 64);
+    color: rgb(85, 101, 64);
+}
+.Due {
+    border: 2px solid rgb(255, 192, 0);
+    color: rgb(255, 192, 0);
+}
+.Pending {
+    border: 2px solid rgb(88, 114, 242);
+    color: rgb(88, 114, 242);
+}
+.Overdue {
+    border: 2px solid rgb(242, 91, 88);
+    color: rgb(242, 91, 88);
+}

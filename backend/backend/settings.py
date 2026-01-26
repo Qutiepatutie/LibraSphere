@@ -14,8 +14,10 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(BASE_DIR / ".env")
+
+print("ENGINE:", os.environ.get("DB_ENGINE"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -26,7 +28,8 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "").lower() == "true"
 
-ALLOWED_HOSTS = ["librasphere-vfmb.onrender.com"]
+""" ALLOWED_HOSTS = ["librasphere-vfmb.onrender.com", '127.0.0.1'] """
+ALLOWED_HOSTS = ["*"];
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
@@ -59,6 +62,7 @@ MIDDLEWARE = [
 CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173/",
     "https://lbrsphr.vercel.app",
     "https://librasphere-vfmb.onrender.com",
 ]

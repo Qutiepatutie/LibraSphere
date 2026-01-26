@@ -1,57 +1,70 @@
-const API_URL = "https://librasphere-vfmb.onrender.com"; // Online
-//const API_URL = "http://127.0.0.1:8000/"; // Local
+const API_URL = import.meta.env.VITE_API_URL;
 
 export async function login(email, pass) {
-  const response = await fetch(`${API_URL}/login/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email: email,
-      password: pass,
-    }),
-  });
+    try {
+        const response = await fetch(`${API_URL}/login/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            email: email,
+            password: pass,
+            }),
+        });
+    
+        if(!response.ok) {
+            return ({"status":"failed", "message":"Server Connection Error"});
+        }
 
-  if(!response.ok){
-    return ({"status":"failed", "message":"Server Connection Error"});
-  }
+        return await response.json();
 
-  const data = await response.json();
-  return data;
-}
-
-export async function register(data){
-  const response = await fetch(`${API_URL}/register/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data)
-  });
-
-  if(!response.ok){
-    return ({"status":"failed","message":"Server Connection Error"});
-  }
-  
-  return await response.json();
+   } catch (error) {
+        return ({"status":"failed", "message":"Server Connection Error"});
+   }
 }
 
 export async function changePass(email, newPass){
-  const response = await fetch(`${API_URL}/changePass/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      email:email,
-      newPass:newPass
-    })
-  });
+    try {
+        const response = await fetch(`${API_URL}/changePass/`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+            email: email,
+            newPass: newPass
+            })
+        });
+    
+        if(!response.ok) {
+            return ({"status":"failed", "message":"Server Connection Error"});
+        }
+    
+        return await response.json();
 
-  if(!response.ok){
-    return ({"status":"error", "message":"Server Connection Error"});
-  }
+    } catch (error) {
+        return ({"status":"failed", "message":"Server Connection Error"});
+    }
+}
 
-  return await response.json();
+export async function register(data){
+    try {
+        const response = await fetch(`${API_URL}/register/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+    
+        if(!response.ok){
+            return ({"status":"failed","message":"Server Connection Error"});
+        }
+    
+        return await response.json();
+
+    } catch (error) {
+        return ({"status":"failed","message":"Server Connection Error"});
+    }
 }

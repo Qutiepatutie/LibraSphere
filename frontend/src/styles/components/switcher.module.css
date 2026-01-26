@@ -1,0 +1,50 @@
+.container {
+    height: 3.5em;
+    width: 90%;
+
+    position:relative;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0.5em;
+
+    background-color: #ededed;
+
+    border: none;
+    border-radius: 10px;
+
+    user-select: none;
+    
+}
+
+.container .option {
+    width: 50%;
+    height: 100%;
+
+    display:flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 1;
+    cursor: pointer;
+
+    color:black;
+
+    transition: color 0.3s ease;
+}
+
+.slider {
+    position: absolute;
+    background-color: var(--primary-color);
+
+    top: 10%;
+    left: 1.5%;
+
+    width: calc(50% - 1.5%);
+    height: calc(100% - 20%);
+
+    border-radius: 7px;
+
+    transition: transform 0.3s ease;
+    z-index: 0;
+}

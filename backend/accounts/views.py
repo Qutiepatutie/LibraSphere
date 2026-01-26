@@ -5,6 +5,7 @@ import json
 
 from .models import UserLogin
 from .models import UserProfile
+import traceback
 
 @csrf_exempt  # disable CSRF for testing (use proper protection later)
 def get_users(request):
@@ -30,13 +31,17 @@ def get_users(request):
             return JsonResponse({'status': 'failed', 'message': 'User Not Found'})
 
         return JsonResponse({'status': 'success',
+                             'message' : "Successfully logged in",
                              'id' : user.id,
                              'user' : profile.first_name,
-                             'student_number' : profile.student_number,
+                             'id_number' : profile.student_number,
                              'role': user.role
         })
-    except json.JSONDecodeError:
-        return JsonResponse({'status':'failed', 'message':'Invalid JSON'})
+    except Exception as e:
+        print("ERROR:", e)
+        traceback.print_exc()
+"""     except json.JSONDecodeError:
+        return JsonResponse({'status':'failed', 'message':'Invalid JSON'}) """
 
 @csrf_exempt
 def register_user(request):
@@ -106,4 +111,4 @@ def change_password(request):
 
     user.save()
 
-    return JsonResponse({'status':'success', 'message':'Password Reset Successfully'})
+    return JsonResponse({'status':'success', 'message':'Password Changed Successfully'})

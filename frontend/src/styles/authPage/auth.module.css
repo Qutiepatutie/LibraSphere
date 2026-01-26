@@ -1,17 +1,64 @@
-.page {
-    display: flex;
+.container {
     height: 100vh;
     width: 100vw;
-    align-items: center;
+
+    display: flex;
     justify-content: center;
-    background-color: rgb(255, 255, 255);
-    background-image: url('../../assets/background.webp');
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center;
-    background-attachment: fixed;
+    align-items: center;
+
+    overflow: hidden;
 }
 
-.loggedIn {
-    display: none;
+.formContainer {
+    height: clamp(10%, 55vh, 560px);
+    width: clamp(10%, 26vw, 700px);
+
+    background-color:white;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.5fr 2fr 0.5fr;
+
+    justify-content: center;
+    align-content:center;
+    
+    border:none;
+    border-radius: 10px;
+
+    box-sizing: border-box;
+    padding: 1%;
+
+    box-shadow: 10px 10px 100px 8px lightgrey, -10px -10px 100px 8px lightgrey;
+}
+
+.header {
+    font-size: 2em;
+}
+
+.formContainer .group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+
+    gap: 0.5em;   
+}
+
+.formContainer .group:last-child {
+    justify-content: end;
+}
+
+.forgotPass:hover {
+    cursor: pointer;
+    transform: scale(1.01);
+    color: var(--primary-color);
+}
+
+.buttons {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+
+    gap: 1%;
 }

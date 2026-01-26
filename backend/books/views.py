@@ -6,22 +6,36 @@ import re
 
 # Create your views here.
 def autofillBookInfo(request):
-    today = timezone.localtime(timezone.now()).strftime("%B %d, %Y")
+    today = timezone.localtime().isoformat()
 
     isbn = request.GET.get("isbn")
+    try:
+        resp1 = requests.get(f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data", timeout=5)
+        resp1.raise_for_status()
+    except requests.RequestException:
+        return JsonResponse({"status":"failed", "message":"External service error"})
 
-    resp1 = requests.get(f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data")
-    
     try:
         data1 = resp1.json()
         bookData1 = data1[f"ISBN:{isbn}"]
     except:
-        return JsonResponse({"message" : "no book found"})
+        return JsonResponse({"status": "failed", "message" : "No book found"})
 
-    if not bookData1 or not data1: return JsonResponse({"message" : "no book found"})
+    if not bookData1: 
+        return JsonResponse({"status": "failed", "message" : "No book found"})
 
-    workKey = bookData1.get("key").split("/")[2]
-    resp2 = requests.get(f"https://openlibrary.org/books/{workKey}.json")
+    key = bookData1.get("key", "")
+    parts = key.split("/")
+    workKey = parts[2] if len(parts) > 2 else None
+
+    if not workKey:
+        return JsonResponse({"status": "failed", "message": "Invalid book data"})
+    try:
+        resp2 = requests.get(f"https://openlibrary.org/books/{workKey}.json", timeout=5)
+        resp2.raise_for_status()
+    except requests.RequestException:
+        return JsonResponse({"status":"failed", "message":"External service error"})
+    
     bookData2 = resp2.json()
 
     subjectNames = bookData1.get("subjects") or []
@@ -39,20 +53,25 @@ def autofillBookInfo(request):
     else:
         desc = "None"
 
+    authors = bookData1.get("authors") or []
+    publishers = bookData1.get("publishers") or []
+
     return JsonResponse ({
         "status" : "success",
         "message" : "book found",
-        "title" : bookData1.get("title") or "Unknown",
-        "author" : bookData1.get("authors")[0]["name"] or "Unknown",
-        "edition" : bookData2.get("edition_name") or "Unknown",
-        "description" : desc,
-        "publisher" : bookData1.get("publishers")[0]["name"] or "Unknown",
-        "year_published" : yearPublished,
-        "date_acquired" : today,
-        "pages" : bookData1.get("number_of_pages") or bookData1.get("pagination") or "Unknown",
-        "tags" : subjects,
-        "book_cover_url" : f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg" or "None"
+        "book" : {
+            "title" : bookData1.get("title") or "Unknown",
+            "author" : authors[0]["name"] if authors else "Unknown",
+            "edition" : bookData2.get("edition_name") or "Unknown",
+            "description" : desc,
+            "publisher" : publishers[0]["name"] if publishers else "Unknown",
+            "year_published" : yearPublished,
+            "date_acquired" : today,
+            "pages" : bookData1.get("number_of_pages") or bookData1.get("pagination") or "Unknown",
+            "tags" : subjects,
+            "cover_url" : (
+                f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
+                if isbn else None
+            )
+        },
     })
-   
-
-

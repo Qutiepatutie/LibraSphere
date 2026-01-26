@@ -98,14 +98,14 @@ def borrow_book(request):
     
     try:
         data = json.loads(request.body)
-        student_number = data.get("student_number")
-        call_number = data.get("call_number")
+        id_number = data.get("id_number")
+        isbn = data.get("ISBN")
     except:
         return JsonResponse({"status":"failed", "message":"Invalid JSON"})
     
     try:
-        user = UserProfile.objects.get(student_number=student_number)
-        book = Books.objects.get(call_number=call_number)
+        user = UserProfile.objects.get(student_number=id_number)
+        book = Books.objects.get(ISBN=isbn)
 
     except UserProfile.DoesNotExist:
         return JsonResponse({"status":"failed", "message":"User not found"})
@@ -158,6 +158,7 @@ def get_user_borrowed_books(request):
 
 @csrf_exempt
 def get_all_borrowed_books(request):
+
     try:
         records = BorrowRecords.objects.select_related("user__user", "book")
 
@@ -203,7 +204,14 @@ def accept_borrowed_book(request):
 
     book_record.save()
 
-    return JsonResponse({"status":"success", "message":"Book borrow accepted"})
+    return JsonResponse({
+        "status":"success",
+        "message":"Borrower Accepted",
+        "book" : {
+                "status": book_record.status,
+                "due_date":book_record.due_date.isoformat(),
+            }
+        });
 
 @csrf_exempt
 def return_book(request):
@@ -221,6 +229,6 @@ def return_book(request):
     deleted_count, _ = BorrowRecords.objects.filter(book__ISBN=isbn, book__call_number=call_num).delete()
 
     if deleted_count:
-        return JsonResponse({"status": "success", "message":"Book Returned"})
+        return JsonResponse({"status": "success", "message":"Book Returned/Cancelled"})
     else:
-        return JsonResponse({"status": "failed", "message":"No Book Returned"})
+        return JsonResponse({"status": "failed", "message":"No Book Returned/Cancelled"})
