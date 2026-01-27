@@ -1,7 +1,6 @@
 import styles from "../../styles/authPage/auth.module.css"
 
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
 
 import Switcher from "../../components/auth/register/Switcher.jsx"
 import Login from "../../components/auth/Login.jsx"
@@ -24,12 +23,10 @@ import {
 export default function AuthPage() {
    
     const [showToast, setShowToast] = useState(false);
-    const [toastMessage, setToastMessage] = useState("");
-    const { login, forgotPass, register } = useAuth(setToastMessage);
-
+    
     const [mode, setMode] = useState("login");
     const [part, setPart] = useState(1);
-
+    
     const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
     const [forgotPassData, setForgotPassData] = useState(initialForgotPassData);
     const [registerData, setRegisterData] = useState(initialRegisterData);
@@ -37,14 +34,25 @@ export default function AuthPage() {
     const [forgotPassErrors, setForgotPassErrors] = useState(initialForgotPassErrors);
     const [registerErrors, setRegisterErrors] = useState(initialRegisterErrors);
 
-    const [isLoading, setIsLoading] = useState(false);
-
-    const navigate = useNavigate();
-
+    const isAuth = localStorage.getItem("isAuth") === "true";
+    
     const notify = () => {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2000);
     }
+
+    const {
+        isLoading,
+        toastMessage,
+        isPassChanged,
+        isRegistered,
+        setIsPassChanged,
+        setIsRegistered,
+        setToastMessage,
+        login,
+        forgotPass,
+        register
+    } = useAuth(notify);
 
     useEffect(() => {
         setPart(1);
@@ -54,9 +62,24 @@ export default function AuthPage() {
         setLoginErrors(initialLoginErrors);
         setForgotPassErrors(initialForgotPassErrors);
         setRegisterErrors(initialRegisterErrors);
-    }, [mode]);
+    }, [mode, isAuth]);
 
-    const handleLogin = async () => {
+    useEffect(() => {
+        if(!isPassChanged) return;
+
+        setForgotPassData(initialForgotPassData);
+        setIsPassChanged(false);
+    }, [isPassChanged]);
+
+    useEffect(() => {
+        if(!isRegistered) return;
+
+        setRegisterData(initialRegisterData);
+        setPart(1);
+        setIsRegistered(false);
+    }, [isRegistered]);
+
+    const handleLogin = () => {
         const empty = {
             email: !loginCredentials.email.trim(),
             pass: !loginCredentials.pass.trim(),
@@ -67,23 +90,10 @@ export default function AuthPage() {
             return;
         }
 
-        setIsLoading(true);
-        const valid = await login(loginCredentials);
-        setIsLoading(false);
-
-        if(!valid) {
-            notify();
-            return;
-        }
-
-        setLoginCredentials(initialLoginCredentials);
-        navigate(localStorage.getItem("role") === "admin"
-                ? "/admin/dashboard"
-                : "/dashboard"
-            );
+        login(loginCredentials);
     }
 
-    const handleForgotPassword = async () => {
+    const handleForgotPassword = () => {
         const empty = {
             email: !forgotPassData.email.trim(),
             newPass: !forgotPassData.newPass.trim(),
@@ -95,20 +105,10 @@ export default function AuthPage() {
             return;
         }
         
-        setIsLoading(true);
-        const valid = await forgotPass(forgotPassData);
-        setIsLoading(false);
-
-        if(!valid) {
-            notify();
-            return;
-        }
-
-        setForgotPassData(initialForgotPassData);
-        notify();
+        forgotPass(forgotPassData);
     }
 
-    const handleRegister = async () => { 
+    const handleRegister = () => { 
         const fields = fieldsByPart[part];
         let empty = {};
 
@@ -141,18 +141,7 @@ export default function AuthPage() {
             return;
         }
 
-        setIsLoading(true);
-        const valid = await register(registerData);
-        setIsLoading(false);
-
-        if(!valid){
-            notify();
-            return;
-        }
-
-        setRegisterData(initialRegisterData);
-        setPart(1);
-        notify();
+        register(registerData);
     }
 
     const submitHandler = {
@@ -254,7 +243,6 @@ export default function AuthPage() {
                                 type="submit"
                                 height="3em"
                                 width={part === 1 ?  "80%" : "40%"}
-                                onClick={() => handleRegister}
                                 disabled={isLoading}
                             />
                         </div>
