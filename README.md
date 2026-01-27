@@ -1,4 +1,4 @@
-# Bookly LMS
+# LibraSphere LMS
 
 ## Project structure
 
