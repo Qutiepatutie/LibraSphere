@@ -12,20 +12,19 @@ export default function BorrowedBooks() {
 
     const { allBorrowers } = useBorrowers();
     
-    const borrowedBooks = 
-        allBorrowers.filter(borrower => 
-            borrower.user.student_number === localStorage.getItem("id_number"));
-
-    const bookStatus = borrowedBooks.map(book => ({
-        ...book,
-        status: getBookStatus(book),
-    }));
+    const borrowedBooks = allBorrowers
+        .filter(borrower => 
+            borrower.user.student_number === localStorage.getItem("id_number"))
+        .map(book => ({
+            ...book,
+            status: getBookStatus(book),
+        }));
 
     const overdueBooks = 
-        bookStatus.filter(book => book.status === "Overdue");
+        borrowedBooks.filter(book => book.status === "Overdue");
 
     const dueBooks = 
-        bookStatus.filter(book => book.status === "Due");
+        borrowedBooks.filter(book => book.status === "Due");
        
     const bookFine = overdueBooks.length * 25;
 
