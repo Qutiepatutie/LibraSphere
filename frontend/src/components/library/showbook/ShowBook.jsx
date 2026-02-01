@@ -179,8 +179,8 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                                         setShowConfirm(true);
                                     }
                                 }}
-                                disabled={isBorrowed}
-                                bgColor={isBorrowed ? "darkgray" : ""}
+                                disabled={isBorrowed && role !== "admin"}
+                                bgColor={isBorrowed && role !== "admin" ? "darkgray" : ""}
                             />
                         </div>
                     </div>
