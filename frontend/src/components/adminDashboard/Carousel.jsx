@@ -3,7 +3,7 @@ import avatar from "../../assets/profile-icon.svg"
 
 import CustomButton from "../ui/CustomButton.jsx"
 
-export default function Carousel({ borrowers, updateBookStatus, acceptBook, loading }) {
+export default function Carousel({ borrowers, updateBookStatus, acceptBook, loading, category }) {
     
     const handleScroll = (e) => {
         e.currentTarget.scrollLeft += e.deltaY * 2;
@@ -11,7 +11,9 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
 
     return (
         <div className={styles.carousel} onWheel={handleScroll}>
-            {borrowers.map((borrower, index) => (
+            {borrowers.length === 0 
+            ? <h1 className={styles.noBorrowers}>No {category} borrowers</h1>
+            : borrowers.map((borrower, index) => (
                 <div key={index} className={styles.card}>
                     <div className={styles.header}>
                         <div className={styles.profile}>

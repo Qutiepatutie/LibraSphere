@@ -27,43 +27,44 @@ export default function Borrowers() {
             </div>
 
             <div className={styles.tableContainer}>
-                <table>
-
-                    <colgroup>
-                        <col />
-                        <col />
-                        <col />
-                        <col />
-                        <col />
-                        <col />
-                        <col />
-                    </colgroup>
-
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>ID Number</th>
-                            <th>Email</th>
-                            <th>Program</th>
-                            <th>Borrow Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {borrowerList.map((b, key) => (
-                            <tr key={key}>
-                                <td>{key+1}</td>
-                                <td>{`${b.user.first_name} ${b.user.last_name}`}</td>
-                                <td>{b.user.student_number}</td>
-                                <td>{b.user.email}</td>
-                                <td>{b.user.program}</td>
-                                <td>{b.borrow_date ? b.borrow_date.slice(0,10) : "--"}</td>
-                                <td><span className={`${styles.status} ${styles[b.status]}`}>{b.status}</span></td>
+                {borrowerList.length == 0
+                ?   <h1 className={styles.noRecord}>No Records Found</h1>
+                :   <table>
+                        <colgroup>
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                            <col />
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Name</th>
+                                <th>ID Number</th>
+                                <th>Email</th>
+                                <th>Program</th>
+                                <th>Borrow Date</th>
+                                <th>Status</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {borrowerList.map((b, key) => (
+                                <tr key={key}>
+                                    <td>{key+1}</td>
+                                    <td>{`${b.user.first_name} ${b.user.last_name}`}</td>
+                                    <td>{b.user.student_number}</td>
+                                    <td>{b.user.email}</td>
+                                    <td>{b.user.program}</td>
+                                    <td>{b.borrow_date ? b.borrow_date.slice(0,10) : "--"}</td>
+                                    <td><span className={`${styles.status} ${styles[b.status]}`}>{b.status}</span></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table> 
+                }
             </div>
         </div>
     )

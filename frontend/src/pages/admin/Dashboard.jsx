@@ -68,6 +68,7 @@ export default function AdminDashboard() {
                             updateBookStatus={updateBookStatus}
                             acceptBook={acceptBook}
                             loading={loading}
+                            category={"Pending"}
                         />
                     </div>
 
@@ -93,6 +94,7 @@ export default function AdminDashboard() {
                             borrowers={displayedCurrent}
                             updateBookStatus={updateBookStatus}
                             loading={loading}
+                            category={"Current"}
                         />
                     </div>
                 </div>

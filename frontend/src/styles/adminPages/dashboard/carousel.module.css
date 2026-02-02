@@ -13,6 +13,12 @@
     scroll-padding: 1em;;
 }
 
+.noBorrowers {
+    position: relative;
+    margin: auto;
+    color: #ededed;
+}
+
 .card {
     scroll-snap-align: start;
     border: none;
