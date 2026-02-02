@@ -130,7 +130,7 @@ export default function AuthPage() {
         
         if(Object.values(empty).some(Boolean)) return;
 
-        if(part === 2 && registerData.student_number.length !== 11) {
+        if(part === 2 && registerData.id_number.length !== 11) {
             setToastMessage("Student Number Must be 11 digits");
             notify(); 
             return;

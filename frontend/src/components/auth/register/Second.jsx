@@ -40,9 +40,9 @@ export default function Second({ isEmpty, registerData, onChange }) {
 
             <FormInput 
                 label="Student Number"
-                value={registerData.student_number}
+                value={registerData.id_number}
                 name="student_number"
-                onChange={(e) => onChange("student_number", e.target.value)}
+                onChange={(e) => onChange("id_number", e.target.value)}
                 isEmpty={isEmpty.student_number}
             />
         </>

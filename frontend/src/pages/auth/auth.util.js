@@ -12,7 +12,7 @@ export function checkEmail(registerData) {
     let email = "";
 
     if(registerData.email.includes("student.fatima.edu.ph")){
-        const num = registerData.student_number.substring(7);
+        const num = registerData.id_number.substring(7);
         email = `${first}${second}${last}${num}lag@student.fatima.edu.ph`;
         role = "student";
 
