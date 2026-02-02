@@ -105,7 +105,7 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                     className={styles.showBook}
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <img className={styles.cover} src={bookDetails.cover_path}/>
+                    <img className={styles.cover} src={bookDetails.cover_url}/>
                     <div className={styles.close} onClick={() => setShowBook(false)}>
                         <img src={close} />
                     </div>
@@ -181,7 +181,7 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                                 }}
                                 disabled={isBorrowed && role !== "admin"}
                                 bgColor={isBorrowed && role !== "admin" ? "darkgray" : ""}
-                            />
+                                />
                         </div>
                     </div>
                 </div>

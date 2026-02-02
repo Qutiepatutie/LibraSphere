@@ -11,7 +11,7 @@ export default  function BookPanel({ setActiveBook, setShowBook, book }) {
                 }
             }
         >
-            <img className={styles.cover} src={book.cover_path}/>
+            <img className={styles.cover} src={book.cover_url}/>
             <p className={styles.title}>{book.title}</p>
             <p className={styles.author}>{book.author}</p>
         </div>

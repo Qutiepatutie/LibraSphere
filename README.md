@@ -3,13 +3,13 @@
 ## Project structure
 
 ```
-bookly-lms/
+LibraSphere/
 │── backend/    # Django project
 │── frontend/   # React app
 │── venv/       # Python virtual environment (not pushed to GitHub)
 │── .gitignore
 │── README.md
-│── requirements.txt
+│── dev-requirements.txt
 ```
 
 ## SETUP INSTRUCTIONS
@@ -26,6 +26,7 @@ cd LibraSphere
 ### 2. Setup backend
 
 #### Setup venv
+
 > (You can skip this if you don't have venv)
 
 ```

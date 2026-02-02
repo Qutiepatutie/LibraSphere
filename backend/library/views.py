@@ -4,14 +4,16 @@ from django.forms.models import model_to_dict
 from django.http import JsonResponse
 from django.utils import timezone
 
-from .models import Books, BorrowRecords, UserProfile
+from .models import Books, BorrowRecords, UserProfile, StatusChoices
 
 def get_books(request):
+    if request.method != 'GET':
+        return JsonResponse({'status' : 'failed', 'message': 'Invalid Request method'}) 
     try:
         books = list(Books.objects.values())
         return JsonResponse({"status":"success", "message":"Books fetched Successfully", "data": books})
-    except:
-        return JsonResponse({"status":"failed", "message":"Cannot Fetch Books", "data":[]})
+    except Exception as e:
+        return JsonResponse({"status":"failed", "message":"Cannot Fetch Books", "data":[], "error":str(e)})
 
 @csrf_exempt
 def add_books(request):
@@ -29,22 +31,22 @@ def add_books(request):
         description = data.get("description")
         year_published = data.get("yearPublished")
         pages = data.get("pages")
-        cover_path = data.get("coverURL")
+        cover_url = data.get("coverURL")
         tags = data.get("tags")
         date_acquired = data.get("dateAcquired")
         
-    except:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
+    except Exception as e:
+        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
 
     if not all([call_number, isbn, title, author]):
         return JsonResponse({'status': 'failed', 'message': 'missing important fields'})
     
-    if Books.objects.filter(ISBN=isbn).exists():
+    if Books.objects.filter(call_number=call_number).exists() or Books.objects.filter(isbn=isbn).exists():
         return JsonResponse({'status': 'failed', 'message': 'Book already exists!'})
     
     Books.objects.create(
         call_number = call_number,
-        ISBN = isbn,
+        isbn = isbn,
         title = title,
         edition = edition,
         author = author,
@@ -52,7 +54,7 @@ def add_books(request):
         description = description,
         year_published = year_published,
         pages = pages,
-        cover_path = cover_path,
+        cover_url = cover_url,
         tags = tags,
         date_acquired = date_acquired
     )
@@ -66,22 +68,27 @@ def edit_book(request):
     
     try:
         data = json.loads(request.body)
-    except:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
+    except Exception as e:
+        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
     
-    isbn = data.get("ISBN")
+    isbn = data.get("isbn")
     if not isbn:
-        return JsonResponse({"status":"failed", "message":"Missing ISBN"})
+        return JsonResponse({"status":"failed", "message":"Missing isbn"})
     
     try:
-        book = Books.objects.get(ISBN=isbn)
+        book = Books.objects.get(isbn=isbn)
     except Books.DoesNotExist:
         return JsonResponse({"status":"failed", "message":"Book does not exist"})
+
+    new_call_number = data.get("callNumber")
+
+    if new_call_number and Books.objects.exclude(pk=book.pk).filter(call_number=new_call_number).exists():
+        return JsonResponse({"status":"failed", "message":"Call number already exists"})
     
     book.description = data.get("description", book.description)
     book.title = data.get("title", book.title)
     book.author = data.get("author", book.author)
-    book.call_number = data.get("callNumber", book.call_number)
+    book.call_number = new_call_number or book.call_number
     book.pages = data.get("pages", book.pages)
     book.publisher = data.get("publisher", book.publisher)
     book.year_published = data.get("yearPublished", book.year_published)
@@ -99,13 +106,13 @@ def borrow_book(request):
     try:
         data = json.loads(request.body)
         id_number = data.get("id_number")
-        isbn = data.get("ISBN")
-    except:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
+        isbn = data.get("isbn")
+    except Exception as e:
+        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
     
     try:
-        user = UserProfile.objects.get(student_number=id_number)
-        book = Books.objects.get(ISBN=isbn)
+        user = UserProfile.objects.get(id_number=id_number)
+        book = Books.objects.get(isbn=isbn)
 
     except UserProfile.DoesNotExist:
         return JsonResponse({"status":"failed", "message":"User not found"})
@@ -113,11 +120,11 @@ def borrow_book(request):
     except Books.DoesNotExist:
         return JsonResponse({"status":"failed", "message":"Book not found"})
     
-    if BorrowRecords.objects.filter(book=book).exists():
+    if BorrowRecords.objects.filter(book=book, return_date__isnull=True).exists():
         return JsonResponse({"status":"failed", "message":"Book is already borrowed"})
     
     BorrowRecords.objects.create(
-        status = "Pending",
+        status = StatusChoices.PENDING,
         user = user,
         book = book
     )
@@ -131,25 +138,24 @@ def get_user_borrowed_books(request):
     
     try:
         data = json.loads(request.body)
-    except:
-        return JsonResponse({"status":"error", "message":"Invalid JSON"})
+    except Exception as e:
+        return JsonResponse({"status":"error", "message":"Invalid JSON", "error":str(e)})
     
-    student_number = data.get("id")
+    id_number = data.get("id")
     try:
-        
-        user = UserProfile.objects.get(user_id=student_number)
+        user = UserProfile.objects.get(id_number=id_number)
 
     except UserProfile.DoesNotExist:
         return JsonResponse({"status":"failed", "message":"User not found"})
     
-    borrowed_books = BorrowRecords.objects.filter(user=user)
+    borrowed_books = BorrowRecords.objects.filter(user=user, return_date__isnull=True)
     
     books = []
 
     for record in borrowed_books:
         book = record.book
         books.append({
-            "cover_path": book.cover_path,
+            "cover_url": book.cover_url,
             "status": record.status,
             "due_date": record.due_date
         })
@@ -158,9 +164,8 @@ def get_user_borrowed_books(request):
 
 @csrf_exempt
 def get_all_borrowed_books(request):
-
     try:
-        records = BorrowRecords.objects.select_related("user__user", "book")
+        records = BorrowRecords.objects.filter(user__user__isnull=False).select_related("user__user", "book")
 
         data=[]
         for r in records:
@@ -177,8 +182,8 @@ def get_all_borrowed_books(request):
             data.append(record)
 
         return JsonResponse({"status":"success", "message":"Borrowed books fetched successfully", "data":data})
-    except:
-        return JsonResponse({"status":"failed", "message":"Borrowed books fetch failed", "data":[]})
+    except Exception as e:
+        return JsonResponse({"status":"failed", "message":"Borrowed books fetch failed", "data":[], "error":str(e)})
 
 @csrf_exempt
 def accept_borrowed_book(request):
@@ -187,20 +192,20 @@ def accept_borrowed_book(request):
     
     try:
         data = json.loads(request.body)
-    except:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
+    except Exception as e:
+        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
     
     isbn = data.get("isbn")
     call_num = data.get("call_num")
 
-    try:
-        book_record = BorrowRecords.objects.get(book__ISBN=isbn, book__call_number=call_num)
-    except BorrowRecords.DoesNotExist:
+    
+    book_record = BorrowRecords.objects.filter(book__isbn=isbn, book__call_number=call_num, return_date__isnull=True).first()
+    if not book_record:
         return JsonResponse({"status":"failed", "message":"Book not found"})
 
     book_record.borrow_date = timezone.now()
     book_record.due_date = timezone.now().date() + timezone.timedelta(days=7)
-    book_record.status = "Active"
+    book_record.status = StatusChoices.ACTIVE
 
     book_record.save()
 
@@ -220,15 +225,18 @@ def return_book(request):
     
     try:
         data = json.loads(request.body)
-    except:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON"})
+    except Exception as e:
+        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error": str(e)})
     
     isbn = data.get("isbn")
     call_num = data.get("call_num")
-    
-    deleted_count, _ = BorrowRecords.objects.filter(book__ISBN=isbn, book__call_number=call_num).delete()
 
-    if deleted_count:
-        return JsonResponse({"status": "success", "message":"Book Returned/Cancelled"})
-    else:
-        return JsonResponse({"status": "failed", "message":"No Book Returned/Cancelled"})
+    book = BorrowRecords.objects.filter(book__isbn=isbn, book__call_number=call_num, return_date__isnull=True).first()
+    if not book:
+        return JsonResponse({"status": "failed", "message": "No Book returned/cancelled"})
+
+    book.status = StatusChoices.RETURNED
+    book.return_date = timezone.now().date()
+    book.save()
+
+    return JsonResponse({"status": "success", "message": "Book returned/cancelled"})

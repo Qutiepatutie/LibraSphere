@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 from accounts.models import UserProfile
 
 class StatusChoices(models.TextChoices):
@@ -7,27 +6,16 @@ class StatusChoices(models.TextChoices):
     DUE = 'due', 'Due'
     OVERDUE = 'overdue', 'Overdue'
     PENDING = 'pending', 'Pending'
-
-class BookCallnumberChoices(models.TextChoices):
-    GENERAL_INFORMATION = '001', 'General Information'
-    PHILOSOPHY_PSYCHOLOGY = '100', 'Philosophy & Psychology'
-    RELIGION = '200', 'Religion'
-    SOCIAL_SCIENCES = '300', 'Social Sciences'
-    LANGUAGE = '400', 'Language'
-    SCIENCE = '500', 'Science'
-    TECHNOLOGY = '600', 'Technology'
-    ARTS_RECREATION = '700', 'Arts & Recreation'
-    LITERATURE = '800', 'Literature'
-    HISTORY_GEOGRAPHY = '900', 'History & Geography'    
+    RETURNED = 'returned', 'Returned'
 
 # Manages books
 class Books(models.Model):
     call_number = models.CharField(
-        primary_key=True,
         max_length=50,
+        unique=True
     )
 
-    ISBN = models.CharField(
+    isbn = models.CharField(
         max_length=13,
         blank=True,
     )
@@ -68,7 +56,7 @@ class Books(models.Model):
     )
     
     #Media
-    cover_path = models.CharField(
+    cover_url = models.CharField(
         max_length=2048,
         blank=True,
         null=True,
@@ -86,11 +74,6 @@ class Books(models.Model):
         return self.title
     
 class BorrowRecords(models.Model):
-
-    borrow_id = models.AutoField(
-        primary_key=True
-    )
-
     user = models.ForeignKey(
         UserProfile,
         on_delete=models.CASCADE

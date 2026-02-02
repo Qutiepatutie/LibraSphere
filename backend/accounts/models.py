@@ -62,7 +62,7 @@ class UserProfile(models.Model):
         null=True
     )
 
-    student_number = models.CharField(
+    id_number = models.CharField(
         max_length=13,
         unique=True
     )
