@@ -12,8 +12,10 @@ export default function Borrowers() {
     const [query, setQuery] = useState("");
 
     const borrowerList = query
-        ? searchBorrowers(allBorrowers, query)
-        : allBorrowers;
+    ? searchBorrowers(allBorrowers, query)
+    : allBorrowers;
+    
+    const isRecordFound = borrowerList.length > 0;
 
     return (
         <div className={styles.borrowers}>
@@ -26,8 +28,11 @@ export default function Borrowers() {
                 />
             </div>
 
-            <div className={styles.tableContainer}>
-                {borrowerList.length == 0
+            <div 
+                className={styles.tableContainer}
+                style={{display:(isRecordFound ? "" : "flex")}}    
+            >
+                {!isRecordFound
                 ?   <h1 className={styles.noRecord}>No Records Found</h1>
                 :   <table>
                         <colgroup>
@@ -55,7 +60,7 @@ export default function Borrowers() {
                                 <tr key={key}>
                                     <td>{key+1}</td>
                                     <td>{`${b.user.first_name} ${b.user.last_name}`}</td>
-                                    <td>{b.user.student_number}</td>
+                                    <td>{b.user.id_number}</td>
                                     <td>{b.user.email}</td>
                                     <td>{b.user.program}</td>
                                     <td>{b.borrow_date ? b.borrow_date.slice(0,10) : "--"}</td>

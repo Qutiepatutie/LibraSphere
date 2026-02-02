@@ -2,11 +2,11 @@ from django.db import models
 from accounts.models import UserProfile
 
 class StatusChoices(models.TextChoices):
-    ACTIVE = 'active', 'Active'
-    DUE = 'due', 'Due'
-    OVERDUE = 'overdue', 'Overdue'
-    PENDING = 'pending', 'Pending'
-    RETURNED = 'returned', 'Returned'
+    ACTIVE = 'Active'
+    DUE = 'Due'
+    OVERDUE = 'Overdue'
+    PENDING = 'Pending'
+    RETURNED = 'Returned'
 
 # Manages books
 class Books(models.Model):

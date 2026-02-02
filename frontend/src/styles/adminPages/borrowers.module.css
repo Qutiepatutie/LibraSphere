@@ -26,9 +26,7 @@
 
 .tableContainer {
     height: 80%;
-    width: 70%;
-
-    display: flex;
+    width: 80%;
 
     border: 2px solid #ededed;
     overflow-x: auto;
@@ -92,10 +90,10 @@ table tbody tr:hover {
 }
 
 colgroup col:nth-child(1) { width: 35px; }
-colgroup col:nth-child(2) { width: 20%; }
-colgroup col:nth-child(3) { width: 15%; }
+colgroup col:nth-child(2) { width: 15%; }
+colgroup col:nth-child(3) { width: 10%; }
 colgroup col:nth-child(4) { width: 30%; }
-colgroup col:nth-child(5) { width: 10%; }
+colgroup col:nth-child(5) { width: 20%; }
 colgroup col:nth-child(6) { width: 10%; }
 colgroup col:nth-child(7) { width: 15%; }
 

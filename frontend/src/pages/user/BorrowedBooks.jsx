@@ -14,7 +14,7 @@ export default function BorrowedBooks() {
     
     const borrowedBooks = allBorrowers
         .filter(borrower => 
-            borrower.user.student_number === localStorage.getItem("id_number"))
+            borrower.user.id_number === localStorage.getItem("id_number"))
         .map(book => ({
             ...book,
             status: getBookStatus(book),
@@ -66,7 +66,7 @@ export default function BorrowedBooks() {
                 ? (<h1 className={styles.noBooks}>No Books Borrowed</h1>)
                 :   (borrowedBooks.map((book) => (
                         <div key={book.book.ISBN} className={styles.bookPanel}>
-                            <img className={styles.cover} src={book.book.cover_path}/> 
+                            <img className={styles.cover} src={book.book.cover_url}/> 
                             <div className={`${styles.status} ${styles[book.status]}`}>
                                 <p>{book.status}</p>
                             </div>

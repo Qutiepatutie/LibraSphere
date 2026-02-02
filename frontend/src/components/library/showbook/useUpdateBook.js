@@ -25,7 +25,7 @@ export function useUpdateBook(setShowConfirm, notify) {
 
     async function borrowBook(book) {
         const data = {
-            ISBN: book.ISBN,
+            isbn: book.isbn,
             id_number: localStorage.getItem("id_number")
         }
 

@@ -42,8 +42,8 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     useEffect(() => setBookDetails(currBook), [currBook]);
     
     useEffect(() => {
-        const borrowed = allBorrowers.some(
-            borrower => borrower.book.ISBN === currBook.ISBN
+        const borrowed = allBorrowers.filter(b => b.status !== "Returned").some(
+            borrower => borrower.book.isbn === currBook.isbn
         );
 
         setIsBorrowed(borrowed);

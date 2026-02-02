@@ -17,7 +17,7 @@ export function useBorrowers() {
     );
 
     const currentBorrowers = useMemo(() => 
-        allBorrowers.filter(borrower => borrower.status !== "Pending")
+        allBorrowers.filter(borrower => borrower.status !== "Pending" && borrower.status !== "Returned")
                     .map(borrower => ({
                         ...borrower,
                         status: getBookStatus(borrower),
@@ -47,7 +47,7 @@ export function useBorrowers() {
         if(resp.status === "failed") { return; }
 
         setAllBorrowers(borrowers => 
-            borrowers.filter(b => b.book.ISBN !== isbn)
+            borrowers.filter(b => b.book.isbn !== isbn)
         );
 
     }
@@ -63,7 +63,7 @@ export function useBorrowers() {
 
         setAllBorrowers(borrowers => 
             borrowers.map(b => 
-                b.book.ISBN === isbn && b.book.call_number === call_num
+                b.book.isbn === isbn && b.book.call_number === call_num && b.status !== "Returned"
                 ? {
                     ...b,
                     status: resp.book.status,

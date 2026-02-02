@@ -22,7 +22,7 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                                 <p className={styles.name}>
                                     {`${borrower.user.first_name} ${borrower.user.last_name}`}
                                 </p>
-                                <p className={styles.id}>ID: <span>{borrower.user.student_number}</span></p>
+                                <p className={styles.id}>ID: <span>{borrower.user.id_number}</span></p>
                             </div>
                         </div>
                         <div className={`${styles.status} ${styles[borrower.status]}`}>
@@ -30,12 +30,12 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                         </div>
                     </div>
                     <div className={styles.body}>
-                        <img className={styles.bookCover} src={borrower.book.cover_path}/>
+                        <img className={styles.bookCover} src={borrower.book.cover_url}/>
 
                         <div className={styles.bookInfo}>
                             <p>Book: {borrower.book.title}</p>
                             <p>Call Number: {borrower.book.call_number}</p>
-                            <p>ISBN: {borrower.book.ISBN}</p>
+                            <p>ISBN: {borrower.book.isbn}</p>
                         </div>
                     </div>
                     <div className={styles.button}>
@@ -51,7 +51,7 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                                 width="30%"
                                 bgColor="#ededed"
                                 color="black"
-                                onClick={() => updateBookStatus(borrower.book.ISBN,borrower.book.call_number)}
+                                onClick={() => updateBookStatus(borrower.book.isbn,borrower.book.call_number)}
                                 disabled={loading}
                             />
                         }
@@ -61,9 +61,9 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                             width="30%"
                             onClick={() => {
                                 if(borrower.status !== "Pending") {
-                                    updateBookStatus(borrower.book.ISBN, borrower.book.call_number);
+                                    updateBookStatus(borrower.book.isbn, borrower.book.call_number);
                                 } else {
-                                    acceptBook(borrower.book.ISBN, borrower.book.call_number);
+                                    acceptBook(borrower.book.isbn, borrower.book.call_number);
                                 }
                                 }
                             }
