@@ -5,6 +5,14 @@
     --primary-color: #4D643A;
     --sidebar-width: 3.5vw;
     --header-height: 10vh;
+
+    --active-color: #556540;
+    --pending-color: #5872f2;
+    --due-color: #ffc000;
+    --overdue-color: #f25858;
+    --returned-color: grey;
+    --cancelled-color: black;
+
 }
 
 ::-webkit-scrollbar {

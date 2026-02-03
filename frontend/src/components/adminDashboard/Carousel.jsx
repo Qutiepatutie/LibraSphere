@@ -25,7 +25,7 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                                 <p className={styles.id}>ID: <span>{borrower.user.id_number}</span></p>
                             </div>
                         </div>
-                        <div className={`${styles.status} ${styles[borrower.status]}`}>
+                        <div className={`${styles.status} ${styles[ borrower.status]}`}>
                             <p>{borrower.status}</p>
                         </div>
                     </div>

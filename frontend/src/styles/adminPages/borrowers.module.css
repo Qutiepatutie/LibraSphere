@@ -119,26 +119,26 @@ table tbody td:last-child {
 }
 
 .Active {
-    border: 2px solid rgb(85, 101, 64);
-    color: rgb(85, 101, 64);
+    border: 2px solid var(--active-color);
+    color: var(--active-color);    
 }
 .Due {
-    border: 2px solid rgb(255, 192, 0);
-    color: rgb(255, 192, 0);
+    border: 2px solid var(--due-color);
+    color: var(--due-color);    
 }
 .Pending {
-    border: 2px solid rgb(88, 114, 242);
-    color: rgb(88, 114, 242);
+    border: 2px solid var(--pending-color);
+    color: var(--pending-color);    
 }
 .Overdue {
-    border: 2px solid rgb(242, 91, 88);
-    color: rgb(242, 91, 88);
+    border: 2px solid var(--overdue-color);
+    color: var(--overdue-color);    
 }
 .Returned {
-    border: 2px solid rgba(94, 92, 92, 0.5);
-    color: rgba(94, 92, 92, 0.5);
+    border: 2px solid var(--returned-color);
+    color: var(--returned-color);
 }
 .Cancelled {
-    border: 2px solid rgba(94, 92, 92);
-    color: rgb(94, 92, 92);
+    border: 2px solid var(--cancelled-color);
+    color: var(--cancelled-color);    
 }
