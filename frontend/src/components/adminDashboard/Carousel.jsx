@@ -51,7 +51,7 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                                 width="30%"
                                 bgColor="#ededed"
                                 color="black"
-                                onClick={() => updateBookStatus(borrower.book.isbn,borrower.book.call_number)}
+                                onClick={() => updateBookStatus(borrower.book.isbn, borrower.book.call_number, "cancel")}
                                 disabled={loading}
                             />
                         }
@@ -61,7 +61,7 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                             width="30%"
                             onClick={() => {
                                 if(borrower.status !== "Pending") {
-                                    updateBookStatus(borrower.book.isbn, borrower.book.call_number);
+                                    updateBookStatus(borrower.book.isbn, borrower.book.call_number, "return");
                                 } else {
                                     acceptBook(borrower.book.isbn, borrower.book.call_number);
                                 }

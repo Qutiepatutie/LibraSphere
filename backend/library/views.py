@@ -230,13 +230,24 @@ def return_book(request):
     
     isbn = data.get("isbn")
     call_num = data.get("call_num")
+    action = data.get("action")
+
+    if action not in ("return", "cancel"):
+        return JsonResponse({"status": "failed", "message": "Invalid action"})
 
     book = BorrowRecords.objects.filter(book__isbn=isbn, book__call_number=call_num, return_date__isnull=True).first()
     if not book:
-        return JsonResponse({"status": "failed", "message": "No Book returned/cancelled"})
+        return JsonResponse({"status": "failed", "message": "No active book found"})
 
-    book.status = StatusChoices.RETURNED
+    book.status = (
+        StatusChoices.RETURNED 
+        if action == "return"  
+        else StatusChoices.CANCELLED
+    )
     book.return_date = timezone.now().date()
     book.save()
 
-    return JsonResponse({"status": "success", "message": "Book returned/cancelled"})
+    actionReturn = "cancelled" if action == "cancel" else "returned"
+
+    return JsonResponse({"status": "success", 
+                         "message": f"Book {actionReturn} successfully"})

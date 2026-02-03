@@ -15,7 +15,8 @@ export default function BorrowedBooks() {
     const borrowedBooks = allBorrowers
         .filter(borrower => 
             borrower.user.id_number === localStorage.getItem("id_number")
-            && borrower.status !== "Returned")
+            && borrower.status !== "Returned"
+            && borrower.status !== "Cancelled")
         .map(book => ({
             ...book,
             status: getBookStatus(book),

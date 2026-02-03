@@ -7,6 +7,7 @@ class StatusChoices(models.TextChoices):
     OVERDUE = 'Overdue'
     PENDING = 'Pending'
     RETURNED = 'Returned'
+    CANCELLED = 'Cancelled'
 
 # Manages books
 class Books(models.Model):

@@ -17,11 +17,14 @@ export function useBorrowers() {
     );
 
     const currentBorrowers = useMemo(() => 
-        allBorrowers.filter(borrower => borrower.status !== "Pending" && borrower.status !== "Returned")
-                    .map(borrower => ({
-                        ...borrower,
-                        status: getBookStatus(borrower),
-                    })),
+        allBorrowers.filter(borrower => 
+            borrower.status !== "Pending" 
+            && borrower.status !== "Returned"
+            && borrower.status !== "Cancelled"
+                ).map(borrower => ({
+                    ...borrower,
+                    status: getBookStatus(borrower),
+                })),
         [allBorrowers]
     );
 
@@ -37,9 +40,9 @@ export function useBorrowers() {
         fetch();
     }, []);
 
-    async function updateBookStatus(isbn, call_num) {
+    async function updateBookStatus(isbn, call_num, action) {
         setLoading(true);
-        const resp = await returnBookUtil(isbn, call_num);
+        const resp = await returnBookUtil(isbn, call_num, action);
         setLoading(false);
             
         setToastMessage(resp.message);
@@ -63,7 +66,10 @@ export function useBorrowers() {
 
         setAllBorrowers(borrowers => 
             borrowers.map(b => 
-                b.book.isbn === isbn && b.book.call_number === call_num && b.status !== "Returned"
+                b.book.isbn === isbn 
+                && b.book.call_number === call_num 
+                && b.status !== "Returned"
+                && b.status !== "Cancelled"
                 ? {
                     ...b,
                     status: resp.book.status,

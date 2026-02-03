@@ -100,14 +100,14 @@ export async function acceptBorrowedBook(isbn, call_num) {
     return await resp.json();
 }
 
-export async function returnBook(isbn, call_num) {
+export async function returnBook(isbn, call_num, action) {
     try {
         const resp = await fetch(`${API_URL}/returnBook/` , {
           method: 'POST',
           headers: {
             'Content-Type':'application/json',
           },
-          body: JSON.stringify({isbn, call_num})
+          body: JSON.stringify({isbn, call_num, action})
         });
     
         if(!resp.ok){
