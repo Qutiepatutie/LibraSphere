@@ -127,14 +127,15 @@ export default function AuthPage() {
 
             return next;
         })
-        
-        if(Object.values(empty).some(Boolean)) return;
 
         if(part === 2 && registerData.id_number.length !== 11) {
             setToastMessage("Student Number Must be 11 digits");
             notify(); 
             return;
         }
+        
+        if(Object.values(empty).some(Boolean)) return;
+
 
         if(part < 3){
             setPart(part+1);
@@ -172,7 +173,7 @@ export default function AuthPage() {
                                 />
                             </>
                             :
-                            <p className={styles.header}>Reset Password</p>
+                            <p className={styles.resetPassHeader}>Reset Password</p>
                         }
 
                     </div>
@@ -206,16 +207,19 @@ export default function AuthPage() {
                     </div>
 
                     <div className={styles.group}>
-                        {mode !== "register" &&
-                            <p
-                                className={styles.forgotPass}
-                                onClick={() => {
-                                    setMode(mode === "login" ? "forgotPass" : "login");
-                                }}
-                            >
-                                <u>{mode === "login" ? "Forgot Password?" : "Sign in"}</u>
-                            </p>
-                        }
+                        <p
+                            className={`
+                                ${styles.forgotPass} 
+                                ${mode === "register" 
+                                    ? styles.hidden 
+                                    : ""}
+                                `}
+                            onClick={() => {
+                                setMode(mode === "login" ? "forgotPass" : "login");
+                            }}
+                        >
+                            <u>{mode === "login" ? "Forgot Password?" : "Sign in"}</u>
+                        </p>
 
                         <div className={styles.buttons}>
                             {mode === "register" && part > 1 &&

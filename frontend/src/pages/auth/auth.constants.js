@@ -45,7 +45,7 @@ export const initialRegisterErrors = {
 };
 
 export const fieldsByPart = {
-    1: ["first_name", "middle_name", "last_name"],
+    1: ["first_name", "last_name"],
     2: ["program", "id_number"],
     3: ["email", "password", "confirm_password"],
 };
