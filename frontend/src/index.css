@@ -1,6 +1,8 @@
 :root {
     font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
     background-image: url("./assets/background.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
 
     --primary-color: #4D643A;
     --sidebar-width: 3.5vw;
