@@ -44,7 +44,7 @@ export function useLibraryBooks() {
         const filteredBooks = allBooks.filter(book =>
             book.title.toLowerCase().includes(query) ||
             book.author.toLowerCase().includes(query) ||
-            book.ISBN.trim() === query
+            book.isbn.trim() === query
         );
 
         setSearchedBooks(filteredBooks);
