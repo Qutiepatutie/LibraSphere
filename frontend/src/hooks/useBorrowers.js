@@ -82,7 +82,7 @@ export function useBorrowers() {
 
     const searchBorrowers = (list, query) =>
         list.filter( b => 
-            `${b.user.first_name} ${b.user.last_name} ${b.user.student_number}`
+            `${b.user.first_name} ${b.user.last_name} ${b.user.id_number}`
             .toLowerCase()
             .includes(query)
         );
