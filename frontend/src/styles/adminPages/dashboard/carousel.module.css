@@ -94,10 +94,12 @@
 }
 
 .button {
+    height: 3em;
     position: relative;
     display: flex;
     justify-content: end;
-    padding: 1em;
+    align-items: center;
+    padding: 1% 2%;
     gap: 0.5em;
 }
 

@@ -25,7 +25,7 @@ export default function Sidebar() {
             <div className={styles.sidebar}>
                 <div className={styles.header}>
                     <img className={styles.logo} src={logo} />
-                    <h1>LibraSphere</h1>
+                    <p className={styles.logoTitle}>LibraSphere</p>
                 </div>
                 <div className={styles.buttons}>
                     <NavLink

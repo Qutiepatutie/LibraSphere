@@ -171,5 +171,6 @@
     justify-content: end;
     margin-top: auto;
     gap: 0.5em;
+    height: 100%;
 }
 

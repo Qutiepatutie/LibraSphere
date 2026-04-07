@@ -6,7 +6,13 @@ export default function CustomButton({ value="", type="", height="", onClick, wi
             className={styles.button}
             onClick={onClick}
             type={type}
-            style={{ height: height, width: width, borderRadius: borderRadius, backgroundColor: bgColor, color:color}}
+            style={{ 
+                height: `min(${height}, 90%)`, 
+                width: `min(${width}, 90%)`, 
+                borderRadius: borderRadius, 
+                backgroundColor: bgColor, 
+                color:color
+            }}
             disabled={disabled}
         >
             {value}

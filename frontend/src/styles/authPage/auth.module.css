@@ -10,8 +10,8 @@
 }
 
 .formContainer {
-    height: 520px;
-    width: 500px;
+    height: clamp(55%, 520px, 90%);
+    width: clamp(25%, 500px,90%);
 
     background-color:white;
 
@@ -45,7 +45,7 @@
     justify-content: center;
     align-items:center;
 
-    gap: 0.5em;   
+    gap: 0.5em;
 
 }
 
@@ -67,5 +67,5 @@
     justify-content: center;
     align-items: end;
 
-    gap: 1%;
+    height: 50%;
 }
