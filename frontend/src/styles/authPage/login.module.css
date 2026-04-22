@@ -1,0 +1,15 @@
+.rememberMe {
+/*     background-color: antiquewhite; */
+
+    width: 80%;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: 1.5%;
+}
+
+
+.checkBox {
+    width: 5%;
+    accent-color: var(--primary-color);
+}

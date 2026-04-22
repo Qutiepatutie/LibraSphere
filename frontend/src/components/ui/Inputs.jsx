@@ -2,11 +2,11 @@ import styles from "../../styles/components/inputs.module.css"
 
 import { useState } from "react"
 
-import openEye from "../../assets/auth/login/opened-eye-icon.svg"
-import closedEye from "../../assets/auth/login/closed-eye-icon.svg"
+import openBook from "../../assets/auth/login/open-book-icon.svg"
+import closedBook from "../../assets/auth/login/closed-book-icon.svg"
 import searchIcon from "../../assets/search-icon.svg"
 
-export function FormInput({ label="", value="", name="", onChange, onBlur, disabled, isEmpty=false, width}) {
+export function FormInput({ label="", value="", placeholder="", name="", onChange, onBlur, disabled, isEmpty=false, width}) {
     return (
         <div className={styles.formInput} style={{width: width }}>
             {label && <label htmlFor={name}>{label}</label>}
@@ -14,6 +14,7 @@ export function FormInput({ label="", value="", name="", onChange, onBlur, disab
                 type="text"
                 name={name}
                 value={value}
+                placeholder={placeholder}
                 onChange={onChange}
                 onBlur={onBlur}
                 className={isEmpty ? styles.empty : ""}
@@ -84,7 +85,7 @@ export function PasswordInput({ label="", value="", name="", onChange, isEmpty=f
                 />
             
                 <img
-                    src={showPass ? openEye : closedEye}
+                    src={showPass ? openBook : closedBook}
                     onClick={() => setShowPass(!showPass)}
                 />
             </div>
@@ -112,3 +113,16 @@ export function SearchBar({ label="", value="", name="", placeholder="", onChang
         </div>
     )
 }
+
+export function RememberMe({ isChecked, setIsChecked }) {
+    return (
+        <label className={styles.rememberMe}>
+            <input 
+                type="checkbox"
+                checked={isChecked}
+                onChange={() => setIsChecked(!isChecked)}
+                name="rememberMe"/>
+            Remember Me
+        </label>
+    );
+} 

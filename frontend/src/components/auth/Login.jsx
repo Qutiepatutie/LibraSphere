@@ -1,6 +1,6 @@
-import { FormInput, PasswordInput } from "../../components/ui/Inputs"
+import { FormInput, PasswordInput, RememberMe } from "../../components/ui/Inputs"
 
-export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials }) {
+export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials, isChecked, setIsChecked }) {
 
     const handleChange = (field, value) => {
         setCredentials(prev => ({ ...prev, [field]: value }));
@@ -12,6 +12,7 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
             <FormInput
                 label="Email"
                 value={credentials.email}
+                placeholder="example0000lag@student.fatima.edu.ph"
                 name="email"
                 onChange={(e) => handleChange("email", e.target.value)}
                 isEmpty={isEmpty.email}
@@ -27,6 +28,9 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
                 onChange={(e) => handleChange("pass", e.target.value)}
                 isEmpty={isEmpty.pass}
             />
+
+            <RememberMe isChecked={isChecked} setIsChecked={setIsChecked}/>  
+
         </>
     )
 }

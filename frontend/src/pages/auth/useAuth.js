@@ -14,7 +14,7 @@ export function useAuth(notify) {
 
     const navigate = useNavigate();
 
-    async function login(loginCredentials) {
+    async function login(loginCredentials, isChecked) {
 
         setIsLoading(true);
         const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
@@ -28,10 +28,17 @@ export function useAuth(notify) {
 
         const role = resp.role;
 
-        localStorage.setItem("isAuth", "true");
         localStorage.setItem("user", resp.user);
         localStorage.setItem("id_number", resp.id_number);
         localStorage.setItem("role", role);
+
+        if(isChecked) {
+            localStorage.setItem("access", resp.access);
+            localStorage.setItem("refresh", resp.refresh);
+        } else {
+            sessionStorage.setItem("access", resp.access);
+            sessionStorage.setItem("refresh", resp.refresh);
+        }
 
         navigate((role) === "admin"
                 ? "/admin/dashboard"

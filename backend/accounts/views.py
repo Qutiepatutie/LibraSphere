@@ -3,6 +3,9 @@ from django.http import JsonResponse
 from django.contrib.auth.hashers import make_password, check_password
 import json
 
+from rest_framework_simplejwt.tokens import RefreshToken
+from datetime import timedelta
+
 from .models import UserLogin
 from .models import UserProfile
 
@@ -31,13 +34,20 @@ def login_user(request):
         profile = user.profile
     except UserProfile.DoesNotExist:
         return JsonResponse({'status': 'failed', 'message': 'User Not Found'})
+    
+    refresh = RefreshToken.for_user(user)
+
+    access_token = str(refresh.access_token)
+    refresh_token = str(refresh)
 
     return JsonResponse({'status': 'success',
                             'message' : "Successfully logged in",
                             'id' : user.id,
                             'user' : profile.first_name,
                             'id_number' : profile.id_number,
-                            'role': user.role
+                            'role': user.role,
+                            'access': access_token,
+                            'refresh' : refresh_token,
     })
 
 @csrf_exempt

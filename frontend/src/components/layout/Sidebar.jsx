@@ -16,7 +16,15 @@ export default function Sidebar() {
     const role = localStorage.getItem("role");
 
     const tempLogout = () => {
-        localStorage.removeItem("isAuth");
+        localStorage.removeItem("access");
+        localStorage.removeItem("refresh");
+
+        sessionStorage.removeItem("access");
+        sessionStorage.removeItem("refresh");
+
+        localStorage.removeItem("id_number");
+        localStorage.removeItem("role");
+        localStorage.removeItem("user");
         navigate("/");        
     }
 

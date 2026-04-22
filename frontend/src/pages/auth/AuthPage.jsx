@@ -34,8 +34,8 @@ export default function AuthPage() {
     const [forgotPassErrors, setForgotPassErrors] = useState(initialForgotPassErrors);
     const [registerErrors, setRegisterErrors] = useState(initialRegisterErrors);
 
-    const isAuth = localStorage.getItem("isAuth") === "true";
-    
+    const [isChecked, setIsChecked] = useState(false);
+
     const notify = () => {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2000);
@@ -62,7 +62,7 @@ export default function AuthPage() {
         setLoginErrors(initialLoginErrors);
         setForgotPassErrors(initialForgotPassErrors);
         setRegisterErrors(initialRegisterErrors);
-    }, [mode, isAuth]);
+    }, [mode]);
 
     useEffect(() => {
         if(!isPassChanged) return;
@@ -90,7 +90,7 @@ export default function AuthPage() {
             return;
         }
 
-        login(loginCredentials);
+        login(loginCredentials, isChecked);
     }
 
     const handleForgotPassword = () => {
@@ -185,6 +185,8 @@ export default function AuthPage() {
                                 setIsEmpty={setLoginErrors}
                                 credentials={loginCredentials}
                                 setCredentials={setLoginCredentials}
+                                isChecked={isChecked}
+                                setIsChecked={setIsChecked}
                             />
                         }
                         {mode === "register" &&
