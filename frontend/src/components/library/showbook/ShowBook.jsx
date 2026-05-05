@@ -1,4 +1,4 @@
-import styles from "../../../styles/userPages/library/showbook/showbook.module.css"
+import styles from "../../../styles/userPages/library/showBook/showbook.module.css"
 import close from "../../../assets/close-icon.svg"
 
 import { useState, useEffect } from "react";
