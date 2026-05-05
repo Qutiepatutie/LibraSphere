@@ -1,4 +1,4 @@
-import styles from "../../../styles/userPages/library/showbook/bookinfos.module.css"
+import styles from "../../../styles/userPages/library/showBook/bookinfos.module.css"
 
 export default function BookInfos({ bookDetails, details, handleChange, isEdit }){
     return (
