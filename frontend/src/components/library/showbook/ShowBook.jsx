@@ -1,9 +1,10 @@
-import styles from "../../../styles/userPages/library/showbook.module.css"
+import styles from "../../../styles/userPages/library/showbook/showbook.module.css"
 import close from "../../../assets/close-icon.svg"
 
 import { useState, useEffect } from "react";
 
-import CustomButton from "../../ui/CustomButton.jsx"
+import CustomButton from "../../ui/CustomButton.jsx";
+import BookInfos from "./BookInfos.jsx";
 
 import { details } from "./showbook.constants.js"
 import { useBorrowers } from "../../../hooks/useBorrowers.js";
@@ -24,31 +25,31 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     const [showConfirm, setShowConfirm] = useState(false);
     const [bookDetails, setBookDetails] = useState(currBook);
 
-    const [showToast, setShowToast] = useState("");
+    const [showToast, setShowToast] = useState(false);
     
-    const { allBorrowers } = useBorrowers();
+    const { allBorrowers, setAllBorrowers } = useBorrowers();
     const {
         loading,
         toastMessage,
         isEdit,
-        isBorrowed,
-        setIsBorrowed,
         setIsEdit,
         setToastMessage,
         borrowBook,
         editBook,
     } = useUpdateBook(setShowConfirm, notify);
+    
+    const isBorrowed = allBorrowers.some(
+        b => b.status !== "Returned" && b.status !== "Cancelled"
+        && b.book.isbn === currBook.isbn
+    );
+
+    const isAdmin = role === "admin";
+
+    const buttonLabel = isAdmin
+        ? (isEdit ? "Submit" : "Edit Book")
+        : (isBorrowed ? "Borrowed" : "Borrow Book");
 
     useEffect(() => setBookDetails(currBook), [currBook]);
-    
-    useEffect(() => {
-        const borrowed = allBorrowers.filter(b => b.status !== "Returned").some(
-            borrower => borrower.book.isbn === currBook.isbn
-        );
-
-        setIsBorrowed(borrowed);
-    }, [allBorrowers, currBook]);
-
 
     useEffect(() => {
         const handleEsc = (e) => {
@@ -72,7 +73,12 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     }
 
     const handleConfirmEdit = async () => {
-        if(JSON.stringify(bookDetails) === JSON.stringify(currBook)){
+
+        const isUnchanged = Object
+            .keys(bookDetails)
+            .every(key => bookDetails[key] === currBook[key]);
+
+        if(isUnchanged){
             setIsEdit(false);
             return;
         }
@@ -88,6 +94,14 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
 
     const handleConfirmBorrow = (book) => {
         borrowBook(book);
+
+        setAllBorrowers(prev => 
+            prev.map(b => 
+                b.book.isbn === book.isbn
+                    ? {...b, status: "Pending"}
+                    : b
+            )
+        );
     }
 
     return (
@@ -109,79 +123,44 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                     <div className={styles.close} onClick={() => setShowBook(false)}>
                         <img src={close} />
                     </div>
-                    <div className={styles.infos}>
-                        <div className={styles.header}>
-                            <h1>{bookDetails.title}</h1>
-                            <h2>{bookDetails.author}</h2>
-                        </div>
-                        <div className={styles.description}>
-                            <textarea 
-                                name="description"
-                                value={bookDetails.description}
-                                onChange={handleChange}
-                                readOnly={!isEdit}
-                                className={isEdit ? styles.edit : styles.noEdit}
+
+                    <div className={styles.bodyContainer}>
+                        <BookInfos 
+                            bookDetails={bookDetails}
+                            details={details}
+                            handleChange={handleChange}
+                            isEdit={isEdit}
+
                             />
-                        </div>
-                        <div className={styles.details}>
-                            {Object.keys(details).map((key, index) => {
-                                if(key === "description") return;
 
-                                const props = {
-                                    type: "text",
-                                    name: key,
-                                    className: isEdit ? styles.edit : styles.noEdit,
-                                    readOnly: !isEdit,
-                                    value: bookDetails[key],
-                                    onChange: handleChange
-                                }
-
-                                return (
-                                    <p key={index}>
-                                        <span>{details[key]}:</span>
-                                        <input 
-                                            {...props}
-                                        />
-                                    </p>
-                                )
-                            })}
-                        </div>
                         <div className={styles.button}>
                             {isEdit && 
                                 <CustomButton 
-                                    value="Cancel"
-                                    height="3em"
-                                    width="30%"
-                                    bgColor="#ededed"
-                                    color="black"
-                                    onClick={handleCancelEdit}
+                                value="Cancel"
+                                height="3em"
+                                width="30%"
+                                bgColor="#ededed"
+                                color="black"
+                                onClick={handleCancelEdit}
                                 />
                             }
 
                             <CustomButton 
-                                value={role === "admin" 
-                                    ? isEdit 
-                                        ? "Submit" 
-                                        : "Edit Book" 
-                                    : isBorrowed 
-                                        ? "Borrowed"
-                                        : "Borrow Book"
-                                    }
+                                value={buttonLabel}
                                 height="3em"
                                 width="30%"
                                 onClick={() => {
-                                    if(role === "admin"){
-                                        isEdit
-                                        ? handleConfirmEdit()
-                                        : setIsEdit(true)
-                                    } else {
-                                        console.log("confirm borrow")
+                                    if(isAdmin){
+                                        return isEdit 
+                                            ? handleConfirmEdit() 
+                                            : setIsEdit(true)
+                                        }
+                                        
                                         setShowConfirm(true);
-                                    }
-                                }}
-                                disabled={isBorrowed && role !== "admin"}
-                                bgColor={isBorrowed && role !== "admin" ? "darkgray" : ""}
-                                />
+                                    }}
+                                    disabled={isBorrowed && role !== "admin"}
+                                    bgColor={isBorrowed && role !== "admin" ? "darkgray" : ""}
+                            />
                         </div>
                     </div>
                 </div>

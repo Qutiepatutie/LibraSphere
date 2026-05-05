@@ -7,8 +7,6 @@ export function useUpdateBook(setShowConfirm, notify) {
     const [toastMessage, setToastMessage] = useState("");
 
     const [isEdit, setIsEdit] = useState(false);
-    
-    const [isBorrowed, setIsBorrowed] = useState(false); 
 
     async function editBook(bookDetails) {
         
@@ -35,11 +33,10 @@ export function useUpdateBook(setShowConfirm, notify) {
         setLoading(false);
 
         if(resp.status === "success") {
-            setIsBorrowed(prev => ({...prev, book}));
             setShowConfirm(false)
         }
         notify()
     }
 
-    return { loading, toastMessage, isEdit, isBorrowed, setIsBorrowed,setIsEdit, setToastMessage, borrowBook, editBook };
+    return { loading, toastMessage, isEdit,setIsEdit, setToastMessage, borrowBook, editBook };
 }

@@ -27,17 +27,15 @@ export function useBorrowers() {
                 })),
         [allBorrowers]
     );
-
+    
     useEffect(() => {
-        const fetch = async () => {
+        const fetchBorrowers = async () => {
             const fetchedBorrowers = await getAllBorrowers();
-    
+
             setAllBorrowers(fetchedBorrowers.data);
-    
-            console.log(fetchedBorrowers.data);
         }
-    
-        fetch();
+
+        fetchBorrowers();
     }, []);
 
     async function updateBookStatus(isbn, call_num, action) {
@@ -87,5 +85,5 @@ export function useBorrowers() {
             .includes(query)
         );
 
-    return { toastMessage, loading, pendingBorrowers, currentBorrowers, allBorrowers, updateBookStatus, acceptBook, searchBorrowers };
+    return { toastMessage, loading, pendingBorrowers, currentBorrowers, allBorrowers, setAllBorrowers, updateBookStatus, acceptBook, searchBorrowers };
 }
