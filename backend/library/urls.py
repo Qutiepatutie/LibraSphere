@@ -11,5 +11,5 @@ urlpatterns =[
     path('exportBorrowedBooksCSV/', views.export_borrowed_books_csv, name='export_borrowed_books_csv'),
     path('acceptBorrowedBook/', views.accept_borrowed_book, name='accept_borrowed_book'),
     path('returnBook/', views.return_book, name='return_book'),
-    path('analyticsDashboard/', views.analytics_dashboard, name='analytics_dashboard')
+    path('analyticsDashboard/', views.analytics_dashboard, name='analytics_dashboard') #NOT FINISHED YET
 ]   

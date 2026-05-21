@@ -316,6 +316,7 @@ def return_book(request):
     return JsonResponse({"status": "success", 
                          "message": f"Book {actionReturn} successfully"})
 
+#NOT FINSIHED, WILL FIX LATER
 @csrf_exempt
 @admin_role #checks if user is admin
 def analytics_dashboard(request):
