@@ -71,6 +71,16 @@ export default function Borrowers() {
                     </table> 
                 }
             </div>
+
+            <button 
+                className={styles.exportBtn}
+                onClick={() => {
+                    const apiUrl = import.meta.env.VITE_API_URL;
+                    window.open(`${apiUrl}/exportBorrowedBooksCSV/`, "_blank");
+                }}
+            >
+                Export Data
+            </button>
         </div>
     )
 }

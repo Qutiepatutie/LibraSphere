@@ -16,6 +16,31 @@
     align-items: center;
 }
 
+.exportBtn {
+    align-self: flex-end;
+    margin-top: 1em;
+    margin-right: 10%;
+    padding: 0.6em 1.5em;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, transform 0.15s;
+}
+
+.exportBtn:hover {
+    background-color: #3b5129;
+    transform: scale(1.03);
+}
+
+.exportBtn:active {
+    transform: scale(0.97);
+}
+
 .noRecord {
     position:relative;
     margin: auto;
