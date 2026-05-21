@@ -1,7 +1,11 @@
+import csv
+import io
 import json
+from .analytics import _circulation_trends, _borrowing_frequency, _inventory_status
 from django.views.decorators.csrf import csrf_exempt
+from .decorators import admin_role
 from django.forms.models import model_to_dict
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 
 from .models import Books, BorrowRecords, UserProfile, StatusChoices
@@ -186,6 +190,66 @@ def get_all_borrowed_books(request):
         return JsonResponse({"status":"failed", "message":"Borrowed books fetch failed", "data":[], "error":str(e)})
 
 @csrf_exempt
+def export_borrowed_books_csv(request):
+    if request.method != 'GET':
+        return JsonResponse({'status': 'failed', 'message': 'Invalid request method'})
+
+    try:
+        records = BorrowRecords.objects.filter(
+            user__user__isnull=False
+        ).select_related("user__user", "book")
+
+        buffer = io.StringIO()
+        writer = csv.writer(buffer)
+
+        # Header row
+        writer.writerow([
+            'Record ID',
+            'Status',
+            'Borrow Date',
+            'Due Date',
+            'Return Date',
+            # User fields
+            'User ID Number',
+            'First Name',
+            'Middle Name',
+            'Last Name',
+            'Email',
+            'Program',
+            # Book fields
+            'Book Title',
+            'ISBN',
+            'Call Number',
+        ])
+
+        for r in records:
+            writer.writerow([
+                r.pk,
+                r.status,
+                r.borrow_date.strftime('%Y-%m-%d %H:%M') if r.borrow_date else '',
+                r.due_date.isoformat() if r.due_date else '',
+                r.return_date.isoformat() if r.return_date else '',
+                # User fields
+                r.user.id_number,
+                r.user.first_name,
+                r.user.middle_name or '',
+                r.user.last_name,
+                r.user.user.email,
+                r.user.program or '',
+                # Book fields
+                r.book.title,
+                r.book.isbn,
+                r.book.call_number,
+            ])
+        current_date = timezone.now().strftime('%Y_%m_%d_%H%M')
+        response = HttpResponse(buffer.getvalue(), content_type='text/csv')
+        response['Content-Disposition'] = f'attachment; filename="borrowed_books_{current_date}.csv"'
+        return response
+
+    except Exception as e:
+        return JsonResponse({"status": "failed", "message": "CSV export failed", "error": str(e)})
+
+@csrf_exempt
 def accept_borrowed_book(request):
     if request.method != "POST":
         return JsonResponse({"status":"failed", "message":"Invalid request method"})
@@ -251,3 +315,19 @@ def return_book(request):
 
     return JsonResponse({"status": "success", 
                          "message": f"Book {actionReturn} successfully"})
+
+@csrf_exempt
+@admin_role #checks if user is admin
+def analytics_dashboard(request):
+    if request.method != 'GET':
+        return JsonResponse({"status":"failed", "message":"Invalid request method"})
+    try:
+        data = {
+            'circulation_trends' : _circulation_trends(),
+            'borrowing_frequency' : _borrowing_frequency(),
+            'inventory_status': _inventory_status(),    
+        }  
+        return JsonResponse({'status' : 'success', 'message' : 'Analytics data fetched successfully','data' : data})
+    except Exception as e:
+        return JsonResponse({'status' : 'failed', 'message' : 'Analytics data fetch failed', 'error' : str(e)})
+    
