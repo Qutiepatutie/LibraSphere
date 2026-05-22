@@ -9,20 +9,32 @@
     overflow: hidden;
 }
 
+.logo {
+    position: absolute;
+    width: auto;
+    height: auto;
+
+    transform: scale(0.5) translateY(-380%);
+
+    z-index: 2;
+}
+
 .formContainer {
     height: clamp(55%, 520px, 90%);
-    width: clamp(25%, 500px,90%);
+    width: clamp(25%, 500px, 90%);
 
-    background-color:white;
+    z-index: 1;
+
+    background-color: white;
 
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: 120px 300px 80px;
 
     justify-content: center;
-    align-content:center;
-    
-    border:none;
+    align-content: center;
+
+    border: none;
     border-radius: 10px;
 
     box-sizing: border-box;
@@ -43,7 +55,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items:center;
+    align-items: center;
 
     gap: 0.5em;
 
