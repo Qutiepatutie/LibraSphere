@@ -62,7 +62,7 @@
     transition: padding 0.1s ease;
 }
 
-.buttons .navButton {
+.buttons .navButton{
     height: clamp(20px, 4.5%, 80px);
     width: 100%;
 

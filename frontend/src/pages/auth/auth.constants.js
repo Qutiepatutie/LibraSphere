@@ -49,3 +49,10 @@ export const fieldsByPart = {
     2: ["program", "id_number"],
     3: ["email", "password", "confirm_password"],
 };
+
+export const routes = {
+     admin: "/admin/dashboard",
+     attendance: "/attendance",
+     student: "/dashboard",
+     faculty: "/dashboard",
+} 

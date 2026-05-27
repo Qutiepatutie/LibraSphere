@@ -43,6 +43,7 @@ export default function Sidebar() {
                         <img className={styles.icon} src={dashboard} />
                         <p>Dashboard</p>
                     </NavLink>
+                    
                     <NavLink
                         to = "/library"
                         className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
@@ -50,6 +51,7 @@ export default function Sidebar() {
                         <img className={styles.icon} src={library} />
                         <p>Library</p>                    
                     </NavLink>
+                    
                     <NavLink
                         to = {role === "admin" ? "/admin/borrowers" : "/borrowed-books"}
                         className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
@@ -57,15 +59,17 @@ export default function Sidebar() {
                         <img className={styles.icon} src={borrowedBooks} />
                         <p>{role === "admin" ? "Borrowers" : "Borrowed Books"}</p>
                     </NavLink>
-                    {role === "admin" && 
-                        <NavLink 
-                            to = "/admin/add-book"
-                            className={({isActive}) => `${styles.navButton} ${isActive? styles.active : ""}`}
-                        >
-                            <img className={styles.icon} src={addBook} />
-                            <p>Add Book</p>
-                        </NavLink> 
+                    
+                    {role === "admin" &&
+                         <NavLink 
+                              to = "/admin/add-book"
+                              className={({isActive}) => `${styles.navButton} ${isActive? styles.active : ""}`}
+                         >
+                              <img className={styles.icon} src={addBook} />
+                              <p>Add Book</p>
+                         </NavLink>
                     }
+                    
                     <div 
                         className={styles.navButton}
                         onClick={() => tempLogout()}    
