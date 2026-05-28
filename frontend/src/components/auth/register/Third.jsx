@@ -17,7 +17,7 @@ export default function Third({ isEmpty, registerData, onChange }) {
                 value={registerData.password}
                 name="password"
                 onChange={(e) => onChange("password", e.target.value)}
-                isEmpty={isEmpty.pass}
+                isEmpty={isEmpty.password}
             />        
             
             <PasswordInput

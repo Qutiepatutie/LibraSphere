@@ -11,3 +11,8 @@ export const programs = [
     "BS in Pharmacy",
     "BS in Nursing",
 ]
+
+export const sex = [
+    "Male",
+    "Female",
+]

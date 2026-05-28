@@ -1,0 +1,37 @@
+.register {
+    height: 100%;
+    width: 100%;
+
+    display: grid;
+    grid-template-rows: 20% 50% 5% 15%;
+    grid-template-columns: 90%;
+    gap: 1%;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    align-self: flex-start;
+    margin-top: -5%;
+    color: #cc0000;
+}
+
+.progress,
+.inputs,
+.buttons{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+.inputs {
+    flex-direction: column;
+    gap: 5%;
+}
+
+.buttons {
+    justify-content: space-between;
+}

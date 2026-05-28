@@ -8,7 +8,7 @@ export default function CustomButton({ value="", type="", height="", onClick, wi
             type={type}
             style={{ 
                 height: `min(${height}, 90%)`, 
-                width: `min(${width}, 90%)`, 
+                width: `min(${width}, 100%)`, 
                 borderRadius: borderRadius, 
                 backgroundColor: bgColor, 
                 color:color

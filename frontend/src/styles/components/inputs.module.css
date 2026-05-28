@@ -20,6 +20,12 @@ textarea, select {
     justify-content: left;
     align-items: center;
     gap: 1.5%;
+    
+    white-space: nowrap;
+}
+.rememberMe:hover {
+    color: var(--primary-color);
+    cursor: pointer;
 }
 
 input[type=checkbox] {
@@ -68,7 +74,7 @@ label:not(.rememberMe) {
 .formInputPass,
 .selector,
 .searchBar {
-    width: 80%;
+    width: 100%;
 }
 
 .formInput input:focus,

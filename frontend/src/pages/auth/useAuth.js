@@ -9,6 +9,8 @@ export function useAuth(notify) {
 
      const [isLoading, setIsLoading] = useState(false);
      const [toastMessage, setToastMessage] = useState("");
+
+     const [errorMessage, setErrorMessage] = useState("");
      
      const [isRegistered, setIsRegistered] = useState(false);
      const [isPassChanged, setIsPassChanged] = useState(false);
@@ -16,47 +18,46 @@ export function useAuth(notify) {
      const navigate = useNavigate();
 
      async function login(loginCredentials, isChecked) {
-
-          setIsLoading(true);
-          const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
-          setIsLoading(false);
-     
-          if(resp.status === "failed"){
-               setToastMessage(resp.message);
-               notify();
-               return false;
-          }
-     
-          const role = resp.role;
-     
-          localStorage.setItem("user", resp.user);
-          localStorage.setItem("id_number", resp.id_number);
-          localStorage.setItem("role", role);
-     
-          if(isChecked) {
-               localStorage.setItem("access", resp.access);
-               localStorage.setItem("refresh", resp.refresh);
-          } else {
-               sessionStorage.setItem("access", resp.access);
-               sessionStorage.setItem("refresh", resp.refresh);
-          }
-          
-          navigate(routes[role] || "/");
-     
-          return true;
+    
+        setIsLoading(true);
+        const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
+        setIsLoading(false);
+    
+        if(resp.status === "failed"){
+            setErrorMessage(resp.message);
+            return false;
+        }
+    
+        const role = resp.role;
+    
+        localStorage.setItem("user", resp.user);
+        localStorage.setItem("id_number", resp.id_number);
+        localStorage.setItem("role", role);
+    
+        if(isChecked) {
+            localStorage.setItem("access", resp.access);
+            localStorage.setItem("refresh", resp.refresh);
+        } else {
+            sessionStorage.setItem("access", resp.access);
+            sessionStorage.setItem("refresh", resp.refresh);
+        }
+        
+        navigate(routes[role] || "/");
+    
+        return true;
     }
 
     async function forgotPass(forgotPassData) {
 
-        if(forgotPassData.email.toLowerCase() === "admin") {
-            setToastMessage("Invalid Email");
-            notify();
+        const email = forgotPassData.email.toLowerCase();
+
+        if(email === "admin" || email === "attendance") {
+            setErrorMessage("Invalid Email");
             return false;
         }
 
         if(forgotPassData.newPass !== forgotPassData.confirmNewPass) {
-            setToastMessage("New Passwords Must Match");
-            notify();
+            setErrorMessage("New Passwords Must Match!");
             return false;
         }
 
@@ -78,16 +79,14 @@ export function useAuth(notify) {
     async function register(registerData) {
 
         if(registerData.password !== registerData.confirm_password) {
-            setToastMessage("Passwords Must Match!");
-            notify();
+            setErrorMessage("Passwords Must Match!");
             return false;
         }
 
         const email = checkEmail(registerData);
 
         if(!email.valid) {
-            setToastMessage("Invalid Email");
-            notify();
+            setErrorMessage("Invalid Email!");
             return false;
         }
 
@@ -112,5 +111,5 @@ export function useAuth(notify) {
         notify();
     }
 
-    return { isLoading,toastMessage, isPassChanged, isRegistered, setIsPassChanged, setIsRegistered, setToastMessage, setIsLoading, login, forgotPass, register };
+    return { isLoading, toastMessage, errorMessage, isPassChanged, isRegistered, setIsPassChanged, setIsRegistered, setToastMessage, setErrorMessage, setIsLoading, login, forgotPass, register };
 }

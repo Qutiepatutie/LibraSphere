@@ -6,7 +6,6 @@ import Switcher from "../../components/auth/register/Switcher.jsx"
 import Login from "../../components/auth/Login.jsx"
 import Register from "../../components/auth/register/Register.jsx"
 import ForgotPassword from "../../components/auth/ForgotPassword.jsx"
-import CustomButton from "../../components/ui/CustomButton.jsx"
 import Toast from "../../components/ui/Toast.jsx"
 
 import { useAuth } from "./useAuth.js"
@@ -44,11 +43,12 @@ export default function AuthPage() {
      const {
         isLoading,
         toastMessage,
+        errorMessage,
         isPassChanged,
         isRegistered,
         setIsPassChanged,
         setIsRegistered,
-        setToastMessage,
+        setErrorMessage,
         login,
         forgotPass,
         register
@@ -56,6 +56,7 @@ export default function AuthPage() {
 
     useEffect(() => {
         setPart(1);
+        setErrorMessage("");
         setLoginCredentials(initialLoginCredentials);
         setForgotPassData(initialForgotPassData)
         setRegisterData(initialRegisterData);
@@ -85,7 +86,8 @@ export default function AuthPage() {
             pass: !loginCredentials.pass.trim(),
         }
         
-        if(Object.values(empty).some(Boolean)){
+        if (Object.values(empty).some(Boolean)) {
+            setErrorMessage("Fill in important fields!");
             setLoginErrors(empty);
             return;
         }
@@ -101,6 +103,7 @@ export default function AuthPage() {
         }
         
         if(Object.values(empty).some(Boolean)){
+            setErrorMessage("Fill in important fields!");
             setForgotPassErrors(empty);
             return;
         }
@@ -111,6 +114,7 @@ export default function AuthPage() {
     const handleRegister = () => { 
         const fields = fieldsByPart[part];
         let empty = {};
+        setErrorMessage("");
 
         fields.forEach(field => {
             empty[field] = !registerData[field]?.trim();
@@ -124,24 +128,26 @@ export default function AuthPage() {
             fields.forEach(field => {
                 next[field] = empty[field];
             });
-
+            
             return next;
         })
+        
+        if (Object.values(empty).some(Boolean)) {
+            setErrorMessage("Fill in important fields!")
+            return;
+        }
 
         if(part === 2 && registerData.id_number.length !== 11) {
-            setToastMessage("Student Number Must be 11 digits");
-            notify(); 
+            setRegisterErrors(prev => ({ ...prev, id_number: true }));
+            setErrorMessage("Student Number must be 11 digits!");
+            return;
+        }
+
+        if (part !== 3) {
+            setPart(prev => Math.min(prev + 1, 3));
             return;
         }
         
-        if(Object.values(empty).some(Boolean)) return;
-
-
-        if(part < 3){
-            setPart(part+1);
-            return;
-        }
-
         register(registerData);
     }
 
@@ -165,11 +171,11 @@ export default function AuthPage() {
                     <div className={styles.group}>
                         {mode !== "forgotPass" ?
                             <>
-                                <p className={styles.header}>LibraSphere</p>
                                 <Switcher
                                     option={mode}
                                     setOption={setMode}
                                     options={[ "Login", "Register" ]}
+                                    width="70%"
                                 />
                             </>
                             :
@@ -179,7 +185,7 @@ export default function AuthPage() {
                     </div>
 
                     <div className={styles.group}>
-                        {mode === "login" &&
+                        {mode === "login" && 
                             <Login
                                 isEmpty={loginErrors}
                                 setIsEmpty={setLoginErrors}
@@ -187,6 +193,10 @@ export default function AuthPage() {
                                 setCredentials={setLoginCredentials}
                                 isChecked={isChecked}
                                 setIsChecked={setIsChecked}
+                                setMode={setMode}
+                                setErrorMessage={setErrorMessage}
+                                errorMessage={errorMessage}
+                                isLoading={isLoading}
                             />
                         }
                         {mode === "register" &&
@@ -194,8 +204,12 @@ export default function AuthPage() {
                                 isEmpty={registerErrors}
                                 setIsEmpty={setRegisterErrors}
                                 part={part}
+                                setPart={setPart}
                                 registerData={registerData}
+                                errorMessage={errorMessage}
                                 setRegisterData={setRegisterData}
+                                setErrorMessage={setErrorMessage}
+                                isLoading={isLoading}
                             />
                         }
                         {mode === "forgotPass" && 
@@ -204,54 +218,12 @@ export default function AuthPage() {
                                 setIsEmpty={setForgotPassErrors}
                                 forgotPassData={forgotPassData}
                                 setForgotPassData={setForgotPassData}
+                                setErrorMessage={setErrorMessage}
+                                errorMessage={errorMessage}
+                                setMode={setMode}
+                                isLoading={isLoading}
                             />
                         }
-                    </div>
-
-                    <div className={styles.group}>
-                        <p
-                            className={`
-                                ${styles.forgotPass} 
-                                ${mode === "register" 
-                                    ? styles.hidden 
-                                    : ""}
-                                `}
-                            onClick={() => {
-                                setMode(mode === "login" ? "forgotPass" : "login");
-                            }}
-                        >
-                            <u>{mode === "login" ? "Forgot Password?" : "Sign in"}</u>
-                        </p>
-
-                        <div className={styles.buttons}>
-                            {mode === "register" && part > 1 &&
-                                <CustomButton
-                                    value="Return"
-                                    type="button"
-                                    height="3em"
-                                    width="40%"
-                                    bgColor="lightgrey"
-                                    color="black"
-                                    onClick={() => setPart(part === 2 ? 1 : 2 )}
-                                />    
-                            }
-
-                            <CustomButton
-                                value={
-                                    mode === "login" 
-                                    ? isLoading ? "Logging in..." : "Sign in" 
-                                    : mode === "forgotPass" 
-                                    ? isLoading ? "Changing Password..." : "Submit" 
-                                    : part === 3 
-                                    ? isLoading ? "Registering..." : "Submit" 
-                                    : "Next"
-                                }
-                                type="submit"
-                                height="3em"
-                                width={part === 1 ?  "80%" : "40%"}
-                                disabled={isLoading}
-                            />
-                        </div>
                     </div>
                 </form>
             </div>

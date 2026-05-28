@@ -6,15 +6,14 @@ import openBook from "../../assets/auth/login/open-book-icon.svg"
 import closedBook from "../../assets/auth/login/closed-book-icon.svg"
 import searchIcon from "../../assets/search-icon.svg"
 
-export function FormInput({ label="", value="", placeholder="", name="", onChange, onBlur, disabled, isEmpty=false, width}) {
+export function FormInput({ label="", value="", name="", onChange, onBlur, disabled, isEmpty=false, width}) {
     return (
         <div className={styles.formInput} style={{width: width }}>
-            {label && <label htmlFor={name}>{label}</label>}
             <input 
                 type="text"
                 name={name}
                 value={value}
-                placeholder={placeholder}
+                placeholder={label}
                 onChange={onChange}
                 onBlur={onBlur}
                 className={isEmpty ? styles.empty : ""}
@@ -44,7 +43,6 @@ export function DescriptionInput({ label="", value="", name="", rows="", onChang
 export function Selector({ label="",value="", options, name="", onChange, disabled, isEmpty=false}) {
     return (
         <div className={styles.selector}>
-            {label && <label htmlFor={name}>{label}</label>}
             <select
                 name={name}
                 onChange={onChange}
@@ -52,7 +50,7 @@ export function Selector({ label="",value="", options, name="", onChange, disabl
                 className={isEmpty ? styles.empty : ""}
                 disabled={disabled}
             >
-                <option value="" disabled hidden></option>
+                <option hidden>{label}</option>
                 {options?.map((option, index) => {
                     const isObject = typeof option === "object";
 
@@ -75,12 +73,12 @@ export function PasswordInput({ label="", value="", name="", onChange, isEmpty=f
 
     return (
         <div className={styles.formInputPass}>
-            {label && <label htmlFor={name}>{label}</label>}
             <div className={`${styles.passContainer} ${isEmpty ? styles.empty : ""}`}>
                 <input 
                     type={showPass ? "text" : "password"}
                     name={name}
                     value={value}
+                    placeholder={label}
                     onChange={onChange}
                 />
             

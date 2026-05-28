@@ -10,29 +10,24 @@
 }
 
 .formContainer {
-    height: clamp(55%, 520px, 90%);
-    width: clamp(25%, 500px,90%);
-
+    height: clamp(30%, 420px, 90%);
+    width: clamp(10%, 350px, 90%);     
     background-color:white;
 
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: 120px 300px 80px;
+    grid-template-rows: 20% 80%;
 
     justify-content: center;
     align-content:center;
     
-    border:none;
+    border:1px solid #969891;
     border-radius: 10px;
 
     box-sizing: border-box;
     padding: 0.5%;
 
-    box-shadow: 10px 10px 100px 8px lightgrey, -10px -10px 100px 8px lightgrey;
-}
-
-.header {
-    font-size: 2em;
+    /*box-shadow: 10px 10px 100px 8px lightgrey, -10px -10px 100px 8px lightgrey;*/
 }
 
 .resetPassHeader {
@@ -47,25 +42,4 @@
 
     gap: 0.5em;
 
-}
-
-.forgotPass.hidden {
-    color: transparent;
-    pointer-events: none;
-    user-select: none;
-}
-
-.forgotPass:hover {
-    cursor: pointer;
-    transform: scale(1.01);
-    color: var(--primary-color);
-}
-
-.buttons {
-    display: flex;
-    width: 100%;
-    justify-content: center;
-    align-items: end;
-
-    height: 50%;
 }

@@ -1,6 +1,6 @@
 .container {
-    height: 3.5em;
-    width: 90%;
+    height: 2.5em;
+    width: 60%;
 
     position:relative;
     display: flex;
@@ -10,8 +10,8 @@
 
     background-color: #ededed;
 
-    border: none;
-    border-radius: 10px;
+    border: 1px solid #969891;
+    border-radius: 5px;
 
     user-select: none;
     
@@ -28,7 +28,7 @@
     z-index: 1;
     cursor: pointer;
 
-    color:black;
+    color: #556540;
 
     transition: color 0.3s ease;
 }
@@ -43,7 +43,7 @@
     width: calc(50% - 1.5%);
     height: calc(100% - 20%);
 
-    border-radius: 7px;
+    border-radius: 4px;
 
     transition: transform 0.3s ease;
     z-index: 0;

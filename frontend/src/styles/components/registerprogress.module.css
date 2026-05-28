@@ -5,8 +5,7 @@
     height: 50px;
     width: 80%;
 
-    margin-top: 1em;
-    margin-bottom: 0.5em;
+    gap: 1%;
 }
 
 .first,
@@ -15,9 +14,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 50px;
-    height: 50px;
-    border-radius: 50px;
+    width: 45px;
+    height: 45px;
+    border: 1.5px solid #969891;
+    border-radius: 10px;
     background-color: #ededed;
 
     user-select: none;
@@ -26,7 +26,9 @@
 
 .line{
     flex-grow: 1;
-    height: 7px;
+    height: 5px;
+    border-radius: 3px;
+    border: 1px solid #969891;
     background-color: #ededed;
 }
 

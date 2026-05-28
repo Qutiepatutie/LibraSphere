@@ -13,7 +13,7 @@ export const initialRegisterData = {
     first_name: "",
     middle_name: "",
     last_name: "",
-    sex: "male",
+    sex: "",
     program: "",
     id_number: "",
     email: "",
@@ -37,6 +37,7 @@ export const initialRegisterErrors = {
     first_name: false,
     middle_name: false,
     last_name: false,
+    sex: false,
     program: false,
     id_number: false,
     email: false,
@@ -46,7 +47,7 @@ export const initialRegisterErrors = {
 
 export const fieldsByPart = {
     1: ["first_name", "last_name"],
-    2: ["program", "id_number"],
+    2: ["sex", "program", "id_number"],
     3: ["email", "password", "confirm_password"],
 };
 

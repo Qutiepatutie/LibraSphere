@@ -1,15 +1,108 @@
-.rememberMe {
-/*     background-color: antiquewhite; */
+.login {
+    height: 100%;
+    width: 100%;
 
-    width: 80%;
-    display: flex;
-    justify-content: left;
+    display: grid;
+    grid-template-rows: 35% 1% 30% auto auto;    
+    grid-template-columns: 90%;
+    gap: 1%;
+
+    justify-content: center;
     align-items: center;
-    gap: 1.5%;
 }
 
+.inputs {
+    height: 100%;
 
-.checkBox {
-    width: 5%;
-    accent-color: var(--primary-color);
+    display: flex;
+    flex-direction: column;
+    gap: 10%;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.error {
+    margin-top: -4%;
+    align-self: flex-start;
+    color: #cc0000;
+}
+
+.buttons {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.actionButtons {
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.actionButtons .forgotPass {
+    white-space: nowrap;
+}
+
+.actionButtons .forgotPass:hover {
+    color: var(--primary-color);
+    transform: scale(1.01);
+    cursor: pointer;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    opacity: 0.8;
+    
+}
+
+.divider::before,
+.divider::after {
+    content:"";
+    width: 100%;
+    border: 1px solid var(--primary-color);
+    opacity: 0.8;
+}
+
+.divider::before {
+    margin-right: 5px; 
+}
+.divider::after {
+    margin-left: 5px; 
+}
+
+.googleLogin {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.googleLoginContainer {
+
+    width: 80%;
+    height: 2.5rem;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2%;
+
+    border: 1px solid #969891;
+    border-radius: 7px;
+
+    cursor: pointer;
+    user-select: none;
+
+}
+
+.googleLoginContainer:hover {
+    transform: scale(1.01);
 }
