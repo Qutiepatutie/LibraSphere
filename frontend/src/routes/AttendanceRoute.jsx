@@ -5,7 +5,7 @@ import { routes } from "../pages/auth/auth.constants";
 export default function AdminRoute() {
     const role = localStorage.getItem("role");
    
-    if(role !== "admin") {
+    if(role !== "attendance") {
          return <Navigate to={routes[role]} replace />
     }
     

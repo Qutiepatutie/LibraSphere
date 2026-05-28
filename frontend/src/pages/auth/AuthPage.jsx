@@ -42,7 +42,7 @@ export default function AuthPage() {
         setTimeout(() => setShowToast(false), 2000);
     }
 
-    const {
+     const {
         isLoading,
         toastMessage,
         isPassChanged,

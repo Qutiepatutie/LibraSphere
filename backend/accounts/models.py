@@ -9,6 +9,7 @@ class RoleChoices(models.TextChoices):
     STUDENT = 'student', 'Student'
     FACULTY = 'faculty', 'Faculty'
     ADMIN = 'admin', 'Admin'
+    ATTENDANCE = 'attendance', 'Attendance'
 
 class UserLogin(models.Model):
 

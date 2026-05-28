@@ -3,49 +3,47 @@ import { useNavigate } from "react-router-dom";
 
 import { login as loginAPI, changePass, register as registerAPI } from "../../api/users.js"
 import { checkEmail } from "./auth.util.js";
+import { routes } from "./auth.constants.js";
 
 export function useAuth(notify) {
 
-    const [isLoading, setIsLoading] = useState(false);
-    const [toastMessage, setToastMessage] = useState("");
+     const [isLoading, setIsLoading] = useState(false);
+     const [toastMessage, setToastMessage] = useState("");
+     
+     const [isRegistered, setIsRegistered] = useState(false);
+     const [isPassChanged, setIsPassChanged] = useState(false);
+     
+     const navigate = useNavigate();
 
-    const [isRegistered, setIsRegistered] = useState(false);
-    const [isPassChanged, setIsPassChanged] = useState(false);
+     async function login(loginCredentials, isChecked) {
 
-    const navigate = useNavigate();
-
-    async function login(loginCredentials, isChecked) {
-
-        setIsLoading(true);
-        const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
-        setIsLoading(false);
-
-        if(resp.status === "failed"){
-            setToastMessage(resp.message);
-            notify();
-            return false;
-        }
-
-        const role = resp.role;
-
-        localStorage.setItem("user", resp.user);
-        localStorage.setItem("id_number", resp.id_number);
-        localStorage.setItem("role", role);
-
-        if(isChecked) {
-            localStorage.setItem("access", resp.access);
-            localStorage.setItem("refresh", resp.refresh);
-        } else {
-            sessionStorage.setItem("access", resp.access);
-            sessionStorage.setItem("refresh", resp.refresh);
-        }
-
-        navigate((role) === "admin"
-                ? "/admin/dashboard"
-                : "/dashboard"
-            );
-
-        return true;
+          setIsLoading(true);
+          const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
+          setIsLoading(false);
+     
+          if(resp.status === "failed"){
+               setToastMessage(resp.message);
+               notify();
+               return false;
+          }
+     
+          const role = resp.role;
+     
+          localStorage.setItem("user", resp.user);
+          localStorage.setItem("id_number", resp.id_number);
+          localStorage.setItem("role", role);
+     
+          if(isChecked) {
+               localStorage.setItem("access", resp.access);
+               localStorage.setItem("refresh", resp.refresh);
+          } else {
+               sessionStorage.setItem("access", resp.access);
+               sessionStorage.setItem("refresh", resp.refresh);
+          }
+          
+          navigate(routes[role] || "/");
+     
+          return true;
     }
 
     async function forgotPass(forgotPassData) {
