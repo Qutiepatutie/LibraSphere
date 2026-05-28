@@ -20,12 +20,12 @@ import {
 } from "./auth.constants.js";
 
 export default function AuthPage() {
-   
+
     const [showToast, setShowToast] = useState(false);
-    
+
     const [mode, setMode] = useState("login");
     const [part, setPart] = useState(1);
-    
+
     const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
     const [forgotPassData, setForgotPassData] = useState(initialForgotPassData);
     const [registerData, setRegisterData] = useState(initialRegisterData);
@@ -66,14 +66,14 @@ export default function AuthPage() {
     }, [mode]);
 
     useEffect(() => {
-        if(!isPassChanged) return;
+        if (!isPassChanged) return;
 
         setForgotPassData(initialForgotPassData);
         setIsPassChanged(false);
     }, [isPassChanged]);
 
     useEffect(() => {
-        if(!isRegistered) return;
+        if (!isRegistered) return;
 
         setRegisterData(initialRegisterData);
         setPart(1);
@@ -107,11 +107,11 @@ export default function AuthPage() {
             setForgotPassErrors(empty);
             return;
         }
-        
+
         forgotPass(forgotPassData);
     }
 
-    const handleRegister = () => { 
+    const handleRegister = () => {
         const fields = fieldsByPart[part];
         let empty = {};
         setErrorMessage("");
@@ -119,7 +119,7 @@ export default function AuthPage() {
         fields.forEach(field => {
             empty[field] = !registerData[field]?.trim();
         });
-        
+
         setRegisterErrors(prev => {
             const next = { ...prev };
 
@@ -156,11 +156,11 @@ export default function AuthPage() {
         register: handleRegister,
         forgotPass: handleForgotPassword,
     }
-    
+
     return (
         <>
             <div className={styles.container}>
-                <Toast message={toastMessage} show={showToast}/>
+                <Toast message={toastMessage} show={showToast} />
                 <form
                     className={styles.formContainer}
                     onSubmit={(e) => {
@@ -212,7 +212,7 @@ export default function AuthPage() {
                                 isLoading={isLoading}
                             />
                         }
-                        {mode === "forgotPass" && 
+                        {mode === "forgotPass" &&
                             <ForgotPassword
                                 isEmpty={forgotPassErrors}
                                 setIsEmpty={setForgotPassErrors}
