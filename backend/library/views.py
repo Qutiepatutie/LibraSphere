@@ -1,7 +1,7 @@
 import csv
 import io
 import json
-from .analytics import _circulation_trends, _borrowing_frequency, _inventory_status
+from .analytics import circulation_trends, borrowing_frequency, inventory_status
 from django.views.decorators.csrf import csrf_exempt
 from .decorators import admin_role
 from django.forms.models import model_to_dict
@@ -318,15 +318,15 @@ def return_book(request):
 
 #NOT FINSIHED, WILL FIX LATER
 @csrf_exempt
-@admin_role #checks if user is admin
+@admin_role #checks if user is admin, spoofable rn tho
 def analytics_dashboard(request):
     if request.method != 'GET':
         return JsonResponse({"status":"failed", "message":"Invalid request method"})
     try:
         data = {
-            'circulation_trends' : _circulation_trends(),
-            'borrowing_frequency' : _borrowing_frequency(),
-            'inventory_status': _inventory_status(),    
+            'circulation_trends' : circulation_trends(),
+            'borrowing_frequency' : borrowing_frequency(),
+            'inventory_status': inventory_status(),    
         }  
         return JsonResponse({'status' : 'success', 'message' : 'Analytics data fetched successfully','data' : data})
     except Exception as e:

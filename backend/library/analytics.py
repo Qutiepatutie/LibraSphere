@@ -5,8 +5,8 @@ from django.utils import timezone
 
 from .models import BorrowRecords, Books, StatusChoices
 
-def _circulation_trends():
-    cutoff = timezone.now() - timedelta(days=365)
+def circulation_trends():
+    cutoff = timezone.now() - timedelta(days=365) #Gets Data from today to 365 days ago (1 year)
 
     monthly_borrows = (BorrowRecords.objects
         .filter(borrow_date__gte=cutoff,
@@ -23,6 +23,14 @@ def _circulation_trends():
         .values('month')
         .annotate(count=Count('id'))
         .order_by('month'))
+
+    monthly_overdue = (BorrowRecords.objects
+        .filter(borrow_date__gte=cutoff.date(),
+        status=StatusChoices.OVERDUE)
+        .annotate(month=TruncMonth('due_date'))
+        .values('month')
+        .annotate(count=Count('id'))
+        .order_by('month'))
     
     bucket = {}
     for r in monthly_borrows:
@@ -32,7 +40,11 @@ def _circulation_trends():
     for r in monthly_returns:
         key = r['month'].strftime('%Y-%m')
         bucket.setdefault(key, {'month': key, 'borrows':0, 'returns': 0, 'overdue': 0})
-        bucket[key]['returns'] = r['count']        
+        bucket[key]['returns'] = r['count']
+    for r in monthly_overdue:
+        key = r['month'].strftime('%Y-%m')
+        bucket.setdefault(key,{'month' : key, 'borrows': 0, 'returns': 0, 'overdue':0})
+        bucket[key]['overdue'] = r['count']  
 
     totals = {
         'borrows': BorrowRecords.objects.filter(borrow_date__gte=cutoff).count(),
@@ -45,7 +57,7 @@ def _circulation_trends():
   # Borrow counts grouped by month (last 12 months)
   # Active vs Returned vs Overdue breakdown per month
   # Total borrows, returns, overdue count
-def _borrowing_frequency():
+def borrowing_frequency():
     top_books = list(BorrowRecords.objects
         .values('book__title', 'book__author', 'book__isbn')
         .annotate(count=Count('id'))
@@ -92,7 +104,7 @@ def _borrowing_frequency():
  # Top borrowers (name, count)
  # Average borrow duration
  # Borrows by user role (student vs faculty)
-def _inventory_status():
+def inventory_status():
     total = Books.objects.count()
     active_statuses = [StatusChoices.ACTIVE,
     StatusChoices.DUE, StatusChoices.OVERDUE]
