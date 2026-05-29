@@ -170,16 +170,14 @@ export default function AuthPage() {
                 >
                     <div className={styles.group}>
                         {mode !== "forgotPass" ?
-                            <>
                                 <Switcher
                                     option={mode}
                                     setOption={setMode}
                                     options={[ "Login", "Register" ]}
                                     width="70%"
                                 />
-                            </>
                             :
-                            <p className={styles.resetPassHeader}>Reset Password</p>
+                                <p className={styles.resetPassHeader}>Reset Password</p>
                         }
 
                     </div>
