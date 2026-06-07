@@ -7,7 +7,7 @@ import dashboard from "../../assets/sidebar/dashboard.svg"
 import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"
 import addBook from "../../assets/sidebar/addbook-icon.svg"
-import settings from "../../assets/sidebar/settings.svg"
+import logout from "../../assets/sidebar/logout.svg"
 
 export default function Sidebar() {
     
@@ -15,7 +15,7 @@ export default function Sidebar() {
 
     const role = localStorage.getItem("role");
 
-    const tempLogout = () => {
+    const handleLogout = () => {
         localStorage.removeItem("access");
         localStorage.removeItem("refresh");
 
@@ -72,9 +72,9 @@ export default function Sidebar() {
                     
                     <div 
                         className={styles.navButton}
-                        onClick={() => tempLogout()}    
+                        onClick={() => handleLogout()}    
                     >
-                        <img className={styles.icon} src={settings} />
+                        <img className={styles.icon} src={logout} />
                         <p>Log out</p>
                     </div>
                 </div>
