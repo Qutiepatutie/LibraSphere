@@ -70,6 +70,5 @@
     scroll-snap-type: x mandatory;
     scroll-padding: 1em;
     scroll-behavior: smooth;
-    overscroll-behavior: contain;
 }
 

@@ -7,6 +7,7 @@ import fine from "../../assets/pages/borrowedbooks/fine-icon.svg"
 
 import { useBorrowers } from "../../hooks/useBorrowers"
 import { getBookStatus } from "../../utils/getBookStatus"
+import Status from "../../components/ui/Status.jsx"
 
 export default function BorrowedBooks() {
 
@@ -70,7 +71,7 @@ export default function BorrowedBooks() {
                         <div key={book.book.ISBN} className={styles.bookPanel}>
                             <img className={styles.cover} src={book.book.cover_url}/> 
                             <div className={`${styles.status} ${styles[book.status]}`}>
-                                <p>{book.status}</p>
+                                <Status status={book.status} />
                             </div>
                         </div>
                     ))) 

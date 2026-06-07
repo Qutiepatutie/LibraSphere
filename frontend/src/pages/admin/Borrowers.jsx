@@ -5,6 +5,8 @@ import { useState } from "react";
 import { SearchBar } from "../../components/ui/Inputs.jsx"
 import { useBorrowers } from "../../hooks/useBorrowers.js";
 
+import Status from "../../components/ui/Status.jsx"
+
 export default function Borrowers() {
 
     const { allBorrowers, searchBorrowers } = useBorrowers();
@@ -64,7 +66,7 @@ export default function Borrowers() {
                                     <td>{b.user.email}</td>
                                     <td>{b.user.program}</td>
                                     <td>{b.borrow_date ? b.borrow_date.slice(0,10) : "--"}</td>
-                                    <td><span className={`${styles.status} ${styles[b.status]}`}>{b.status}</span></td>
+                                    <td className={styles.status}><Status status={b.status}/></td>
                                 </tr>
                             ))}
                         </tbody>

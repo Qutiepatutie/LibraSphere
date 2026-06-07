@@ -89,15 +89,8 @@
 
 .status {
     display: flex;
-    border-radius: 50px;
-    height: 12%;
-    width: 50%;
-    
-    justify-content: center;
-    align-items: center;
-    font-size: 1em;
-
-    padding-bottom: 0.2em;
+    height: 13%;
+    width: 80%;
 }
 
 .panel .noBooks {
@@ -110,29 +103,4 @@
     color: #ededed;
 
     user-select: none;
-}
-
-.Active {
-    border: 2px solid var(--active-color);
-    color: var(--active-color);    
-}
-.Due {
-    border: 2px solid var(--due-color);
-    color: var(--due-color);    
-}
-.Pending {
-    border: 2px solid var(--pending-color);
-    color: var(--pending-color);    
-}
-.Overdue {
-    border: 2px solid var(--overdue-color);
-    color: var(--overdue-color);    
-}
-.Returned {
-    border: 2px solid var(--returned-color);
-    color: var(--returned-color);
-}
-.Cancelled {
-    border: 2px solid var(--cancelled-color);
-    color: var(--cancelled-color);    
 }

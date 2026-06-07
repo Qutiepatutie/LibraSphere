@@ -2,6 +2,7 @@ import styles from "../../styles/adminPages/dashboard/carousel.module.css"
 import avatar from "../../assets/profile-icon.svg"
 
 import CustomButton from "../ui/CustomButton.jsx"
+import Status from "../ui/Status.jsx"
 
 export default function Carousel({ borrowers, updateBookStatus, acceptBook, loading, category }) {
     
@@ -25,8 +26,8 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                                 <p className={styles.id}>ID: <span>{borrower.user.id_number}</span></p>
                             </div>
                         </div>
-                        <div className={`${styles.status} ${styles[ borrower.status]}`}>
-                            <p>{borrower.status}</p>
+                        <div className={styles.status}>
+                            <Status status={borrower.status} />
                         </div>
                     </div>
                     <div className={styles.body}>

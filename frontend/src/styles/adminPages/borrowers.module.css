@@ -14,22 +14,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.exportBtn {
-    align-self: flex-end;
-    margin-top: 1em;
-    margin-right: 10%;
-    padding: 0.6em 1.5em;
-    border: none;
-    border-radius: 50px;
-    background-color: var(--primary-color);
-    color: white;
-    font-size: 0.95em;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: background-color 0.2s, transform 0.15s;
+    padding: 0 10%;
 }
 
 .exportBtn:hover {
@@ -50,7 +35,7 @@
 }
 
 .tableContainer {
-    height: 80%;
+    height: 75%;
     width: 80%;
 
     border: 2px solid #ededed;
@@ -160,39 +145,24 @@ table tbody td:last-child {
 }
 
 .status {
-    width: 60%;
-    height: 90%;
-
-    border-radius: 100px;
-    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1% 20%;
 }
 
-.Active {
-    border: 2px solid var(--active-color);
-    color: var(--active-color);
-}
-
-.Due {
-    border: 2px solid var(--due-color);
-    color: var(--due-color);
-}
-
-.Pending {
-    border: 2px solid var(--pending-color);
-    color: var(--pending-color);
-}
-
-.Overdue {
-    border: 2px solid var(--overdue-color);
-    color: var(--overdue-color);
-}
-
-.Returned {
-    border: 2px solid var(--returned-color);
-    color: var(--returned-color);
-}
-
-.Cancelled {
-    border: 2px solid var(--cancelled-color);
-    color: var(--cancelled-color);
+.exportBtn {
+    align-self: flex-end;
+    margin-top: 1em;
+    margin-right: 10%;
+    padding: 0.6em 1.5em;
+    border: none;
+    border-radius: 50px;
+    background-color: var(--primary-color);
+    color: white;
+    font-size: 0.95em;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background-color 0.2s, transform 0.15s;
 }

@@ -91,10 +91,9 @@ export function PasswordInput({ label="", value="", name="", onChange, isEmpty=f
     )
 }
 
-export function SearchBar({ label="", value="", name="", placeholder="", onChange, onClick, style }) {
+export function SearchBar({ value="", name="", placeholder="", onChange, onClick, style }) {
     return (
         <div className={styles.searchBar} style={style} >
-            {label && <label htmlFor={name}>{label}</label>}
             <div className={styles.searchContainer}>
                 <img 
                     src={searchIcon}

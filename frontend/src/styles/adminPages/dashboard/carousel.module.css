@@ -59,17 +59,8 @@
 }
 
 .header .status {
-    width: 5em;
-    height: 2em;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background-color: white;
-    border-radius: 50px;
-
-    padding-bottom: 0.2em;
+    width: 20%;
+    height: 80%;
 }
 
 .body {
@@ -120,29 +111,4 @@
     transform: translateX(-80%);
     top: 30%;
     color: lightgrey;
-}
-
-.Active {
-    border: 2px solid var(--active-color);
-    color: var(--active-color);    
-}
-.Due {
-    border: 2px solid var(--due-color);
-    color: var(--due-color);    
-}
-.Pending {
-    border: 2px solid var(--pending-color);
-    color: var(--pending-color);    
-}
-.Overdue {
-    border: 2px solid var(--overdue-color);
-    color: var(--overdue-color);    
-}
-.Returned {
-    border: 2px solid var(--returned-color);
-    color: var(--returned-color);
-}
-.Cancelled {
-    border: 2px solid var(--cancelled-color);
-    color: var(--cancelled-color);    
 }
