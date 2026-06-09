@@ -1,23 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { login as loginAPI, changePass, register as registerAPI } from "../../api/users.js"
 import { checkEmail } from "./auth.util.js";
 import { routes } from "./auth.constants.js";
 
-export function useAuth(notify) {
+export function useAuth() {
 
-     const [isLoading, setIsLoading] = useState(false);
-     const [toastMessage, setToastMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [toastMessage, setToastMessage] = useState("");
+    const [showToast, setShowToast] = useState(false); 
+    
+    const [errorMessage, setErrorMessage] = useState("");
+    
+    const [isRegistered, setIsRegistered] = useState(false);
+    const [isPassChanged, setIsPassChanged] = useState(false);
+    
+    const navigate = useNavigate();
 
-     const [errorMessage, setErrorMessage] = useState("");
-     
-     const [isRegistered, setIsRegistered] = useState(false);
-     const [isPassChanged, setIsPassChanged] = useState(false);
-     
-     const navigate = useNavigate();
+    useEffect(() => {
+        if (!showToast) return;
+        
+        const timer = setTimeout(() => {
+            setShowToast(false);
+            setToastMessage("");
+        }, 3000);
 
-     async function login(loginCredentials, isChecked) {
+        return () => clearTimeout(timer);
+    }, [showToast]);
+    
+    async function login(loginCredentials, isChecked) {
     
         setIsLoading(true);
         const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
@@ -25,6 +37,11 @@ export function useAuth(notify) {
     
         if(resp.status === "failed"){
             setErrorMessage(resp.message);
+            return false;
+            
+        } else if (resp.status === "error") {
+            setToastMessage(resp.message);
+            setShowToast(true);
             return false;
         }
     
@@ -66,14 +83,18 @@ export function useAuth(notify) {
         setIsLoading(false);
 
         if(resp.status === "failed") {
+            setErrorMessage(resp.message);
+            return false;
+            
+        } else if (resp.status === "error") {
             setToastMessage(resp.message);
-            notify();
+            setShowToast(true);
             return false;
         }
 
         setToastMessage(resp.message);
         setIsPassChanged(true);
-        notify();
+        setShowToast(true);
     }
 
     async function register(registerData) {
@@ -101,15 +122,19 @@ export function useAuth(notify) {
         setIsLoading(false);
 
         if(resp.status === "failed") {
+            setErrorMessage(resp.message);
+            return false;
+
+        } else if (resp.status === "error") {
             setToastMessage(resp.message);
-            notify();
+            setShowToast(true);
             return false;
         }
 
         setToastMessage(resp.message);
         setIsRegistered(true);
-        notify();
+        setShowToast(true);
     }
 
-    return { isLoading, toastMessage, errorMessage, isPassChanged, isRegistered, setIsPassChanged, setIsRegistered, setToastMessage, setErrorMessage, setIsLoading, login, forgotPass, register };
+    return { isLoading, toastMessage, errorMessage, isPassChanged, isRegistered, setIsPassChanged, setIsRegistered, setToastMessage, setErrorMessage, setIsLoading, login, forgotPass, register, showToast };
 }

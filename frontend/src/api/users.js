@@ -14,13 +14,13 @@ export async function login(email, pass) {
         });
     
         if(!response.ok) {
-            return ({"status":"failed", "message":"Server Connection Error"});
+            return ({"status":"error", "message":"Server Connection Error"});
         }
 
         return await response.json();
 
    } catch (error) {
-        return ({"status":"failed", "message":"Server Connection Error"});
+        return ({"status":"error", "message":"Server Connection Error"});
    }
 }
 
@@ -38,13 +38,13 @@ export async function changePass(email, newPass){
         });
     
         if(!response.ok) {
-            return ({"status":"failed", "message":"Server Connection Error"});
+            return ({"status":"error", "message":"Server Connection Error"});
         }
     
         return await response.json();
 
     } catch (error) {
-        return ({"status":"failed", "message":"Server Connection Error"});
+        return ({"status":"error", "message":"Server Connection Error"});
     }
 }
 
@@ -59,12 +59,12 @@ export async function register(data){
         });
     
         if(!response.ok){
-            return ({"status":"failed","message":"Server Connection Error"});
+            return ({"status":"error","message":"Server Connection Error"});
         }
     
         return await response.json();
 
     } catch (error) {
-        return ({"status":"failed","message":"Server Connection Error"});
+        return ({"status":"error","message":"Server Connection Error"});
     }
 }

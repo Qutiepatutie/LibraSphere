@@ -21,8 +21,6 @@ import {
 
 export default function AuthPage() {
 
-    const [showToast, setShowToast] = useState(false);
-
     const [mode, setMode] = useState("login");
     const [part, setPart] = useState(1);
 
@@ -33,12 +31,7 @@ export default function AuthPage() {
     const [forgotPassErrors, setForgotPassErrors] = useState(initialForgotPassErrors);
     const [registerErrors, setRegisterErrors] = useState(initialRegisterErrors);
 
-    const [isChecked, setIsChecked] = useState(false);
-
-    const notify = () => {
-        setShowToast(true);
-        setTimeout(() => setShowToast(false), 2000);
-    }
+    const [isRememberMeChecked, setisRememberMeChecked] = useState(false);
 
      const {
         isLoading,
@@ -51,8 +44,9 @@ export default function AuthPage() {
         setErrorMessage,
         login,
         forgotPass,
-        register
-    } = useAuth(notify);
+        register,
+        showToast,
+    } = useAuth();
 
     useEffect(() => {
         setPart(1);
@@ -92,7 +86,7 @@ export default function AuthPage() {
             return;
         }
 
-        login(loginCredentials, isChecked);
+        login(loginCredentials, isRememberMeChecked);
     }
 
     const handleForgotPassword = () => {
@@ -189,8 +183,8 @@ export default function AuthPage() {
                                 setIsEmpty={setLoginErrors}
                                 credentials={loginCredentials}
                                 setCredentials={setLoginCredentials}
-                                isChecked={isChecked}
-                                setIsChecked={setIsChecked}
+                                isRememberMeChecked={isRememberMeChecked}
+                                setisRememberMeChecked={setisRememberMeChecked}
                                 setMode={setMode}
                                 setErrorMessage={setErrorMessage}
                                 errorMessage={errorMessage}
