@@ -29,43 +29,60 @@ export function useAuth() {
         return () => clearTimeout(timer);
     }, [showToast]);
     
-    async function login(loginCredentials, isChecked) {
+    function showToastFunc(message) {
+        setToastMessage(message);
+        setShowToast(true);
+    }
     
-        setIsLoading(true);
-        const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
-        setIsLoading(false);
-    
-        if(resp.status === "failed"){
-            setErrorMessage(resp.message);
+    function checkStatus(status, message) {
+        if(status === "failed"){
+            setErrorMessage(message);
             return false;
             
-        } else if (resp.status === "error") {
-            setToastMessage(resp.message);
-            setShowToast(true);
+        } else if (status === "error") {
+            showToastFunc(message);
             return false;
         }
-    
-        const role = resp.role;
-    
-        localStorage.setItem("user", resp.user);
-        localStorage.setItem("id_number", resp.id_number);
-        localStorage.setItem("role", role);
-    
-        if(isChecked) {
-            localStorage.setItem("access", resp.access);
-            localStorage.setItem("refresh", resp.refresh);
-        } else {
-            sessionStorage.setItem("access", resp.access);
-            sessionStorage.setItem("refresh", resp.refresh);
-        }
-        
-        navigate(routes[role] || "/");
-    
+
         return true;
+    }
+    
+    async function login(loginCredentials, isChecked) {
+        try {
+            setErrorMessage("");
+            setIsLoading(true);
+            const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
+        
+            if(!checkStatus(resp.status, resp.message)) return false;
+            
+            const role = resp.role;
+        
+            localStorage.setItem("user", resp.user);
+            localStorage.setItem("id_number", resp.id_number);
+            localStorage.setItem("role", role);
+        
+            if(isChecked) {
+                localStorage.setItem("access", resp.access);
+                localStorage.setItem("refresh", resp.refresh);
+            } else {
+                sessionStorage.setItem("access", resp.access);
+                sessionStorage.setItem("refresh", resp.refresh);
+            }
+            
+            navigate(routes[role] || "/");
+        
+            return true;
+        } catch {
+            showToastFunc("Login failed. Please try again");
+            return false;
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     async function forgotPass(forgotPassData) {
-
+        setErrorMessage("");
+        
         const email = forgotPassData.email.toLowerCase();
 
         if(email === "admin" || email === "attendance") {
@@ -77,28 +94,30 @@ export function useAuth() {
             setErrorMessage("New Passwords Must Match!");
             return false;
         }
+        
+        try {
+            setIsLoading(true);
+            const resp = await changePass(forgotPassData.email, forgotPassData.newPass);
 
-        setIsLoading(true);
-        const resp = await changePass(forgotPassData.email, forgotPassData.newPass);
-        setIsLoading(false);
-
-        if(resp.status === "failed") {
-            setErrorMessage(resp.message);
+            if (!checkStatus(resp.status, resp.message)) return false;
+            
+            showToastFunc(resp.message);
+            setIsPassChanged(true);
+            return true;
+            
+        } catch {
+            showToastFunc("Changin the password failed. Please try again");
             return false;
             
-        } else if (resp.status === "error") {
-            setToastMessage(resp.message);
-            setShowToast(true);
-            return false;
+        } finally {
+            setIsLoading(false);
         }
-
-        setToastMessage(resp.message);
-        setIsPassChanged(true);
-        setShowToast(true);
+        
     }
 
     async function register(registerData) {
-
+        setErrorMessage("");
+        
         if(registerData.password !== registerData.confirm_password) {
             setErrorMessage("Passwords Must Match!");
             return false;
@@ -117,23 +136,23 @@ export function useAuth() {
             email: email.email,
         };
 
-        setIsLoading(true);
-        const resp = await registerAPI(payload);
-        setIsLoading(false);
-
-        if(resp.status === "failed") {
-            setErrorMessage(resp.message);
+        try {
+            setIsLoading(true);
+            const resp = await registerAPI(payload);
+        
+            if (!checkStatus(resp.status, resp.message)) return false;
+    
+            showToastFunc(resp.message);
+            setIsRegistered(true);
+            return true;
+            
+        } catch {
+            showToastFunc("Register failed. Please try again");
             return false;
-
-        } else if (resp.status === "error") {
-            setToastMessage(resp.message);
-            setShowToast(true);
-            return false;
+            
+        } finally {
+            setIsLoading(false);
         }
-
-        setToastMessage(resp.message);
-        setIsRegistered(true);
-        setShowToast(true);
     }
 
     return { isLoading, toastMessage, errorMessage, isPassChanged, isRegistered, setIsPassChanged, setIsRegistered, setToastMessage, setErrorMessage, setIsLoading, login, forgotPass, register, showToast };
