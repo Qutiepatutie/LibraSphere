@@ -156,19 +156,25 @@ export function useAuth() {
     }
 
     return {
-        isLoading,
+        showToast,
+        
+        // messages
         toastMessage,
         errorMessage,
+
+        // states
         isPassChanged,
         isRegistered,
+        isLoading,
+
+        // setters
         setIsPassChanged,
         setIsRegistered,
-        setToastMessage,
         setErrorMessage,
-        setIsLoading,
+
+        // actions
         login,
         forgotPass,
         register,
-        showToast,
     };
 }

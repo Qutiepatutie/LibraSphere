@@ -34,18 +34,26 @@ export default function AuthPage() {
     const [isRememberMeChecked, setisRememberMeChecked] = useState(false);
 
      const {
-        isLoading,
+        showToast,
+
+        // messages
         toastMessage,
         errorMessage,
+
+        // states
+        isLoading,
         isPassChanged,
         isRegistered,
+
+        // setters
         setIsPassChanged,
         setIsRegistered,
         setErrorMessage,
+
+        // actions
         login,
         forgotPass,
         register,
-        showToast,
     } = useAuth();
 
     useEffect(() => {
