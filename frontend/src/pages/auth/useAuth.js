@@ -155,5 +155,20 @@ export function useAuth() {
         }
     }
 
-    return { isLoading, toastMessage, errorMessage, isPassChanged, isRegistered, setIsPassChanged, setIsRegistered, setToastMessage, setErrorMessage, setIsLoading, login, forgotPass, register, showToast };
+    return {
+        isLoading,
+        toastMessage,
+        errorMessage,
+        isPassChanged,
+        isRegistered,
+        setIsPassChanged,
+        setIsRegistered,
+        setToastMessage,
+        setErrorMessage,
+        setIsLoading,
+        login,
+        forgotPass,
+        register,
+        showToast,
+    };
 }
