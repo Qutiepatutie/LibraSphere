@@ -28,7 +28,7 @@ export default function ExpandedCategory({ showCategory, setShowCategory, catego
                     e.stopPropagation();
                 }}>
                 <div className={styles.header}>
-                    <h1>{headerTitle}</h1>
+                    <p className={styles.headerTitle}>{headerTitle}</p>
                     <div className={styles.close} onClick={() => setShowCategory(false)}>
                         <img src={close}/>
                     </div>
