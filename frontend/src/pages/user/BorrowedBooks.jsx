@@ -1,13 +1,8 @@
 import styles from "../../styles/userPages/borrowedbooks.module.css"
 
-import total from "../../assets/pages/borrowedbooks/total-borrowed-icon.svg"
-import overdue from "../../assets/pages/borrowedbooks/overdue-icon.svg"
-import due from "../../assets/pages/borrowedbooks/due-icon.svg"
-import fine from "../../assets/pages/borrowedbooks/fine-icon.svg"
-
 import { useBorrowers } from "../../hooks/useBorrowers"
 import { getBookStatus } from "../../utils/getBookStatus"
-import Status from "../../components/ui/Status.jsx"
+import BookPanel from "../../components/library/BookPanel.jsx"
 
 export default function BorrowedBooks() {
 
@@ -34,48 +29,35 @@ export default function BorrowedBooks() {
     return (
         <div className={styles.borrowedBooks}>
             <div className={styles.panel}>
-                <div className={styles.info}>
-                    <img src={total}/> 
-                    <p>Total Borrowed</p>
-                </div>
-                <p>{borrowedBooks.length}</p>
+                <p className={styles.value}>{borrowedBooks.length}</p>
+                <p className={styles.label}>Total Borrowed</p>
             </div>
             <div className={styles.panel}>
-                <div className={styles.info}>
-                    <img src={overdue}/> 
-                    <p>Overdue</p>
-                </div>
-                <p>{overdueBooks.length}</p>
+                <p className={styles.value}>{overdueBooks.length}</p>
+                <p className={styles.label}>Overdue</p>
             </div>
 
             <div className={styles.panel}>
-                <div className={styles.info}>
-                    <img src={due}/> 
-                    <p>Due this week</p>
-                </div>
-                <p>{dueBooks.length}</p>
+                <p className={styles.value}>{dueBooks.length}</p>
+                <p className={styles.label}>Due this week</p>
             </div>
 
             <div className={styles.panel}>
-                <div className={styles.info}>
-                    <img src={fine}/> 
-                    <p>Fine</p>
-                </div>
-                <p>{bookFine}</p>
+                <p className={styles.value}>₱ {bookFine}</p>
+                <p className={styles.label}>Fine</p>
             </div>
 
             <div className={styles.panel}>
                 {borrowedBooks.length === 0
-                ? (<h1 className={styles.noBooks}>No Books Borrowed</h1>)
-                :   (borrowedBooks.map((book) => (
-                        <div key={book.book.ISBN} className={styles.bookPanel}>
-                            <img className={styles.cover} src={book.book.cover_url}/> 
-                            <div className={`${styles.status} ${styles[book.status]}`}>
-                                <Status status={book.status} />
-                            </div>
-                        </div>
-                    ))) 
-                } 
+                    ? (<h1 className={styles.noBooks}>No Books Borrowed</h1>)
+                    : (borrowedBooks.map((book) => (
+                        <BookPanel
+                            book={book.book}
+                            status={book.status}
+                            hover={false}
+                        />
+                    )))
+                }
             </div>
         </div>
     )

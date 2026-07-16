@@ -11,13 +11,16 @@
 
     box-shadow: 2px 2px 10px #ededed;
 
-    z-index: 10;
+    z-index: 11;
 
-    transition: width 0.2s ease; 
+    transition: 
+        width 0.2s ease,
+        transform 0.2s ease-in-out; 
 }
-
-.sidebar:hover {
-    width: 13vw
+@media (hover:hover) {
+    .sidebar:hover {
+        width: var(--sidebar-expanded-width);
+    }
 }
 
 .header {
@@ -25,29 +28,52 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 3%;
+    gap: 2%;
+    /*padding: 1em 0;*/
+    padding: 1em 1em;
 
     color: var(--primary-color);
-    /* background-color: antiquewhite; */
+    /*background-color: antiquewhite; */
 }
 
 .header::after {
     content: "";
     position: absolute;
     bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
     width: 85%;
     border-bottom: 1px solid var(--primary-color);
 }
 
+.burgerContainer {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5em;
+    width: 25px;
+    height: 25px;
+
+    border-radius: 50px;
+}
+
+.burgerContainer:active {
+    background-color: lightgrey;
+}
+
+.burgerContainer > img {
+    height: 20px;
+    width: 20px;
+}
+
 .logo {
-    height: 50%;
-    width: 25%;
-    width: auto;
+    height: clamp(2rem, 3vw, 2.5em);
+    width: clamp(2rem, 3vw, 2.5em);
     user-select:none;
 }
 
 .logoTitle {
-    font-size: clamp(0.5rem, 1.5vw, 3rem);
+    font-size: clamp(1rem, 1.5vw, 3rem);
 }
 
 .buttons {
@@ -77,6 +103,7 @@
 
     color: black;
     text-decoration: none;
+    font-size: clamp(0.7em, 1vw, 2em);
 
     border:none;
     border-radius: 7px;    
@@ -87,10 +114,11 @@
     cursor: pointer;
 }
 
-
-.buttons .navButton:hover:not(.active) {
-    background-color: #ededed;
-    outline-color: #ededed; 
+@media (hover: hover) {
+    .buttons .navButton:hover:not(.active) {
+        background-color: #ededed;
+        outline-color: #ededed; 
+    }
 }
 
 .buttons .navButton:last-child {
@@ -116,7 +144,7 @@
 
 .footer {
     position: absolute;
-    font-size: 0.5em;
+    font-size: clamp(0.35em, 0.5vw, 1em);
     color: grey;
     bottom: 0;
     width: 100%;
@@ -126,7 +154,6 @@
 }
 
 @container (max-width: 12vw) {
-
     .logoTitle,
     .buttons p,
     .footer {
@@ -143,4 +170,41 @@
         width: 50%;
     }
 
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+        width: clamp(12rem, 40vw, 16rem);
+        box-shadow: none;
+    }
+
+    .burgerContainer {
+        display: flex;
+    }
+
+    .buttons {
+        align-items: flex-start;
+    }
+
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    
+    .backDrop {
+        position: fixed;
+        inset: 0;
+        z-index: 10;
+    
+        background-color: rgba(0,0,0,0.5);
+
+        opacity: 0;
+        animation: fadeIn 0.2s ease forwards;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
 }

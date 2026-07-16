@@ -3,10 +3,10 @@ input[type="password"],
 textarea,
 select {
     width: 100%;
-    height: 2.5em;
+    height: clamp(2em, 2.5vw, 3rem);
     border-radius: 7px;
     border: none;
-    font-size: 1em;
+    font-size: clamp(0.8em, 1vw, 2em);
     padding-left: 0.5em;
     box-sizing: border-box;
     background-color: #ededed;
@@ -99,21 +99,22 @@ label:not(.rememberMe) {
 }
 
 .searchContainer {
-    border-radius: 10px;
+    border-radius: clamp(5px, 1vw, 10px);
     outline-color: transparent;
+    /*background-color: aqua;*/
 }
 
 .passContainer img,
 .searchContainer img {
-    width: 1.2em;
-    height: 1.2em;
+    width: clamp(0.8em, 1vw, 3em);
+    height: clamp(0.8em, 1vw, 3em);
     margin-right: 0.5em;
     cursor: pointer;
 }
 
 .searchContainer img {
     margin: 0;
-    margin-left: 1.2em;
+    margin-left: clamp(0.7em, 1vw, 2em);
 }
 
 .passContainer input {
