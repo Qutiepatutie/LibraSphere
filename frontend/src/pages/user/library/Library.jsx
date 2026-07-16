@@ -108,13 +108,14 @@ export default function Library() {
                     showBook={showBook}
                     setShowBook={setShowBook}
                 />
-
-                <ShowBook 
-                    showBook={showBook}
-                    setShowBook={setShowBook}
-                    currBook={activeBook}
-                    onConfirmEdit={handleUpdateBook}
-                />
+                
+                {showBook && (
+                    <ShowBook 
+                        setShowBook={setShowBook}
+                        currBook={activeBook}
+                        onConfirmEdit={handleUpdateBook}
+                    />
+                )}
             </div>
         </>
     )

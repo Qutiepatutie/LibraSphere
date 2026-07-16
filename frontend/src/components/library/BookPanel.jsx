@@ -6,6 +6,7 @@ export default function BookPanel({ setActiveBook, setShowBook, book, status = n
             className={`${styles.bookPanel} ${hover ? "" : styles.noHover}`}
             onClick={(e) => {
                 e.stopPropagation();
+                if (!hover) return;
                 setActiveBook(book);
                 setShowBook(true);
                 }

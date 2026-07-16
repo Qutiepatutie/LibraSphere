@@ -14,7 +14,6 @@ import Toast from "../../ui/Toast.jsx"
 import ConfirmBorrowPanel from "../ConfirmBorrowPanel.jsx";
 
 export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBook }){
-    if(!currBook) return null;
     const role = localStorage.getItem("role");
     
     const notify = () => {
@@ -114,7 +113,10 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                 loading={loading}
                 handleConfirmBorrow={handleConfirmBorrow}  
             />
-            <div className={showBook ? styles.backdrop : styles.hidden} onClick={() => setShowBook(false)}>
+            <div
+                className={styles.backdrop}
+                onClick={() => setShowBook(false)}
+            >
                 <div 
                     className={styles.showBook}
                     onClick={(e) => e.stopPropagation()}
