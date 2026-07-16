@@ -1,9 +1,11 @@
 import styles from "../../styles/components/layout/header.module.css"
+
 import avatar from "../../assets/profile-icon.svg"
+import burger from "../../assets/sidebar/burger.svg" 
 
 import { useLocation } from "react-router-dom"
 
-export default function Header() {
+export default function Header({ showSidebar, setShowSidebar}) {
 
     const { pathname } = useLocation();
 
@@ -19,6 +21,12 @@ export default function Header() {
 
     return (
         <div className={styles.header}>
+            <div
+                className={styles.burgerContainer}
+                onClick={() => setShowSidebar(!showSidebar)}
+            >
+                <img src={burger} />
+            </div>
             <p className={styles.title}>{currPage[pathname]}</p>
 
             <div className={styles.profile}>

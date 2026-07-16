@@ -1,6 +1,6 @@
 .category {
-    width: 75%;
-    height: 20em;
+    width: clamp(270px, 65vw, 1500px);
+    height: clamp(200px, 20vw, 300px);
 
     border: none;
     border-radius: 10px;
@@ -8,6 +8,9 @@
     display: flex;
     flex-direction: column;
     gap: 5px;
+
+    overflow: hidden;
+
 }
 
 .categoryHeader {
@@ -20,20 +23,15 @@
     align-items: center;
 }
 
+.categoryHeader > p {
+    font-size: clamp(0.8em, 1vw, 3em);
+}
+
 .categoryHeader .expandIcon {
     height: 1em;
     width: 1em;
     margin-left: auto;
     display: none;
-}
-
-.category:hover {
-
-    cursor: pointer;
-
-    .expandIcon {
-        display:block;
-    };
 }
 
 .books .noBooks {
@@ -43,18 +41,81 @@
     justify-content: center;
 
     color: lightgrey;
+
+    font-size: clamp(1.5em, 2.5vw, 3em);
 }
 
 .books {
+    position: relative;
     width: 100%;
     height: 100%;
     border-radius: 10px;
     
     display: flex;
     gap: 1em;
-    padding: 1em;
+    padding: clamp(0.5em, 1.5vh, 2em) clamp(0.5em, 1.5vw, 3em);
 
     background-color: #ededed;
+}
+
+.overflow::after {
+    content: "";
+    position: absolute;
+    border-radius: 0 10px 10px 0;
+    top: 0;
+    right: 0;
+    width: 6rem;
+    height: 100%;
+    background: linear-gradient(to right, transparent, #ededed 60%);
+    pointer-events: none;
+    user-select: none;
+    z-index: 2;
 
 }
 
+.seeMoreContainer {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: clamp(50px, 8.5vw, 80px);
+    height: 100%;
+
+    right: 0;
+    bottom: 50%;
+    transform: translateY(50%);
+
+    z-index: 3;
+}
+
+.seeMoreContainer > p {
+    font-size: clamp(0.5em, 1vw, 1em);
+}
+
+.seeMore {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: clamp(30px, 5vh, 60px);
+    width: clamp(30px, 3vw, 60px);
+
+    border-radius: 50px;
+    
+    background-color: lightgrey;
+
+}
+
+.seeMore:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+.seeMore > img {
+    height: 70%;
+    width: 70%;
+}
+
+.hidden {
+    display: none;
+}
