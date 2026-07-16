@@ -50,8 +50,9 @@ export default function BorrowedBooks() {
             <div className={styles.panel}>
                 {borrowedBooks.length === 0
                     ? (<h1 className={styles.noBooks}>No Books Borrowed</h1>)
-                    : (borrowedBooks.map((book) => (
+                    : (borrowedBooks.map((book, index) => (
                         <BookPanel
+                            key={index}
                             book={book.book}
                             status={book.status}
                             hover={false}
