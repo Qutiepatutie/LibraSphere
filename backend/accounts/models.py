@@ -1,4 +1,6 @@
 from django.db import models
+from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import PermissionsMixin
 
 #Manages users
 class GenderChoices(models.TextChoices):
@@ -11,15 +13,41 @@ class RoleChoices(models.TextChoices):
     ADMIN = 'admin', 'Admin'
     ATTENDANCE = 'attendance', 'Attendance'
 
-class UserLogin(models.Model):
+class UserLoginManager(BaseUserManager):
 
-    email = models.CharField(   
-        max_length=100,
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError("Email is required")
+
+        email = self.normalize_email(email)
+
+        user = self.model(
+            email = email,
+            **extra_fields,
+        )
+
+        user.set_password(password)
+        user.save(using=self._db)
+
+        return user
+
+    def create_superuser(self, email, password=None, **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        extra_fields.setdefault("is_active", True)
+
+        if extra_fields.get("is_staff") is not True:
+            raise ValueError("Superuser must have is_staff=True")
+
+        if extra_fields.get("is_superuser") is not True:
+            raise ValueError("Superuser must have is_superuser=True")
+
+        return self.create_user(email, password, **extra_fields)
+            
+class UserLogin(AbstractBaseUser, PermissionsMixin):
+
+    email = models.EmailField(   
         unique=True
-    )
-
-    password = models.CharField(
-        max_length=128,
     )
 
     role = models.CharField(
@@ -28,8 +56,18 @@ class UserLogin(models.Model):
         default=RoleChoices.STUDENT
     )
 
+    is_active = models.BooleanField(default=True)
+    
+    is_staff = models.BooleanField(default=False)
+
+    USERNAME_FIELD = "email"
+
+    REQUIRED_FIELDS = []
+
+    objects = UserLoginManager()
+    
     class Meta:
-        db_table = 'user_login'
+        db_table = "user_login"
 
 class UserProfile(models.Model):
     user = models.OneToOneField(

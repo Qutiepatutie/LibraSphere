@@ -4,6 +4,7 @@ import avatar from "../../assets/profile-icon.svg"
 import burger from "../../assets/sidebar/burger.svg" 
 
 import { useLocation } from "react-router-dom"
+import { getStorage } from "../../pages/auth/auth.util"
 
 export default function Header({ showSidebar, setShowSidebar}) {
 
@@ -32,8 +33,8 @@ export default function Header({ showSidebar, setShowSidebar}) {
             <div className={styles.profile}>
                 <img className={styles.avatar} src={avatar}/>
                 <div className={styles.profileInfo}>
-                    <p>{localStorage.getItem("user")}</p>
-                    <p className={styles.id}>ID: <span>{localStorage.getItem("id_number")}</span></p>
+                    <p>{getStorage().getItem("user")}</p>
+                    <p className={styles.id}>ID: <span>{getStorage().getItem("id_number")}</span></p>
                 </div>
             </div>
         </div>

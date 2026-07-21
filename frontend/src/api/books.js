@@ -1,8 +1,10 @@
+import { authFetch } from "./users";
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 export async function autofillBookInfo(isbn) {
     try {
-        const resp = await fetch(`${API_URL}/autofill/?isbn=${isbn}`);
+        const resp = await authFetch(`${API_URL}/autofill/?isbn=${isbn}`);
     
         if(!resp.ok){
             return ({"status":"failed", "message":"Connection to Server Failed"});
@@ -16,7 +18,7 @@ export async function autofillBookInfo(isbn) {
 
 export async function addBook(data){
     try {
-        const resp = await fetch(`${API_URL}/addBook/`, {
+        const resp = await authFetch(`${API_URL}/addBook/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -36,7 +38,7 @@ export async function addBook(data){
 
 export async function getBooks() {
     try {
-        const resp = await fetch(`${API_URL}/getBooks/`);
+        const resp = await authFetch(`${API_URL}/getBooks/`);
     
         if(!resp.ok){
             return ({"status":"failed", "message":"Connection to Server Failed"});
@@ -50,7 +52,7 @@ export async function getBooks() {
 
 export async function editBook(data){
     try {
-        const resp = await fetch(`${API_URL}/editBook/`, {
+        const resp = await authFetch(`${API_URL}/editBook/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -70,7 +72,7 @@ export async function editBook(data){
 
 export async function getAllBorrowers() {
     try {
-        const resp = await fetch(`${API_URL}/getAllBorrowedBooks/`);
+        const resp = await authFetch(`${API_URL}/getAllBorrowedBooks/`);
     
         if(!resp.ok){
             return ({"status":"failed", "message":"Connection to Server Failed"});
@@ -85,7 +87,7 @@ export async function getAllBorrowers() {
 }
 
 export async function acceptBorrowedBook(isbn, call_num) {
-    const resp = await fetch(`${API_URL}/acceptBorrowedBook/` , {
+    const resp = await authFetch(`${API_URL}/acceptBorrowedBook/` , {
       method: 'POST',
       headers: {
         'Content-Type':'application/json',
@@ -102,7 +104,7 @@ export async function acceptBorrowedBook(isbn, call_num) {
 
 export async function returnBook(isbn, call_num, action) {
     try {
-        const resp = await fetch(`${API_URL}/returnBook/` , {
+        const resp = await authFetch(`${API_URL}/returnBook/` , {
           method: 'POST',
           headers: {
             'Content-Type':'application/json',
@@ -122,7 +124,7 @@ export async function returnBook(isbn, call_num, action) {
 
 export async function borrowBook(data){
     try {
-        const resp = await fetch(`${API_URL}/borrowBook/`, {
+        const resp = await authFetch(`${API_URL}/borrowBook/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

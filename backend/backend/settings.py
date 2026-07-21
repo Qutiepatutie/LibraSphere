@@ -30,16 +30,20 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret')
 DEBUG = os.environ.get("DEBUG", "").lower() == "true"
 
 """ ALLOWED_HOSTS = ["librasphere-vfmb.onrender.com", '127.0.0.1'] """
-ALLOWED_HOSTS = ["*"];
+ALLOWED_HOSTS = ["*"]
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.staticfiles',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
     'corsheaders',
+    
     'accounts',
     'library',
     'books',
@@ -47,10 +51,19 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
+    
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
+
+    'django.contrib.sessions.middleware.SessionMiddleware',
+
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'django.contrib.messages.middleware.MessageMiddleware',
+
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
@@ -58,6 +71,9 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.AllowAny",
+    )
 }
 
 SIMPLE_JWT = {
@@ -65,14 +81,15 @@ SIMPLE_JWT = {
     "REFRESH_TOKEN_LIFETIME": timedelta(days=30)
 }
 
+AUTH_USER_MODEL = "accounts.UserLogin"
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173/",
+    "http://localhost:5173",
     "https://lbrsphr.vercel.app",
     "https://librasphere-vfmb.onrender.com",
 ]
-
 
 ROOT_URLCONF = 'backend.urls'
 

@@ -111,7 +111,7 @@ export function SearchBar({ value="", name="", placeholder="", onChange, onClick
     )
 }
 
-export function RememberMe({ isChecked, setIsChecked }) {
+export function RememberMeBox({ isChecked, setIsChecked }) {
     return (
         <label className={styles.rememberMe}>
             <input 

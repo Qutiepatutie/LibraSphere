@@ -34,7 +34,7 @@ export function useAuth() {
         setShowToast(true);
     }
 
-    async function login(loginCredentials, isChecked) {
+    async function login(loginCredentials, rememberMe) {
         try {
             setErrorMessage("");
             setIsLoading(true);
@@ -45,27 +45,22 @@ export function useAuth() {
                 return false;
             }
             
-            console.log(resp.data);
-            const { access, refresh, role, profile } = resp.data;
-        
-            localStorage.setItem("user", profile?.first_name);
-            localStorage.setItem("id_number", profile?.id_number);
-            localStorage.setItem("role", role);
-        
-            // FIX JWT IN BACKEND
-             
-            if(isChecked) {
-                localStorage.setItem("access", access);
-                localStorage.setItem("refresh", refresh);
-            } else {
-                sessionStorage.setItem("access", access);
-                sessionStorage.setItem("refresh", refresh);
-            }
+            const { role, profile } = resp.user;
+            const { access, refresh } = resp;
+
+            const storage = rememberMe ? localStorage : sessionStorage;
+            
+            storage.setItem("user", profile?.first_name);
+            storage.setItem("id_number", profile?.id_number);
+            storage.setItem("role", role);
+            storage.setItem("access", access);
+            storage.setItem("refresh", refresh);
             
             navigate(routes[role] || "/");
         
             return true;
-        } catch {
+        } catch (error) {
+            console.log(error);
             showToastFunc("Login failed. Please try again");
             return false;
             

@@ -1,11 +1,11 @@
 import styles from "../../styles/authPage/login.module.css"
 
-import { FormInput, PasswordInput, RememberMe } from "../../components/ui/Inputs"
+import { FormInput, PasswordInput, RememberMeBox } from "../../components/ui/Inputs"
 import CustomButton from "../ui/CustomButton";
 
 import google from "../../assets/auth/login/google.svg";
 
-export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials, isChecked, setIsChecked, setMode, setErrorMessage, errorMessage, isLoading }) {
+export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials, rememberMe, setRememberMe, setMode, setErrorMessage, errorMessage, isLoading }) {
 
     const handleChange = (field, value) => {
         setCredentials(prev => ({ ...prev, [field]: value }));
@@ -38,7 +38,7 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
 
             <div className={styles.buttons}>
                 <div className={styles.actionButtons}>
-                    <RememberMe isChecked={isChecked} setIsChecked={setIsChecked}/>  
+                    <RememberMeBox isChecked={rememberMe} setIsChecked={setRememberMe}/>  
                     <p
                         className={styles.forgotPass}
                         onClick={() => {setMode("forgotPass")}}

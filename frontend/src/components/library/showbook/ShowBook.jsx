@@ -14,7 +14,8 @@ import Toast from "../../ui/Toast.jsx"
 import ConfirmBorrowPanel from "../ConfirmBorrowPanel.jsx";
 
 export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBook }){
-    const role = localStorage.getItem("role");
+    const role =
+        localStorage.getItem("role") || sessionStorage.getItem("role");
     
     const notify = () => {
         setShowToast(true);

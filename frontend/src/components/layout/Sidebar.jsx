@@ -1,33 +1,19 @@
 import styles from "../../styles/components/layout/sidebar.module.css"
 
-import { useNavigate, NavLink } from "react-router-dom"
+import { NavLink } from "react-router-dom"
 
 import logo from "../../assets/libraSphere-logo.svg"
 import dashboard from "../../assets/sidebar/dashboard.svg"
 import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"
 import addBook from "../../assets/sidebar/addbook-icon.svg"
-import logout from "../../assets/sidebar/logout.svg"
+import logoutIcon from "../../assets/sidebar/logout.svg"
 import burger from "../../assets/sidebar/burger.svg"
 
+import { logout, getStorage } from "../../pages/auth/auth.util.js"
+
 export default function Sidebar({ showSidebar, setShowSidebar }) {
-    
-    const navigate = useNavigate();
-
-    const role = localStorage.getItem("role");
-
-    const handleLogout = () => {
-        localStorage.removeItem("access");
-        localStorage.removeItem("refresh");
-
-        sessionStorage.removeItem("access");
-        sessionStorage.removeItem("refresh");
-
-        localStorage.removeItem("id_number");
-        localStorage.removeItem("role");
-        localStorage.removeItem("user");
-        navigate("/");        
-    }
+    const role = getStorage().getItem("role");
 
     return (
         <>
@@ -91,10 +77,10 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                         className={styles.navButton}
                         onClick={() => {
                             setShowSidebar(false)
-                            handleLogout()
+                            logout();
                         }}    
                     >
-                        <img className={styles.icon} src={logout} />
+                        <img className={styles.icon} src={logoutIcon} />
                         <p>Log out</p>
                     </div>
                 </div>

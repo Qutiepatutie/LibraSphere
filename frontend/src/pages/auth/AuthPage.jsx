@@ -1,6 +1,7 @@
 import styles from "../../styles/authPage/auth.module.css"
 
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 import Switcher from "../../components/auth/register/Switcher.jsx"
 import Login from "../../components/auth/Login.jsx"
@@ -9,6 +10,7 @@ import ForgotPassword from "../../components/auth/ForgotPassword.jsx"
 import Toast from "../../components/ui/Toast.jsx"
 
 import { useAuth } from "./useAuth.js"
+import { getStorage, restoreSession } from "./auth.util.js"
 import {
     initialLoginCredentials,
     initialForgotPassData,
@@ -16,7 +18,8 @@ import {
     initialLoginErrors,
     initialForgotPassErrors,
     initialRegisterErrors,
-    fieldsByPart
+    fieldsByPart,
+    routes,
 } from "./auth.constants.js";
 
 export default function AuthPage() {
@@ -31,7 +34,9 @@ export default function AuthPage() {
     const [forgotPassErrors, setForgotPassErrors] = useState(initialForgotPassErrors);
     const [registerErrors, setRegisterErrors] = useState(initialRegisterErrors);
 
-    const [isRememberMeChecked, setisRememberMeChecked] = useState(false);
+    const [rememberMe, setRememberMe] = useState(false);
+
+    const navigate = useNavigate();
 
      const {
         showToast,
@@ -55,6 +60,20 @@ export default function AuthPage() {
         forgotPass,
         register,
     } = useAuth();
+
+    useEffect(() => {
+        async function checkLogin() {
+            const success = await restoreSession();
+
+            if (success) {
+                const role = getStorage().getItem("role");
+
+                navigate(routes[role], {replace: true});
+            }
+        }
+
+        checkLogin();
+    }, []);
 
     useEffect(() => {
         setPart(1);
@@ -94,7 +113,7 @@ export default function AuthPage() {
             return;
         }
 
-        login(loginCredentials, isRememberMeChecked);
+        login(loginCredentials, rememberMe);
     }
 
     const handleForgotPassword = () => {
@@ -191,8 +210,8 @@ export default function AuthPage() {
                                 setIsEmpty={setLoginErrors}
                                 credentials={loginCredentials}
                                 setCredentials={setLoginCredentials}
-                                isRememberMeChecked={isRememberMeChecked}
-                                setisRememberMeChecked={setisRememberMeChecked}
+                                rememberMe={rememberMe}
+                                setRememberMe={setRememberMe}
                                 setMode={setMode}
                                 setErrorMessage={setErrorMessage}
                                 errorMessage={errorMessage}
