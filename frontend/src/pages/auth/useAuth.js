@@ -45,6 +45,7 @@ export function useAuth() {
                 return false;
             }
             
+            console.log(resp.data);
             const { access, refresh, role, profile } = resp.data;
         
             localStorage.setItem("user", profile?.first_name);
@@ -53,13 +54,13 @@ export function useAuth() {
         
             // FIX JWT IN BACKEND
              
-            // if(isChecked) {
-            //     localStorage.setItem("access", access);
-            //     localStorage.setItem("refresh", refresh);
-            // } else {
-            //     sessionStorage.setItem("access", access);
-            //     sessionStorage.setItem("refresh", refresh);
-            // }
+            if(isChecked) {
+                localStorage.setItem("access", access);
+                localStorage.setItem("refresh", refresh);
+            } else {
+                sessionStorage.setItem("access", access);
+                sessionStorage.setItem("refresh", refresh);
+            }
             
             navigate(routes[role] || "/");
         

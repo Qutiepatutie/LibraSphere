@@ -1,7 +1,4 @@
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.hashers import make_password, check_password
-
-from django.shortcuts import get_object_or_404
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view
