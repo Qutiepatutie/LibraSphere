@@ -1,6 +1,6 @@
 export function checkEmail(registerData) {
 
-    if(!registerData.email.includes("fatima.edu.ph")){
+    if(!registerData.email.endsWith("fatima.edu.ph")){
         return { valid : false };
     }
     
@@ -11,12 +11,12 @@ export function checkEmail(registerData) {
     let role = "";
     let email = "";
 
-    if(registerData.email.includes("student.fatima.edu.ph")){
+    if(registerData.email.endsWith("@student.fatima.edu.ph")){
         const num = registerData.id_number.substring(7);
         email = `${first}${second}${last}${num}lag@student.fatima.edu.ph`;
         role = "student";
 
-    }else{
+    }else if(registerData.email.endsWith("@fatima.edu.ph")){
         email = `${first}${last}@fatima.edu.ph`; 
         role = "faculty";
     }

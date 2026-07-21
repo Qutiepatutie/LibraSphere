@@ -33,41 +33,33 @@ export function useAuth() {
         setToastMessage(message);
         setShowToast(true);
     }
-    
-    function checkStatus(status, message) {
-        if(status === "failed"){
-            setErrorMessage(message);
-            return false;
-            
-        } else if (status === "error") {
-            showToastFunc(message);
-            return false;
-        }
 
-        return true;
-    }
-    
     async function login(loginCredentials, isChecked) {
         try {
             setErrorMessage("");
             setIsLoading(true);
             const resp = await loginAPI(loginCredentials.email, loginCredentials.pass)
-        
-            if(!checkStatus(resp.status, resp.message)) return false;
+
+            if (resp.status !== 200) {
+                showToastFunc(resp.message);
+                return false;
+            }
             
-            const role = resp.role;
+            const { access, refresh, role, profile } = resp.data;
         
-            localStorage.setItem("user", resp.user);
-            localStorage.setItem("id_number", resp.id_number);
+            localStorage.setItem("user", profile?.first_name);
+            localStorage.setItem("id_number", profile?.id_number);
             localStorage.setItem("role", role);
         
-            if(isChecked) {
-                localStorage.setItem("access", resp.access);
-                localStorage.setItem("refresh", resp.refresh);
-            } else {
-                sessionStorage.setItem("access", resp.access);
-                sessionStorage.setItem("refresh", resp.refresh);
-            }
+            // FIX JWT IN BACKEND
+             
+            // if(isChecked) {
+            //     localStorage.setItem("access", access);
+            //     localStorage.setItem("refresh", refresh);
+            // } else {
+            //     sessionStorage.setItem("access", access);
+            //     sessionStorage.setItem("refresh", refresh);
+            // }
             
             navigate(routes[role] || "/");
         
@@ -75,6 +67,7 @@ export function useAuth() {
         } catch {
             showToastFunc("Login failed. Please try again");
             return false;
+            
         } finally {
             setIsLoading(false);
         }
@@ -99,20 +92,22 @@ export function useAuth() {
             setIsLoading(true);
             const resp = await changePass(forgotPassData.email, forgotPassData.newPass);
 
-            if (!checkStatus(resp.status, resp.message)) return false;
+            if (resp.status !== 200) {
+                showToastFunc(resp.message);
+                return false;
+            }
             
             showToastFunc(resp.message);
             setIsPassChanged(true);
             return true;
             
         } catch {
-            showToastFunc("Changin the password failed. Please try again");
+            showToastFunc("Changing the password failed. Please try again");
             return false;
             
         } finally {
             setIsLoading(false);
         }
-        
     }
 
     async function register(registerData) {
@@ -140,7 +135,10 @@ export function useAuth() {
             setIsLoading(true);
             const resp = await registerAPI(payload);
         
-            if (!checkStatus(resp.status, resp.message)) return false;
+            if (resp.status !== 201) {
+                showToastFunc(resp.message);
+                return false;
+            }
     
             showToastFunc(resp.message);
             setIsRegistered(true);

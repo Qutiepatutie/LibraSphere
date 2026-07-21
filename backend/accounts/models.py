@@ -20,7 +20,6 @@ class UserLogin(models.Model):
 
     password = models.CharField(
         max_length=128,
-        unique=True
     )
 
     role = models.CharField(

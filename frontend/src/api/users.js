@@ -1,5 +1,12 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+async function returnData(resp) {
+    const data = await resp.json();
+    const status = resp.status;
+
+    return ({"status": status, "message": data.message, "data": data});
+}
+
 export async function login(email, pass) {
     try {
         const response = await fetch(`${API_URL}/login/`, {
@@ -8,19 +15,15 @@ export async function login(email, pass) {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-            email: email,
-            password: pass,
-            }),
+                email: email,
+                password: pass
+            })
         });
-    
-        if(!response.ok) {
-            return ({"status":"error", "message":"Server Connection Error"});
-        }
 
-        return await response.json();
-
-   } catch (error) {
-        return ({"status":"error", "message":"Server Connection Error"});
+        return await returnData(response);
+        
+    } catch {
+        return ({"status": 500, "message":"Server Connection Error"});
    }
 }
 
@@ -32,19 +35,16 @@ export async function changePass(email, newPass){
                'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-            email: email,
-            newPass: newPass
+                email: email,
+                newPass: newPass
             })
         });
-    
-        if(!response.ok) {
-            return ({"status":"error", "message":"Server Connection Error"});
-        }
-    
-        return await response.json();
+        
+        return await returnData(response);
 
     } catch (error) {
-        return ({"status":"error", "message":"Server Connection Error"});
+        console.log(error);
+        return ({"status": 500, "message":"Server Connection Error"});
     }
 }
 
@@ -57,14 +57,10 @@ export async function register(data){
             },
             body: JSON.stringify(data)
         });
-    
-        if(!response.ok){
-            return ({"status":"error","message":"Server Connection Error"});
-        }
-    
-        return await response.json();
 
-    } catch (error) {
-        return ({"status":"error","message":"Server Connection Error"});
+        return await returnData(response);
+        
+    } catch {
+        return ({"status": 500 ,"message":"Server Connection Error"});
     }
 }

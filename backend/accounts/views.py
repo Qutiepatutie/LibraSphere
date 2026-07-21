@@ -1,92 +1,104 @@
 from django.views.decorators.csrf import csrf_exempt
-from django.http import JsonResponse
 from django.contrib.auth.hashers import make_password, check_password
-import json
+
+from django.shortcuts import get_object_or_404
 
 from rest_framework_simplejwt.tokens import RefreshToken
-from datetime import timedelta
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
 
 from .models import UserLogin
 from .models import UserProfile
 
-@csrf_exempt  # disable CSRF for testing (use proper protection later)
+from .serializers import UserLoginSerializer
+
+@api_view(["POST"])
 def login_user(request):
-    if request.method != 'POST':
-        return JsonResponse({'status':'failed', 'message': 'POST request required'})
-
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({'status':'failed', 'message':'Invalid JSON'})
-
-    email = data.get('email')
-    password = data.get('password')
+    email = request.data.get("email")
+    password = request.data.get("password")
 
     try:
         user = UserLogin.objects.get(email=email)
     except UserLogin.DoesNotExist:
-        return JsonResponse({'status': 'failed', 'message': 'Invalid credentials'})
-    
+        return Response({"message":"Invalid Credentials"}, status=status.HTTP_404_NOT_FOUND)
+
     if not check_password(password, user.password):
-        return JsonResponse({'status': 'failed', 'message': 'Invalid credentials'})
-    
-    try:
-        profile = user.profile
-    except UserProfile.DoesNotExist:
-        return JsonResponse({'status': 'failed', 'message': 'User Not Found'})
-    
-    refresh = RefreshToken.for_user(user)
+        return Response({"message":"Invalid Credentials"}, status=status.HTTP_401_UNAUTHORIZED)
 
-    access_token = str(refresh.access_token)
-    refresh_token = str(refresh)
-
-    return JsonResponse({'status': 'success',
-                            'message' : "Successfully logged in",
-                            'id' : user.id,
-                            'user' : profile.first_name,
-                            'id_number' : profile.id_number,
-                            'role': user.role,
-                            'access': access_token,
-                            'refresh' : refresh_token,
-    })
-
-@csrf_exempt
-def register_user(request):
-    if request.method != 'POST':
-        return JsonResponse({'status': 'failed', 'message': 'POST request required'})
+    serializer = UserLoginSerializer(user)
+    return Response(serializer.data, status=status.HTTP_200_OK)
         
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({'status':'failed', 'message':'Invalid JSON'})
+# @csrf_exempt  # disable CSRF for testing (use proper protection later)
+# def login_user(request):
+#     if request.method != 'POST':
+#         return JsonResponse({'status':'failed', 'message': 'POST request required'})
 
-    first_name = data.get('first_name')
-    middle_name = data.get('middle_name')
-    last_name = data.get('last_name')
-    sex = data.get('sex')
-    id_number = data.get('id_number')
-    program = data.get('program')
-    email = data.get('email')
-    password = data.get('confirm_password')
-    role = data.get('role')
+#     try:
+#         data = json.loads(request.body)
+#     except json.JSONDecodeError:
+#         return JsonResponse({'status':'failed', 'message':'Invalid JSON'})
+
+#     email = data.get('email')
+#     password = data.get('password')
+
+#     try:
+#         user = UserLogin.objects.get(email=email)
+#     except UserLogin.DoesNotExist:
+#         return JsonResponse({'status': 'failed', 'message': 'Invalid credentials'})
+    
+#     if not check_password(password, user.password):
+#         return JsonResponse({'status': 'failed', 'message': 'Invalid credentials'})
+    
+#     try:
+#         profile = user.profile
+#     except UserProfile.DoesNotExist:
+#         return JsonResponse({'status': 'failed', 'message': 'User Not Found'})
+    
+#     refresh = RefreshToken.for_user(user)
+
+#     access_token = str(refresh.access_token)
+#     refresh_token = str(refresh)
+
+#     return JsonResponse({'status': 'success',
+#                             'message' : "Successfully logged in",
+#                             'id' : user.id,
+#                             'user' : profile.first_name,
+#                             'id_number' : profile.id_number,
+#                             'role': user.role,
+#                             'access': access_token,
+#                             'refresh' : refresh_token,
+#     })
+
+@api_view(["POST"])
+def register_user(request):
+    first_name = request.data.get('first_name')
+    middle_name = request.data.get('middle_name')
+    last_name = request.data.get('last_name')
+    sex = request.data.get('sex')
+    id_number = request.data.get('id_number')
+    program = request.data.get('program')
+    email = request.data.get('email')
+    password = request.data.get('confirm_password')
+    role = request.data.get('role')
 
     if not all([first_name, last_name, id_number, email, password]):
-        return JsonResponse({'status': 'failed', 'message': 'Missing required fields'})
+        return Response({"message": "Missing required fields"}, status=status.HTTP_400_BAD_REQUEST)
 
     if UserLogin.objects.filter(email=email).exists():
-        return JsonResponse({'status': 'failed', 'message': 'User already exists'})
-    
-    if UserProfile.objects.filter(id_number=id_number).exists():
-        return JsonResponse({'status': 'failed', 'message': 'Student Number Already Exists'})
+        return Response({"message": "Email already exists"}, status=status.HTTP_400_BAD_REQUEST)
 
-    user_login = UserLogin.objects.create(
+    if UserProfile.objects.filter(id_number=id_number).exists():
+        return Response({"message": "ID number already exists"}, status=status.HTTP_400_BAD_REQUEST)
+
+    user = UserLogin.objects.create(
         email = email,
         password = make_password(password),
-        role=role,
+        role = role
     )
 
     UserProfile.objects.create(
-        user=user_login,
+        user = user,
         first_name = first_name,
         middle_name = middle_name,
         last_name = last_name,
@@ -95,31 +107,22 @@ def register_user(request):
         program = program,
     )
 
-    return JsonResponse({'status': 'success', 'message':'Registered Successfully'})
+    return Response({"message": "Registered Successfully"}, status=status.HTTP_201_CREATED)
 
-@csrf_exempt
+@api_view(["POST"])
 def change_password(request):
-    if request.method != 'POST':
-        return JsonResponse({'status':'failed', 'message': 'POST request required'})
-    
-    try:
-        data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return JsonResponse({'status':'failed', 'message':'Invalid JSON'})
-    
-    email = data.get("email")
+    email = request.data.get("email")
+    newPass = request.data.get("newPass")
+
     try:
         user = UserLogin.objects.get(email=email)
     except UserLogin.DoesNotExist:
-        return JsonResponse({'status':'failed', 'message':'Email does not exist'})
-    
-    newPass = data.get("newPass")
+        return Response({"message":"Email does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
     if check_password(newPass, user.password):
-        return JsonResponse({'status':'failed', 'message':'Old password can\'t be the new password'})
+        return Response({"message": "Old password can\'t be the new password"}, status=status.HTTP_400_BAD_REQUEST)
 
     user.password = make_password(newPass)
-
     user.save()
 
-    return JsonResponse({'status':'success', 'message':'Password Changed Successfully'})
+    return Response({"message":"Password Changed Successfully"}, status=status.HTTP_200_OK)
