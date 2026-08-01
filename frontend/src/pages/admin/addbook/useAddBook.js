@@ -27,7 +27,7 @@ export function useAddBook() {
                 return;
             }
     
-            const dateAcquired = resp.book.date_acquired.substring(0,10).trim();
+            const date_acquired = resp.book.date_acquired.substring(0,10).trim();
     
             setBookData(prev => ({
                 ...prev,
@@ -37,11 +37,11 @@ export function useAddBook() {
                 "edition" : resp.book.edition,
                 "description" : resp.book.description,
                 "publisher" : resp.book.publisher,
-                "dateAcquired" : dateAcquired,
-                "yearPublished" : resp.book.year_published,
+                "date_acquired" : date_acquired,
+                "year_published" : resp.book.year_published,
                 "pages" : resp.book.pages,
                 "tags" : resp.book.tags,
-                "coverURL" : resp.book.cover_url
+                "cover_url" : resp.book.cover_url
             }));
 
         }catch(error) {
@@ -69,8 +69,8 @@ export function useAddBook() {
                 .filter(key => ![
                                 "isbn",
                                 "classification",
-                                "callNumber",
-                                "coverURL",
+                                "call_number",
+                                "cover_url",
                             ].includes(key))
                 .map(key => [key, value])
         )

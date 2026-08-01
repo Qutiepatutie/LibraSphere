@@ -57,10 +57,12 @@ export function useBorrowers() {
         setLoading(true);
         const resp = await acceptBorrowedBook(isbn, call_num);
         setLoading(false);
+        console.log(resp);
 
         setToastMessage(resp.message);
 
-        if(resp.status === "failed") { return; }
+        if (resp.status !== 200)
+            return;
 
         setAllBorrowers(borrowers => 
             borrowers.map(b => 

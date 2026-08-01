@@ -4,128 +4,95 @@ import json
 from .analytics import circulation_trends, borrowing_frequency, inventory_status
 from django.views.decorators.csrf import csrf_exempt
 from .decorators import admin_role
-from django.forms.models import model_to_dict
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
 
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+
 from .models import Books, BorrowRecords, UserProfile, StatusChoices
+from .serializers import AllBorrowRecordSerializer, UserBorrowRecordSerializer, BooksSerializer, AddBooksSerializer
 
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_books(request):
-    if request.method != 'GET':
-        return JsonResponse({'status' : 'failed', 'message': 'Invalid Request method'}) 
-    try:
-        books = list(Books.objects.values())
-        return JsonResponse({"status":"success", "message":"Books fetched Successfully", "data": books})
-    except Exception as e:
-        return JsonResponse({"status":"failed", "message":"Cannot Fetch Books", "data":[], "error":str(e)})
+    books = Books.objects.all()
 
-@csrf_exempt
+    serializer = BooksSerializer(books, many=True)
+    return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def add_books(request):
-    if request.method != 'POST':
-        return JsonResponse({'status' : 'failed', 'message': 'Invalid Request method'}) 
-    try:
-        data = json.loads(request.body)
-
-        call_number = data.get("callNumber")
-        isbn = data.get("isbn")
-        title = data.get("title")
-        edition = data.get("edition")
-        author = data.get("author")
-        publisher = data.get("publisher")
-        description = data.get("description")
-        year_published = data.get("yearPublished")
-        pages = data.get("pages")
-        cover_url = data.get("coverURL")
-        tags = data.get("tags")
-        date_acquired = data.get("dateAcquired")
-        
-    except Exception as e:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
+    call_number = request.data.get("call_number")
+    isbn = request.data.get("isbn")
+    title = request.data.get("title")
+    author = request.data.get("author")
 
     if not all([call_number, isbn, title, author]):
-        return JsonResponse({'status': 'failed', 'message': 'missing important fields'})
-    
-    if Books.objects.filter(call_number=call_number).exists() or Books.objects.filter(isbn=isbn).exists():
-        return JsonResponse({'status': 'failed', 'message': 'Book already exists!'})
-    
-    Books.objects.create(
-        call_number = call_number,
-        isbn = isbn,
-        title = title,
-        edition = edition,
-        author = author,
-        publisher = publisher,
-        description = description,
-        year_published = year_published,
-        pages = pages,
-        cover_url = cover_url,
-        tags = tags,
-        date_acquired = date_acquired
-    )
+        return Response({'message': 'Missing important fields'}, status=status.HTTP_400_BAD_REQUEST)
 
-    return JsonResponse ({'status': 'success', 'message':'Book Successfully Added!'})
+    serializer = AddBooksSerializer(data=request.data)
 
-@csrf_exempt
+    if not serializer.is_valid():
+        print(serializer.errors)
+        
+        return Response({"message": serializer.errors["isbn"][0]}, status=status.HTTP_400_BAD_REQUEST)
+
+    serializer.save()
+    return Response({'message':'Book Successfully Added!'}, status=status.HTTP_200_OK)
+
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
 def edit_book(request):
-    if request.method != 'POST':
-        return JsonResponse({"status":"failed", "message":"Invalid request method"})
+    isbn = request.data.get("isbn")
     
-    try:
-        data = json.loads(request.body)
-    except Exception as e:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
-    
-    isbn = data.get("isbn")
     if not isbn:
-        return JsonResponse({"status":"failed", "message":"Missing isbn"})
+        return Response({"message":"Missing isbn"}, status=status.HTTP_400_BAD_REQUEST)
     
     try:
         book = Books.objects.get(isbn=isbn)
     except Books.DoesNotExist:
-        return JsonResponse({"status":"failed", "message":"Book does not exist"})
+        return Response({"message":"Book does not exist"}, status=status.HTTP_404_NOT_FOUND)
 
-    new_call_number = data.get("callNumber")
+    new_call_number = request.data.get("callNumber")
 
     if new_call_number and Books.objects.exclude(pk=book.pk).filter(call_number=new_call_number).exists():
-        return JsonResponse({"status":"failed", "message":"Call number already exists"})
+        return Response({"message":"Call number already exists"}, status=status.HTTP_400_BAD_REQUEST)
     
-    book.description = data.get("description", book.description)
-    book.title = data.get("title", book.title)
-    book.author = data.get("author", book.author)
+    book.description = request.data.get("description", book.description)
+    book.title = request.data.get("title", book.title)
+    book.author = request.data.get("author", book.author)
     book.call_number = new_call_number or book.call_number
-    book.pages = data.get("pages", book.pages)
-    book.publisher = data.get("publisher", book.publisher)
-    book.year_published = data.get("yearPublished", book.year_published)
-    book.tags = data.get("tags", book.tags)
+    book.pages = request.data.get("pages", book.pages)
+    book.publisher = request.data.get("publisher", book.publisher)
+    book.year_published = request.data.get("yearPublished", book.year_published)
+    book.tags = request.data.get("tags", book.tags)
 
     book.save()
 
-    return JsonResponse ({'status': 'success', 'message':'Book Successfully Edited!'})
+    return Response ({"message":"Book Successfully Edited"}, status=status.HTTP_200_OK)
 
-@csrf_exempt
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def borrow_book(request):
-    if request.method != 'POST':
-        return JsonResponse({"status":"failed", "message":"Invalid request method"})
-    
-    try:
-        data = json.loads(request.body)
-        id_number = data.get("id_number")
-        isbn = data.get("isbn")
-    except Exception as e:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
+    id_number = request.data.get("id_number")
+    isbn = request.data.get("isbn")
     
     try:
         user = UserProfile.objects.get(id_number=id_number)
-        book = Books.objects.get(isbn=isbn)
-
     except UserProfile.DoesNotExist:
-        return JsonResponse({"status":"failed", "message":"User not found"})
-    
+        return Response({"message":"User not found"}, status=status.HTTP_404_NOT_FOUND)
+        
+    try:
+        book = Books.objects.get(isbn=isbn)
     except Books.DoesNotExist:
-        return JsonResponse({"status":"failed", "message":"Book not found"})
+        return Response({"message":"Book not found"}, status=status.HTTP_404_NOT_FOUND)
     
     if BorrowRecords.objects.filter(book=book, return_date__isnull=True).exists():
-        return JsonResponse({"status":"failed", "message":"Book is already borrowed"})
+        return Response({"message":"Book is already borrowed"}, status=status.HTTP_400_BAD_REQUEST)
     
     BorrowRecords.objects.create(
         status = StatusChoices.PENDING,
@@ -133,62 +100,37 @@ def borrow_book(request):
         book = book
     )
 
-    return JsonResponse({"status":"success", "message":"Book successfully borrowed"})
+    return Response({"message":"Book successfully borrowed"}, status=status.HTTP_200_OK)
 
-@csrf_exempt
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
 def get_user_borrowed_books(request):
-    if request.method != "POST":
-        return JsonResponse({"status":"error", "message":"Invalid request method"})
+    id_number = request.data.get("id")
     
-    try:
-        data = json.loads(request.body)
-    except Exception as e:
-        return JsonResponse({"status":"error", "message":"Invalid JSON", "error":str(e)})
-    
-    id_number = data.get("id")
     try:
         user = UserProfile.objects.get(id_number=id_number)
-
     except UserProfile.DoesNotExist:
-        return JsonResponse({"status":"failed", "message":"User not found"})
+        return Response({"message":"User not found"}, status=status.HTTP_404_NOT_FOUND)
     
     borrowed_books = BorrowRecords.objects.filter(user=user, return_date__isnull=True)
-    
-    books = []
+    serializer = UserBorrowRecordSerializer(borrowed_books, many=True)
 
-    for record in borrowed_books:
-        book = record.book
-        books.append({
-            "cover_url": book.cover_url,
-            "status": record.status,
-            "due_date": record.due_date
-        })
+    return Response({"books": serializer.data}, status=status.HTTP_200_OK)
 
-    return JsonResponse({"status":"success", "books": books})
-
-@csrf_exempt
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def get_all_borrowed_books(request):
-    try:
-        records = BorrowRecords.objects.filter(user__user__isnull=False).select_related("user__user", "book")
-
-        data=[]
-        for r in records:
-            record = model_to_dict(r)
-
-            user_dict = model_to_dict(r.user)
-            user_dict["email"] = r.user.user.email
-
-            book_dict = model_to_dict(r.book)
-
-            record["user"] = user_dict
-            record["book"] = book_dict
-
-            data.append(record)
-
-        return JsonResponse({"status":"success", "message":"Borrowed books fetched successfully", "data":data})
-    except Exception as e:
-        return JsonResponse({"status":"failed", "message":"Borrowed books fetch failed", "data":[], "error":str(e)})
-
+    records = BorrowRecords.objects.filter(user__user__isnull=False).select_related("user__user", "book")
+    serializer = AllBorrowRecordSerializer(records, many=True)
+    
+    return Response({
+        "message": "Borrowed books fetched successfully",
+        "data":serializer.data
+    }, status=status.HTTP_200_OK)
+        
+# TO FIX        
+# You can do this in frontend
+# Just export the table contents
 @csrf_exempt
 def export_borrowed_books_csv(request):
     if request.method != 'GET':
@@ -249,23 +191,15 @@ def export_borrowed_books_csv(request):
     except Exception as e:
         return JsonResponse({"status": "failed", "message": "CSV export failed", "error": str(e)})
 
-@csrf_exempt
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
 def accept_borrowed_book(request):
-    if request.method != "POST":
-        return JsonResponse({"status":"failed", "message":"Invalid request method"})
-    
-    try:
-        data = json.loads(request.body)
-    except Exception as e:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error":str(e)})
-    
-    isbn = data.get("isbn")
-    call_num = data.get("call_num")
-
+    isbn = request.data.get("isbn")
+    call_num = request.data.get("call_num")
     
     book_record = BorrowRecords.objects.filter(book__isbn=isbn, book__call_number=call_num, return_date__isnull=True).first()
     if not book_record:
-        return JsonResponse({"status":"failed", "message":"Book not found"})
+        return Response({"message":"Book not found"}, status=status.HTTP_404_NOT_FOUND)
 
     book_record.borrow_date = timezone.now()
     book_record.due_date = timezone.now().date() + timezone.timedelta(days=7)
@@ -273,48 +207,40 @@ def accept_borrowed_book(request):
 
     book_record.save()
 
-    return JsonResponse({
-        "status":"success",
+    return Response({
         "message":"Borrower Accepted",
         "book" : {
                 "status": book_record.status,
                 "due_date":book_record.due_date.isoformat(),
             }
-        });
+        }, status=status.HTTP_200_OK);
 
-@csrf_exempt
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
 def return_book(request):
-    if request.method != "POST":
-        return JsonResponse({"status":"failed", "message":"Invalid request method"})
-    
-    try:
-        data = json.loads(request.body)
-    except Exception as e:
-        return JsonResponse({"status":"failed", "message":"Invalid JSON", "error": str(e)})
-    
-    isbn = data.get("isbn")
-    call_num = data.get("call_num")
-    action = data.get("action")
+    isbn = request.data.get("isbn")
+    call_num = request.data.get("call_num")
+    action = request.data.get("action")
 
     if action not in ("return", "cancel"):
-        return JsonResponse({"status": "failed", "message": "Invalid action"})
+        return Response({"message": "Invalid action"}, status=status.HTTP_400_BAD_REQUEST)
 
     book = BorrowRecords.objects.filter(book__isbn=isbn, book__call_number=call_num, return_date__isnull=True).first()
     if not book:
-        return JsonResponse({"status": "failed", "message": "No active book found"})
+        return Response({"message": "No active book found"}, status=status.HTTP_404_NOT_FOUND)
 
     book.status = (
         StatusChoices.RETURNED 
         if action == "return"  
         else StatusChoices.CANCELLED
     )
+    
     book.return_date = timezone.now().date()
     book.save()
 
     actionReturn = "cancelled" if action == "cancel" else "returned"
 
-    return JsonResponse({"status": "success", 
-                         "message": f"Book {actionReturn} successfully"})
+    return Response({"message": f"Book {actionReturn} successfully"}, status=status.HTTP_200_OK)
 
 #NOT FINSIHED, WILL FIX LATER
 @csrf_exempt

@@ -64,17 +64,20 @@ export default function Borrowers() {
                                 </tr>
                             </thead>
                             <tbody>
-                                {borrowerList.map((b, key) => (
-                                    <tr key={key}>
-                                        <td>{key+1}</td>
-                                        <td>{`${b.user.first_name} ${b.user.last_name}`}</td>
-                                        <td>{b.user.id_number}</td>
-                                        <td>{b.user.email}</td>
-                                        <td>{b.user.program}</td>
-                                        <td>{b.borrow_date ? b.borrow_date.slice(0,10) : "--"}</td>
-                                        <td className={styles.status}><Status status={b.status}/></td>
-                                    </tr>
-                                ))}
+                                {borrowerList.map((b, key) => {
+                                    console.log(b);
+                                    return (
+                                        <tr key={key}>
+                                            <td>{key+1}</td>
+                                            <td>{`${b.user.first_name} ${b.user.last_name}`}</td>
+                                            <td>{b.user.id_number}</td>
+                                            <td>{b.email}</td>
+                                            <td>{b.user.program}</td>
+                                            <td>{b.borrow_date ? b.borrow_date.slice(0,10) : "--"}</td>
+                                            <td className={styles.status}><Status status={b.status}/></td>
+                                        </tr>
+                                    )
+                                })}
                             </tbody>
                         </table> 
                     }

@@ -67,17 +67,21 @@ export default function AddBook() {
     }, [bookData]);
 
     const handleChange = (field, value) => {
-        if(field === "classification") {
-            generateCallNumber(
-                value.substring(0,3),
-                bookData.author,
-                bookData.yearPublished,
-                setBookData,
-            );
-        }
-
         setValueErrors(prev => ({ ...prev, [field] : false}));
-        setBookData(prev => ({...prev, [field]: value}));
+        setBookData(prev => {
+            const updated = {
+                ...prev,
+                [field]: value
+            };
+
+            updated.call_number = generateCallNumber(
+                updated.classification.substring(0, 3),
+                updated.author,
+                updated.year_published
+            );
+
+            return updated;
+        })
     }
 
     const handleClear = () => {
@@ -102,7 +106,7 @@ export default function AddBook() {
         setValueErrors(prev => {
             const next = { ...prev };
 
-            Object.keys(next).filter(key => key === "coverURL").forEach(key => next[key] = false);
+            Object.keys(next).filter(key => key === "cover_url").forEach(key => next[key] = false);
 
             fields.forEach(field => {
                 next[field] = empty[field];
@@ -116,7 +120,7 @@ export default function AddBook() {
         if(Object.values(empty).some(Boolean)) return;
         console.log("Book Added");
 
-        if(bookData.coverURL === null) {
+        if(bookData.cover_url === null) {
             setToastMessage("Invalid Book");
             notify();
             return;
@@ -158,14 +162,14 @@ export default function AddBook() {
             <Toast message={toastMessage} show={showToast}/>
             <div className={styles.addbook}>
                 <div className={styles.cover} 
-                style={{borderColor:(bookData.coverURL && !isAutofilling 
+                style={{borderColor:(bookData.cover_url && !isAutofilling 
                             ? "transparent" 
                             : "")}}
                 >
                     {isAutofilling 
                         ? <p>Loading...</p>
-                        : bookData.coverURL
-                            ? <img src={bookData.coverURL} />
+                        : bookData.cover_url
+                            ? <img src={bookData.cover_url} />
                             : !autofilled
                                 ? <p>Add Cover</p>
                                 : <p>No Available Cover</p> 

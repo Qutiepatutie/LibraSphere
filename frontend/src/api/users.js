@@ -2,7 +2,7 @@ import { logout, getStorage, getAccessToken, getRefreshToken } from "../pages/au
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-async function returnData(resp) {
+export async function returnData(resp) {
     const data = await resp.json();
     const status = resp.status;
     

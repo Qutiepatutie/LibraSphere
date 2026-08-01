@@ -1,4 +1,4 @@
-from django.contrib.auth.hashers import make_password, check_password
+from django.contrib.auth.hashers import check_password
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.decorators import api_view
@@ -31,7 +31,8 @@ def login_user(request):
     serializer = UserLoginSerializer(user)
     return Response({
         "access": access_token,
-        "refresh": refresh_token ,"user": serializer.data
+        "refresh": refresh_token ,
+        "user": serializer.data
     }, status=status.HTTP_200_OK)
 
 @api_view(["POST"])

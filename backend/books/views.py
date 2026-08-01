@@ -1,49 +1,63 @@
-from django.http import JsonResponse
+from json.decoder import JSONDecodeError
+
 from django.utils import timezone
 import requests
 import re
 
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.decorators import api_view, permission_classes
+
 # Create your views here.
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
 def autofillBookInfo(request):
     today = timezone.localtime().isoformat()
+    isbn = request.query_params.get("isbn")
 
-    isbn = request.GET.get("isbn")
+    if not isbn:
+        return Response({"message":"ISBN is required"}, status=status.HTTP_400_BAD_REQUEST)
+
     try:
-        resp1 = requests.get(f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data", timeout=5)
-        resp1.raise_for_status()
+        book_response = requests.get(f"https://openlibrary.org/api/books?bibkeys=ISBN:{isbn}&format=json&jscmd=data", timeout=5)
+        book_response.raise_for_status()
     except requests.RequestException:
-        return JsonResponse({"status":"failed", "message":"External service error"})
+        return Response({"message":"External service error"}, status=status.HTTP_502_BAD_GATEWAY)
 
     try:
-        data1 = resp1.json()
-        bookData1 = data1[f"ISBN:{isbn}"]
-    except:
-        return JsonResponse({"status": "failed", "message" : "No book found"})
+        data1 = book_response.json()
+    except JSONDecodeError:
+        return Response({"message" : "No book found"}, status=status.HTTP_404_NOT_FOUND)
 
-    if not bookData1: 
-        return JsonResponse({"status": "failed", "message" : "No book found"})
+    book_data = data1.get(f"ISBN:{isbn}")
+    
+    if not book_data: 
+        return Response({"message" : "No book found"}, status=status.HTTP_404_NOT_FOUND)
 
-    key = bookData1.get("key", "")
+    key = book_data.get("key", "")
     parts = key.split("/")
     workKey = parts[2] if len(parts) > 2 else None
 
     if not workKey:
-        return JsonResponse({"status": "failed", "message": "Invalid book data"})
+        return Response({"message": "Invalid book data"}, status=status.HTTP_502_BAD_GATEWAY)
     try:
-        resp2 = requests.get(f"https://openlibrary.org/books/{workKey}.json", timeout=5)
-        resp2.raise_for_status()
+        work_response = requests.get(f"https://openlibrary.org/books/{workKey}.json", timeout=5)
+        work_response.raise_for_status()
     except requests.RequestException:
-        return JsonResponse({"status":"failed", "message":"External service error"})
+        return Response({"message":"External service error"}, status=status.HTTP_502_BAD_GATEWAY)
     
-    bookData2 = resp2.json()
+    work_data = work_response.json()
 
-    subjectNames = bookData1.get("subjects") or []
+    subjectNames = book_data.get("subjects") or []
     subjects = list({s["name"].strip() for s in subjectNames})
 
-    publishDate = bookData1.get("publish_date") or ""
+    publishDate = book_data.get("publish_date") or ""
+
+    # Format date
     yearPublished = re.sub(r"[^0-9]", "", publishDate)[-4:] or "Unknown"
 
-    raw_desc = bookData2.get("description")
+    raw_desc = work_data.get("description")
     
     if isinstance(raw_desc, dict):
         desc = raw_desc.get("value") or "None"
@@ -51,26 +65,47 @@ def autofillBookInfo(request):
         desc = raw_desc
     else:
         desc = "None"
+        
+    # Format fields 
+    title = book_data.get("title") or "Unknown"
+    authors = book_data.get("authors") or []
+    publishers = book_data.get("publishers") or []
+    
+    author = (
+        authors[0]["name"]
+        if authors
+        else "Unknown"
+    )
+    publisher = (
+        publishers[0]["name"]
+        if publishers
+        else "Unknown"
+        
+    )
+    
+    edition = work_data.get("edition_name") or "Unknown"
+    pages = book_data.get("number_of_pages") or book_data.get("pagination") or "Unknown"
+    cover_url = (
+        f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
+        if isbn else None
+    )
 
-    authors = bookData1.get("authors") or []
-    publishers = bookData1.get("publishers") or []
+    # Set book object
+    book = {
+        "title" : title,
+        "author" : author,
+        "edition" : edition,
+        "description" : desc,
+        "publisher" : publisher, 
+        "year_published" : yearPublished,
+        "date_acquired" : today,
+        "pages" : pages,
+        "tags" : subjects,
+        "cover_url" : cover_url
+        
+    }
 
-    return JsonResponse ({
-        "status" : "success",
+    return Response ({
         "message" : "book found",
-        "book" : {
-            "title" : bookData1.get("title") or "Unknown",
-            "author" : authors[0]["name"] if authors else "Unknown",
-            "edition" : bookData2.get("edition_name") or "Unknown",
-            "description" : desc,
-            "publisher" : publishers[0]["name"] if publishers else "Unknown",
-            "year_published" : yearPublished,
-            "date_acquired" : today,
-            "pages" : bookData1.get("number_of_pages") or bookData1.get("pagination") or "Unknown",
-            "tags" : subjects,
-            "cover_url" : (
-                f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
-                if isbn else None
-            )
-        },
-    })
+        "book" : book,
+    }, status=status.HTTP_200_OK)

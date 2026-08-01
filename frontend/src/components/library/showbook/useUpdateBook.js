@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { borrowBook as borrowBookUtil, editBook as editBookUtil } from "../../../api/books";
+import { getStorage } from "../../../pages/auth/auth.util";
 
 export function useUpdateBook(setShowConfirm, notify) {
     
@@ -12,7 +13,7 @@ export function useUpdateBook(setShowConfirm, notify) {
         
         const resp = await editBookUtil(bookDetails);
         
-        if(resp.status === "failed") {
+        if(resp.status !== 200) {
             setToastMessage(resp.message);
             return;
         }
@@ -24,7 +25,7 @@ export function useUpdateBook(setShowConfirm, notify) {
     async function borrowBook(book) {
         const data = {
             isbn: book.isbn,
-            id_number: localStorage.getItem("id_number")
+            id_number: getStorage().getItem("id_number")
         }
 
         setLoading(true);
@@ -32,7 +33,7 @@ export function useUpdateBook(setShowConfirm, notify) {
         setToastMessage(resp.message);
         setLoading(false);
 
-        if(resp.status === "success") {
+        if(resp.status === 200) {
             setShowConfirm(false)
         }
         notify()

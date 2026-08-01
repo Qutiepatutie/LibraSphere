@@ -5,28 +5,28 @@ export const initialFormValues = {
     edition: "",
     description: "",
     publisher: "",
-    dateAcquired: "",
-    yearPublished: "",
+    date_acquired: "",
+    year_published: "",
     pages: "",
     tags: "",
     classification: "",
-    callNumber: "",
-    coverURL: null,
+    call_number: "",
+    cover_url: null,
 }
 
 export const labelToName = {
     ISBN : "isbn",
     Publisher : "publisher",
     Title : "title",
-    Date_Aquired : "dateAcquired",
+    Date_Aquired : "date_acquired",
     Author : "author",
-    Year_Published : "yearPublished",
+    Year_Published : "year_published",
     Edition : "edition",
     Pages : "pages",
     Description : "description",
     Tags : "tags",
     Classification : "classification",
-    Call_Number : "callNumber",
+    Call_Number : "call_number",
 }
 
 export const initialFormErrors = {
@@ -36,10 +36,10 @@ export const initialFormErrors = {
     edition : false,
     description : false,
     publisher : false,
-    dateAcquired : false,
-    yearPublished : false,
+    date_acquired : false,
+    year_published : false,
     pages : false,
     tags : false,
     classification : false,
-    callNumber : false
+    call_number : false
 }

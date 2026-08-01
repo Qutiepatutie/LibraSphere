@@ -3,6 +3,7 @@ import styles from "../../styles/userPages/borrowedbooks.module.css"
 import { useBorrowers } from "../../hooks/useBorrowers"
 import { getBookStatus } from "../../utils/getBookStatus"
 import BookPanel from "../../components/library/BookPanel.jsx"
+import { getStorage } from "../auth/auth.util.js";
 
 export default function BorrowedBooks() {
 
@@ -10,7 +11,7 @@ export default function BorrowedBooks() {
     
     const borrowedBooks = allBorrowers
         .filter(borrower => 
-            borrower.user.id_number === localStorage.getItem("id_number")
+            borrower.user.id_number === getStorage().getItem("id_number")
             && borrower.status !== "Returned"
             && borrower.status !== "Cancelled")
         .map(book => ({

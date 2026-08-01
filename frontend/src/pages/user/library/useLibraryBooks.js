@@ -10,7 +10,7 @@ export function useLibraryBooks() {
     useEffect( () => {
         const fetch = async () => {
             const fetchedBooks = await getBooks();
-            console.log(fetchedBooks.data);
+            console.log(fetchedBooks);
 
             const bookData = {};
 
@@ -18,7 +18,7 @@ export function useLibraryBooks() {
                 bookData[code] = [];
             });
 
-            fetchedBooks.data.forEach((book) => {
+            fetchedBooks.data.map((book) => {
                 const callNumber = book.call_number.substring(0,3).trim();
 
                 if(bookData[callNumber]){

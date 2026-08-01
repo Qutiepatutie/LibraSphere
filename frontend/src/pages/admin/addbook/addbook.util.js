@@ -19,9 +19,5 @@ export function generateCallNumber(classificationCode, authorName, year, setList
 
     console.log("called call number generator");
 
-    // Return Dewey-style call number
-    setList(prev => {
-        const callNum = {...prev, callNumber: `${classificationCode}.${firstLetter}${numericCode} ${year}`};
-        return callNum
-    });
+    return `${classificationCode}.${firstLetter}${numericCode} ${year}`;
 }
