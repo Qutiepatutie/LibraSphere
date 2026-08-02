@@ -1,5 +1,6 @@
 # LibraSphere LMS
 
+
 ## Project structure
 
 ```
@@ -16,38 +17,38 @@ LibraSphere/
 
 > **Note**: Empty directories have ".gitkeep" files in them, you can delete it once you add actual files in the folder
 
-### 1. Clone repo
+## 1. Clone repo
 
 ```
 git clone https://github.com/Qutiepatutie/LibraSphere.git
 cd LibraSphere
 ```
 
-### 2. Setup backend
+## 2. Setup backend
 
-#### Setup venv
+### Setup venv
 
-> (You can skip this if you don't have venv)
+> (You can skip this if you don't want venv)
 
 ```
 python -m venv venv
 venv\Scripts\activate # to activate venv
 ```
 
-#### Install dependencies
+### Install dependencies
 
 ```
 pip install -r dev-Requirements.txt
 ```
 
-#### Run migrations on Django
+### Run migrations on Django (If you're using a new database)
 
 ```
 cd backend
 python manage.py migrate
 ```
 
-#### Start backend server
+### Start backend server
 
 ```
 python manage.py runserver

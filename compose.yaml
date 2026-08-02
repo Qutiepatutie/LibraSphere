@@ -1,0 +1,14 @@
+services:
+    backend:
+        build: ./backend
+        ports: ["8000:8000"]
+        env_file: ./backend/.env
+        environment: 
+            CHOKIDIR_USEPOLLING: "true"
+        volumes: [./backend:/backend]
+
+    frontend:
+        build: ./frontend
+        ports: ["5173:5173"]
+        env_file: ./frontend/.env.development
+        volumes: [./frontend:/frontend, /frontend/node_modules]

@@ -1,0 +1,6 @@
+.env
+
+requirements.txt
+
+Dockerfile
+.dockerignore
