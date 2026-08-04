@@ -5,7 +5,7 @@ import CustomButton from "../ui/CustomButton";
 
 import google from "../../assets/auth/login/google.svg";
 
-export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials, rememberMe, setRememberMe, setMode, setErrorMessage, errorMessage, isLoading }) {
+export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials, rememberMe, setRememberMe, handleSwitch, setErrorMessage, errorMessage, isLoading }) {
 
     const handleChange = (field, value) => {
         setCredentials(prev => ({ ...prev, [field]: value }));
@@ -41,7 +41,7 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
                     <RememberMeBox isChecked={rememberMe} setIsChecked={setRememberMe}/>  
                     <p
                         className={styles.forgotPass}
-                        onClick={() => {setMode("forgotPass")}}
+                        onClick={() => handleSwitch("forgotPass")}
                     >
                         <u>Forgot Password?</u>
                     </p>

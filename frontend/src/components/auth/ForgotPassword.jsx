@@ -3,7 +3,7 @@ import styles from "../../styles/authPage/forgotpassword.module.css"
 import { FormInput, PasswordInput } from "../ui/Inputs";
 import CustomButton from "../ui/CustomButton.jsx"
 
-export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, setForgotPassData, setErrorMessage, errorMessage, setMode, isLoading}) {
+export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, setForgotPassData, setErrorMessage, errorMessage, handleSwitch, isLoading}) {
     
     const handleChange = (field, value) => {
         setForgotPassData(prev => ({ ...prev, [field]: value }));
@@ -45,7 +45,7 @@ export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, se
 
                 <p
                     className={styles.signIn}
-                    onClick={() => setMode("login")}
+                    onClick={() => handleSwitch("login")}
                 >
                     <u>Sign in</u>
                 </p>

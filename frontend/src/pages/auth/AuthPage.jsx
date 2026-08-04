@@ -10,7 +10,7 @@ import ForgotPassword from "../../components/auth/ForgotPassword.jsx"
 import Toast from "../../components/ui/Toast.jsx"
 
 import { useAuth } from "./useAuth.js"
-import { getStorage, restoreSession } from "./auth.util.js"
+import { checkEmail, getStorage, restoreSession } from "./auth.util.js"
 import {
     initialLoginCredentials,
     initialForgotPassData,
@@ -47,12 +47,8 @@ export default function AuthPage() {
 
         // states
         isLoading,
-        isPassChanged,
-        isRegistered,
 
         // setters
-        setIsPassChanged,
-        setIsRegistered,
         setErrorMessage,
 
         // actions
@@ -61,6 +57,7 @@ export default function AuthPage() {
         register,
     } = useAuth();
 
+    // Check if user is remembered
     useEffect(() => {
         async function checkLogin() {
             const success = await restoreSession();
@@ -71,11 +68,12 @@ export default function AuthPage() {
                 navigate(routes[role], {replace: true});
             }
         }
-
         checkLogin();
     }, []);
 
-    useEffect(() => {
+    // Reset fields on mode change (Login/Register)
+    function handleSwitch(mode){
+        setMode(mode);
         setPart(1);
         setErrorMessage("");
         setLoginCredentials(initialLoginCredentials);
@@ -84,58 +82,72 @@ export default function AuthPage() {
         setLoginErrors(initialLoginErrors);
         setForgotPassErrors(initialForgotPassErrors);
         setRegisterErrors(initialRegisterErrors);
-    }, [mode]);
+    };
 
-    useEffect(() => {
-        if (!isPassChanged) return;
+    // Check for empty fields
+    function checkFields(fields) {
+        if (Object.values(fields).some(Boolean)) {
+            setErrorMessage("Fill in important fields!");
+            return false;
+        }
+        return true;
+    }
 
-        setForgotPassData(initialForgotPassData);
-        setIsPassChanged(false);
-    }, [isPassChanged]);
-
-    useEffect(() => {
-        if (!isRegistered) return;
-
-        setRegisterData(initialRegisterData);
-        setPart(1);
-        setIsRegistered(false);
-    }, [isRegistered]);
-
-    const handleLogin = () => {
+    const handleLogin = async () => {
         const empty = {
             email: !loginCredentials.email.trim(),
             pass: !loginCredentials.pass.trim(),
         }
         
-        if (Object.values(empty).some(Boolean)) {
-            setErrorMessage("Fill in important fields!");
+        if (!checkFields(empty)) {
             setLoginErrors(empty);
             return;
         }
 
-        login(loginCredentials, rememberMe);
+        await login(loginCredentials, rememberMe);
     }
 
-    const handleForgotPassword = () => {
+    const handleForgotPassword = async () => {
+        setErrorMessage("");
+        
         const empty = {
             email: !forgotPassData.email.trim(),
             newPass: !forgotPassData.newPass.trim(),
             confirmNewPass: !forgotPassData.confirmNewPass.trim(),
         }
-        
-        if(Object.values(empty).some(Boolean)){
-            setErrorMessage("Fill in important fields!");
+
+        // Check for empty fields
+        if (!checkFields(empty)) {
             setForgotPassErrors(empty);
             return;
         }
 
-        forgotPass(forgotPassData);
+        const email = forgotPassData.email.toLowerCase();
+
+        // Check for restricted email
+        if(email.includes("admin") || email === "attendance") {
+            setErrorMessage("Invalid Email");
+            return;
+        }
+
+        // Check matching passwords
+        if(forgotPassData.newPass !== forgotPassData.confirmNewPass) {
+            setErrorMessage("New Passwords Must Match!");
+            return;
+        }
+        
+        const passChanged = await forgotPass(forgotPassData);
+        
+        if (passChanged) {
+            setForgotPassData(initialForgotPassData);
+            setMode("login");
+        }
     }
 
-    const handleRegister = () => {
+    const handleRegister = async () => {
+        setErrorMessage("");
         const fields = fieldsByPart[part];
         let empty = {};
-        setErrorMessage("");
 
         fields.forEach(field => {
             empty[field] = !registerData[field]?.trim();
@@ -153,23 +165,49 @@ export default function AuthPage() {
             return next;
         })
         
-        if (Object.values(empty).some(Boolean)) {
-            setErrorMessage("Fill in important fields!")
+        if (!checkFields(empty)) {
             return;
         }
 
+        // Check ID Number
         if(part === 2 && registerData.id_number.length !== 11) {
             setRegisterErrors(prev => ({ ...prev, id_number: true }));
-            setErrorMessage("Student Number must be 11 digits!");
+            setErrorMessage("ID Number must be 11 digits!");
             return;
         }
 
+        // Check if email is valid
+        const email = checkEmail(registerData);
+        
+        if (part === 3 && !email.valid) {
+            setRegisterErrors(prev => ({ ...prev, email: true }));
+            setErrorMessage("Invalid Email!");
+            return;
+        }
+
+        // Check passwords
+        if (part === 3 && (registerData.password !== registerData.confirm_password)) {
+            setErrorMessage("Passwords Must Match!");
+            return;
+        }
+        
+        // Constrain part numbers
         if (part !== 3) {
             setPart(prev => Math.min(prev + 1, 3));
             return;
         }
         
-        register(registerData);
+        const payload = {
+            ...registerData,
+            role: email.role,
+        }
+        
+        const registered = await register(payload);
+        
+        if (registered) {
+            setRegisterData(initialRegisterData);
+            setPart(1);
+        }
     }
 
     const submitHandler = {
@@ -193,7 +231,7 @@ export default function AuthPage() {
                         {mode !== "forgotPass" ?
                                 <Switcher
                                     option={mode}
-                                    setOption={setMode}
+                                    handleSwitch={handleSwitch}
                                     options={[ "Login", "Register" ]}
                                     width="70%"
                                 />
@@ -212,7 +250,7 @@ export default function AuthPage() {
                                 setCredentials={setLoginCredentials}
                                 rememberMe={rememberMe}
                                 setRememberMe={setRememberMe}
-                                setMode={setMode}
+                                handleSwitch={handleSwitch}
                                 setErrorMessage={setErrorMessage}
                                 errorMessage={errorMessage}
                                 isLoading={isLoading}
@@ -239,7 +277,7 @@ export default function AuthPage() {
                                 setForgotPassData={setForgotPassData}
                                 setErrorMessage={setErrorMessage}
                                 errorMessage={errorMessage}
-                                setMode={setMode}
+                                handleSwitch={handleSwitch}
                                 isLoading={isLoading}
                             />
                         }

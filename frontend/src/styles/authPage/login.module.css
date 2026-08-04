@@ -23,7 +23,8 @@
 }
 
 .error {
-    margin-top: -4%;
+    margin-top: -3%;
+    font-size: 0.8em;
     align-self: flex-start;
     color: #cc0000;
 }

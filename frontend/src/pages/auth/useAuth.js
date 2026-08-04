@@ -1,8 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { login as loginAPI, changePass, register as registerAPI } from "../../api/users.js"
-import { checkEmail } from "./auth.util.js";
 import { routes } from "./auth.constants.js";
 
 export function useAuth() {
@@ -13,25 +12,20 @@ export function useAuth() {
     
     const [errorMessage, setErrorMessage] = useState("");
     
-    const [isRegistered, setIsRegistered] = useState(false);
-    const [isPassChanged, setIsPassChanged] = useState(false);
-    
     const navigate = useNavigate();
-
-    useEffect(() => {
-        if (!showToast) return;
-        
-        const timer = setTimeout(() => {
-            setShowToast(false);
-            setToastMessage("");
-        }, 3000);
-
-        return () => clearTimeout(timer);
-    }, [showToast]);
     
     function showToastFunc(message) {
         setToastMessage(message);
-        setShowToast(true);
+        
+        // Show toast for 3 seconds
+        setShowToast(() => {
+            const timer = setTimeout(() => {
+                setShowToast(false);
+                setToastMessage("");
+            }, 3000); // 3 seconds
+    
+            return () => clearTimeout(timer);
+        });
     }
 
     async function login(loginCredentials, rememberMe) {
@@ -69,22 +63,7 @@ export function useAuth() {
         }
     }
 
-    async function forgotPass(forgotPassData) {
-        setErrorMessage("");
-        
-        const email = forgotPassData.email.toLowerCase();
-
-        if(email === "admin" || email === "attendance") {
-            setErrorMessage("Invalid Email");
-            return false;
-        }
-
-        if(forgotPassData.newPass !== forgotPassData.confirmNewPass) {
-            setErrorMessage("New Passwords Must Match!");
-            return false;
-        }
-        
-        try {
+    async function forgotPass(forgotPassData) { try {
             setIsLoading(true);
             const resp = await changePass(forgotPassData.email, forgotPassData.newPass);
 
@@ -94,7 +73,6 @@ export function useAuth() {
             }
             
             showToastFunc(resp.message);
-            setIsPassChanged(true);
             return true;
             
         } catch {
@@ -106,27 +84,7 @@ export function useAuth() {
         }
     }
 
-    async function register(registerData) {
-        setErrorMessage("");
-        
-        if(registerData.password !== registerData.confirm_password) {
-            setErrorMessage("Passwords Must Match!");
-            return false;
-        }
-
-        const email = checkEmail(registerData);
-
-        if(!email.valid) {
-            setErrorMessage("Invalid Email!");
-            return false;
-        }
-
-        const payload = {
-            ...registerData,
-            role: email.role,
-            email: email.email,
-        };
-
+    async function register(payload) {
         try {
             setIsLoading(true);
             const resp = await registerAPI(payload);
@@ -137,7 +95,6 @@ export function useAuth() {
             }
     
             showToastFunc(resp.message);
-            setIsRegistered(true);
             return true;
             
         } catch {
@@ -157,13 +114,9 @@ export function useAuth() {
         errorMessage,
 
         // states
-        isPassChanged,
-        isRegistered,
         isLoading,
 
         // setters
-        setIsPassChanged,
-        setIsRegistered,
         setErrorMessage,
 
         // actions

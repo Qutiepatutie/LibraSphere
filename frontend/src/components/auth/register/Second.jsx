@@ -24,7 +24,7 @@ export default function Second({ isEmpty, registerData, onChange }) {
             />
 
             <FormInput 
-                label="Student Number"
+                label="ID Number"
                 value={registerData.id_number}
                 name="student_number"
                 onChange={(e) => onChange("id_number", e.target.value)}

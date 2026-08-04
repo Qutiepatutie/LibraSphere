@@ -1,6 +1,6 @@
 import styles from "../../../styles/components/switcher.module.css"
 
-export default function Switcher({option="", setOption="", options, width="", height="", outline="", borderRadius="" }) {
+export default function Switcher({option="", handleSwitch, options, width="", height="", outline="", borderRadius="" }) {
     return (
         <div className={styles.container} style={{ width:width, height:height, outline: outline, borderRadius: borderRadius}}>
             {options.map((opt, index)=> {
@@ -11,7 +11,7 @@ export default function Switcher({option="", setOption="", options, width="", he
                     <div
                         key={opt}
                         className={styles.option}
-                        onClick={() => setOption(value)}
+                        onClick={() => handleSwitch(value)}
                         style={{ color: option === value ? "white" : ""}}
                     >
                         {opt}
