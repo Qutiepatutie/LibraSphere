@@ -1,17 +1,18 @@
 import styles from "../../styles/authPage/login.module.css"
 
-import { FormInput, PasswordInput, RememberMeBox } from "../../components/ui/Inputs"
-import CustomButton from "../ui/CustomButton";
-
 import google from "../../assets/auth/login/google.svg";
+
+import CustomButton from "../ui/CustomButton";
+import { FormInput, PasswordInput, RememberMeBox } from "../../components/ui/Inputs"
+import useForm from "../../hooks/useForm";
 
 export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials, rememberMe, setRememberMe, handleSwitch, setErrorMessage, errorMessage, isLoading }) {
 
-    const handleChange = (field, value) => {
-        setCredentials(prev => ({ ...prev, [field]: value }));
-        setIsEmpty(prev => ({ ...prev, [field]: false }));
-        setErrorMessage("");
-    }
+    const { handleChange } = useForm({
+        setData: setCredentials,
+        setIsEmpty,
+        setErrorMessage
+    });
 
     return (
         <div className={styles.login}>

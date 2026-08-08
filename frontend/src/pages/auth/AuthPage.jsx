@@ -27,9 +27,12 @@ export default function AuthPage() {
     const [mode, setMode] = useState("login");
     const [part, setPart] = useState(1);
 
+    // Form data
     const [loginCredentials, setLoginCredentials] = useState(initialLoginCredentials);
     const [forgotPassData, setForgotPassData] = useState(initialForgotPassData);
     const [registerData, setRegisterData] = useState(initialRegisterData);
+
+    // Errors
     const [loginErrors, setLoginErrors] = useState(initialLoginErrors);
     const [forgotPassErrors, setForgotPassErrors] = useState(initialForgotPassErrors);
     const [registerErrors, setRegisterErrors] = useState(initialRegisterErrors);
@@ -84,6 +87,17 @@ export default function AuthPage() {
         setRegisterErrors(initialRegisterErrors);
     };
 
+    // Initialize mapping the empty fields
+    function buildMissingFields(fields, data) {
+        const missingFields = {}
+
+        fields.forEach(field => {
+            missingFields[field] = !data[field]?.trim();
+        })
+
+        return missingFields;
+    }
+
     // Check for empty fields
     function checkFields(fields) {
         if (Object.values(fields).some(Boolean)) {
@@ -94,13 +108,12 @@ export default function AuthPage() {
     }
 
     const handleLogin = async () => {
-        const empty = {
-            email: !loginCredentials.email.trim(),
-            pass: !loginCredentials.pass.trim(),
-        }
+        const missingFields =
+            buildMissingFields(Object.keys(loginCredentials), loginCredentials);
+
+        setLoginErrors(missingFields);
         
-        if (!checkFields(empty)) {
-            setLoginErrors(empty);
+        if (!checkFields(missingFields)) {
             return;
         }
 
@@ -109,16 +122,14 @@ export default function AuthPage() {
 
     const handleForgotPassword = async () => {
         setErrorMessage("");
+
+        const missingFields =
+            buildMissingFields(Object.keys(forgotPassData), forgotPassData);
         
-        const empty = {
-            email: !forgotPassData.email.trim(),
-            newPass: !forgotPassData.newPass.trim(),
-            confirmNewPass: !forgotPassData.confirmNewPass.trim(),
-        }
+        setForgotPassErrors(missingFields);
 
         // Check for empty fields
-        if (!checkFields(empty)) {
-            setForgotPassErrors(empty);
+        if (!checkFields(missingFields)) {
             return;
         }
 
@@ -147,25 +158,13 @@ export default function AuthPage() {
     const handleRegister = async () => {
         setErrorMessage("");
         const fields = fieldsByPart[part];
-        let empty = {};
 
-        fields.forEach(field => {
-            empty[field] = !registerData[field]?.trim();
-        });
+        const missingFields =
+            buildMissingFields(fields, registerData);
 
-        setRegisterErrors(prev => {
-            const next = { ...prev };
-
-            Object.keys(next).forEach(key => next[key] = false);
-
-            fields.forEach(field => {
-                next[field] = empty[field];
-            });
-            
-            return next;
-        })
+        setRegisterErrors(missingFields);
         
-        if (!checkFields(empty)) {
+        if (!checkFields(missingFields)) {
             return;
         }
 

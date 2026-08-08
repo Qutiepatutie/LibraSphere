@@ -3,7 +3,7 @@ import styles from "../../../styles/components/switcher.module.css"
 export default function Switcher({option="", handleSwitch, options, width="", height="", outline="", borderRadius="" }) {
     return (
         <div className={styles.container} style={{ width:width, height:height, outline: outline, borderRadius: borderRadius}}>
-            {options.map((opt, index)=> {
+            {options.map((opt)=> {
 
                 const value = opt.toLowerCase();
 

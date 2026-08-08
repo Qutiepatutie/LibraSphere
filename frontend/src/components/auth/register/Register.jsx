@@ -1,18 +1,20 @@
 import styles from "../../../styles/authPage/register.module.css"
 
+import CustomButton from "../../ui/CustomButton";
 import First from "./First.jsx"
 import Second from "./Second.jsx"
 import Third from "./Third.jsx"
 import RegisterProgress from "../../auth/register/RegisterProgress.jsx"
 
-import CustomButton from "../../ui/CustomButton";
+import useForm from "../../../hooks/useForm.js";
 
 export default function Register({ isEmpty, setIsEmpty, part, setPart, registerData, errorMessage, setRegisterData, setErrorMessage, isLoading }) {
 
-    const handleChange = (field, value) => {
-        setRegisterData(prev => ({...prev, [field]: value}));
-        setIsEmpty(prev => ({...prev, [field]: false}));
-    };
+    const { handleChange } = useForm({
+        setData: setRegisterData,
+        setIsEmpty,
+        setErrorMessage
+    })
 
     return (
         <div className={styles.register}>

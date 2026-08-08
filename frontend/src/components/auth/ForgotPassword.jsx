@@ -1,15 +1,16 @@
 import styles from "../../styles/authPage/forgotpassword.module.css"
 
-import { FormInput, PasswordInput } from "../ui/Inputs";
 import CustomButton from "../ui/CustomButton.jsx"
+import { FormInput, PasswordInput } from "../ui/Inputs";
+import useForm from "../../hooks/useForm.js";
 
 export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, setForgotPassData, setErrorMessage, errorMessage, handleSwitch, isLoading}) {
-    
-    const handleChange = (field, value) => {
-        setForgotPassData(prev => ({ ...prev, [field]: value }));
-        setIsEmpty(prev => ({ ...prev, [field]: false }));
-        setErrorMessage("");
-    }
+
+    const { handleChange } = useForm({
+        setData: setForgotPassData,
+        setIsEmpty,
+        setErrorMessage
+    });
 
     return (
         <div className={styles.forgotPass}>
