@@ -5,6 +5,7 @@ import First from "./First.jsx"
 import Second from "./Second.jsx"
 import Third from "./Third.jsx"
 import RegisterProgress from "../../auth/register/RegisterProgress.jsx"
+import ErrorMessage from "../../ui/ErrorMessage.jsx";
 
 import useForm from "../../../hooks/useForm.js";
 
@@ -27,9 +28,8 @@ export default function Register({ isEmpty, setIsEmpty, part, setPart, registerD
                 {part === 1 && <First isEmpty={isEmpty} registerData={registerData} onChange={handleChange}/>}
                 {part === 2 && <Second isEmpty={isEmpty} registerData={registerData} onChange={handleChange}/>}
                 {part === 3 && <Third isEmpty={isEmpty} registerData={registerData} onChange={handleChange}/>}
+                <ErrorMessage message={errorMessage} />
             </div>
-
-            <p className={styles.error}><i>{errorMessage}</i></p>
             
             <div className={styles.buttons}>
                 {part > 1 &&
@@ -39,21 +39,14 @@ export default function Register({ isEmpty, setIsEmpty, part, setPart, registerD
                             setPart(prev => Math.max(prev - 1, 1))
                             setErrorMessage("");
                         }}
-                        height="2.5em"
                         type="button"
-                        width="49%"
-                        bgColor="lightgrey"
-                        color="black"
-                        borderRadius="5px"
+                        action="return"
                     />
                 }
                 
                 <CustomButton
-                    value={part == 3 ? (isLoading ? "Processing..." : "Submit") : "Next"}
-                    height="2.5em"
+                    value={part === 3 ? (isLoading ? "Processing..." : "Submit") : "Next"}
                     type="submit"
-                    width={part === 1 ? "100%" : "49%"}
-                    borderRadius="5px"
                 />
             </div>
         </div>

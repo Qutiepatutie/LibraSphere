@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from "react"
 import Toast from "../../../components/ui/Toast.jsx"
 
 import {
-    FormInput, 
+    TextInput, 
     DescriptionInput,
     Selector
 } from "../../../components/ui/Inputs.jsx"
@@ -193,7 +193,7 @@ export default function AddBook() {
 
                             if(label === "ISBN") {
                                 return (
-                                    <FormInput 
+                                    <TextInput 
                                         key={name}
                                         {...props}
                                         onBlur={handleAutofill}
@@ -219,7 +219,7 @@ export default function AddBook() {
                                 )
                             }
 
-                            return <FormInput key={name} {...props} />;
+                            return <TextInput key={name} {...props} />;
                         })}
                     </div>
 

@@ -1,20 +1,28 @@
 .button {
+    width: 100%;
+    height: 100%;
     border: none;
-    border-radius: 10px;
+    border-radius: 5px;
     background-color: var(--primary-color);
 
     display: flex;
     justify-content: center;
     align-items: center;
     color: white;
+
+    &:hover {
+        cursor: pointer;
+        transform: scale(1.01);
+    }
+
+    &[disabled] {
+        user-select: none;
+        pointer-events: none;
+    }
 }
 
-.button:hover {
-    cursor: pointer;
-    transform: scale(1.01);
-}
-
-.button[disabled] {
-    user-select: none;
-    pointer-events: none;
+.return,
+.cancel {
+    background-color: lightgrey;
+    color: black;
 }

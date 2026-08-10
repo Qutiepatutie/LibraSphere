@@ -6,14 +6,15 @@ import openBook from "../../assets/auth/login/open-book-icon.svg"
 import closedBook from "../../assets/auth/login/closed-book-icon.svg"
 import searchIcon from "../../assets/search-icon.svg"
 
-export function FormInput({ label="", value="", name="", onChange, onBlur, disabled, isEmpty=false, width}) {
+export function TextInput({ label = "", value = "", name = "", placeholder = "", onChange, onBlur, disabled, isEmpty = false }) {
     return (
-        <div className={styles.formInput} style={{width: width }}>
-            <input 
+        <div className={styles.formInput} >
+            {label && <label htmlFor={name}>{label}</label>}
+            <input
                 type="text"
                 name={name}
                 value={value}
-                placeholder={label}
+                placeholder={placeholder}
                 onChange={onChange}
                 onBlur={onBlur}
                 className={isEmpty ? styles.empty : ""}
@@ -27,7 +28,7 @@ export function DescriptionInput({ label="", value="", name="", rows="", onChang
     return (
         <div className={styles.descriptionInput} style={{width: width}}>
             {label && <label htmlFor={name}>{label}</label>}
-            <textarea 
+            <textarea
                 name={name}
                 rows={rows}
                 value={value}
@@ -40,7 +41,7 @@ export function DescriptionInput({ label="", value="", name="", rows="", onChang
     )
 }
 
-export function Selector({ label="",value="", options, name="", onChange, disabled, isEmpty=false}) {
+export function Selector({ placeholder="",value="", options, name="", onChange, disabled, isEmpty=false}) {
     return (
         <div className={styles.selector}>
             <select
@@ -50,14 +51,14 @@ export function Selector({ label="",value="", options, name="", onChange, disabl
                 className={isEmpty ? styles.empty : ""}
                 disabled={disabled}
             >
-                <option hidden>{label}</option>
+                <option hidden>{placeholder}</option>
                 {options?.map((option, index) => {
                     const isObject = typeof option === "object";
 
                     const optionCode = isObject ? option.code : option;
-                    const optionLabel = isObject 
+                    const optionLabel = isObject
                         ? `${option.code} - ${option.label}`
-                        : option;  
+                        : option;
 
                     return (
                         <option key={index} value={optionCode}>{optionLabel}</option>
@@ -68,20 +69,20 @@ export function Selector({ label="",value="", options, name="", onChange, disabl
     )
 }
 
-export function PasswordInput({ label="", value="", name="", onChange, isEmpty=false }) {
+export function PasswordInput({ placeholder="", value="", name="", onChange, isEmpty=false }) {
     const [showPass, setShowPass] = useState(false);
 
     return (
         <div className={styles.formInputPass}>
             <div className={`${styles.passContainer} ${isEmpty ? styles.empty : ""}`}>
-                <input 
+                <input
                     type={showPass ? "text" : "password"}
                     name={name}
                     value={value}
-                    placeholder={label}
+                    placeholder={placeholder}
                     onChange={onChange}
                 />
-            
+
                 <img
                     src={showPass ? openBook : closedBook}
                     onClick={() => setShowPass(!showPass)}
@@ -95,11 +96,11 @@ export function SearchBar({ value="", name="", placeholder="", onChange, onClick
     return (
         <div className={styles.searchBar} style={style} >
             <div className={styles.searchContainer}>
-                <img 
+                <img
                     src={searchIcon}
                     onClick={onClick}
                 />
-                <input 
+                <input
                     type="text"
                     name={name}
                     value={value}
@@ -114,7 +115,7 @@ export function SearchBar({ value="", name="", placeholder="", onChange, onClick
 export function RememberMeBox({ isChecked, setIsChecked }) {
     return (
         <label className={styles.rememberMe}>
-            <input 
+            <input
                 type="checkbox"
                 checked={isChecked}
                 onChange={() => setIsChecked(!isChecked)}
@@ -122,4 +123,4 @@ export function RememberMeBox({ isChecked, setIsChecked }) {
             Remember Me
         </label>
     );
-} 
+}

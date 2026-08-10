@@ -1,18 +1,11 @@
 import styles from "../../styles/components/custombutton.module.css"
 
-export default function CustomButton({ value="", type="", height="", onClick, width="", borderRadius="", bgColor="", color="", disabled}) {
+export default function CustomButton({ value="", type="", onClick, disabled, action}) {
     return (
         <button 
-            className={styles.button}
+            className={`${styles.button} ${styles[action]}`}
             onClick={onClick}
             type={type}
-            style={{ 
-                height: `min(${height}, 90%)`, 
-                width: `min(${width}, 100%)`, 
-                borderRadius: borderRadius, 
-                backgroundColor: bgColor, 
-                color:color
-            }}
             disabled={disabled}
         >
             {value}

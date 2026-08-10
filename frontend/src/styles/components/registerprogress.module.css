@@ -1,9 +1,8 @@
 .container {
     display: flex;
     align-items: center;
-    /* background-color: grey; */
-    height: 50px;
-    width: 80%;
+    height: 100%;
+    width: 75%;
 
     gap: 1%;
 }
@@ -14,8 +13,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 45px;
-    height: 45px;
+    width: clamp(2.5em, 2.7vw, 5em);
+    aspect-ratio: 1;
     border: 1.5px solid #969891;
     border-radius: 10px;
     background-color: #ededed;
@@ -41,8 +40,8 @@
 }
 
 .icon {
-    width: 27px;
-    height: 27px;
+    width: 60%;
+    height: 60%;
 }
 
 .inverted {

@@ -1,7 +1,7 @@
-import styles from "../../styles/authPage/forgotpassword.module.css"
+import styles from "../../styles/authPage/forgotpassword.module.css";
 
-import CustomButton from "../ui/CustomButton.jsx"
-import { FormInput, PasswordInput } from "../ui/Inputs";
+import CustomButton from "../ui/CustomButton.jsx";
+import { TextInput, PasswordInput } from "../ui/Inputs";
 import useForm from "../../hooks/useForm.js";
 
 export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, setForgotPassData, setErrorMessage, errorMessage, handleSwitch, isLoading}) {
@@ -15,8 +15,8 @@ export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, se
     return (
         <div className={styles.forgotPass}>
             <div className={styles.inputs}>
-                <FormInput 
-                    label="Email"
+                <TextInput 
+                    placeholder="Email"
                     value={forgotPassData.email}
                     name="email"
                     onChange={(e) => handleChange("email", e.target.value)}
@@ -24,7 +24,7 @@ export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, se
                 />
                 
                 <PasswordInput 
-                    label="New Password"
+                    placeholder="New Password"
                     value={forgotPassData.newPass}
                     name="newPass"
                     onChange={(e) => handleChange("newPass", e.target.value)}
@@ -32,7 +32,7 @@ export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, se
                 />
     
                 <PasswordInput
-                    label="Confirm New Password"
+                    placeholder="Confirm New Password"
                     value={forgotPassData.confirmNewPass}
                     name="confirmNewPass"
                     onChange={(e) => handleChange("confirmNewPass", e.target.value)}
@@ -43,21 +43,19 @@ export default function ForgotPassword({ isEmpty, setIsEmpty, forgotPassData, se
 
 
             <div className={styles.buttons}>
-
                 <p
                     className={styles.signIn}
                     onClick={() => handleSwitch("login")}
                 >
                     <u>Sign in</u>
                 </p>
-                
-                <CustomButton
-                    value={isLoading ? "Processing..." : "Reset Password"}
-                    height="2.5rem"
-                    width="80%"
-                    borderRadius="5px"
-                    disabled={isLoading}
-                />
+               
+                <div className={styles.submitButton}>
+                    <CustomButton
+                        value={isLoading ? "Processing..." : "Reset Password"}
+                        disabled={isLoading}
+                    />
+                </div> 
             </div>
         </div>
     )

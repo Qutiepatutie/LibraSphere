@@ -3,7 +3,8 @@ import styles from "../../styles/authPage/login.module.css"
 import google from "../../assets/auth/login/google.svg";
 
 import CustomButton from "../ui/CustomButton";
-import { FormInput, PasswordInput, RememberMeBox } from "../../components/ui/Inputs"
+import { TextInput, PasswordInput, RememberMeBox } from "../../components/ui/Inputs"
+import ErrorMessage from "../ui/ErrorMessage.jsx";
 import useForm from "../../hooks/useForm";
 
 export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials, rememberMe, setRememberMe, handleSwitch, setErrorMessage, errorMessage, isLoading }) {
@@ -17,16 +18,16 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
     return (
         <div className={styles.login}>
             <div className={styles.inputs}>
-                <FormInput
-                    label="Email"
+                <TextInput
                     value={credentials.email}
+                    placeholder="Email"
                     name="email"
                     onChange={(e) => handleChange("email", e.target.value)}
                     isEmpty={isEmpty.email}
                 />
                 
                 <PasswordInput
-                    label="Password"
+                    placeholder="Password"
                     value={credentials.pass}
                     name="password"
                     onChange={(e) => handleChange("pass", e.target.value)}
@@ -35,7 +36,7 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
 
             </div>
             
-            <p className={styles.error}><i>{errorMessage}</i></p>
+            <ErrorMessage message={errorMessage} />
 
             <div className={styles.buttons}>
                 <div className={styles.actionButtons}>
@@ -47,21 +48,19 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
                         <u>Forgot Password?</u>
                     </p>
                 </div>
-                <CustomButton
-                    onClick={() => { }}
-                    value={isLoading ? "Logging in..." : "Login"}
-                    type="submit"
-                    height="2.5rem"
-                    width="80%"
-                    borderRadius="5px"
-                    disabled={isLoading}
-                />
+                <div className={styles.loginButton}>
+                    <CustomButton
+                        value={isLoading ? "Logging in..." : "Login"}
+                        type="submit"
+                        disabled={isLoading}
+                    />
+                </div>
             </div>
 
             <div className={styles.divider}>or</div>
                 
-            <div className={styles.googleLogin}>
-                <div className={styles.googleLoginContainer}>
+            <div className={styles.googleLoginContainer}>
+                <div className={styles.googleLogin}>
                     <img src={google}/>
                     <p>Login with Google</p>
                 </div>

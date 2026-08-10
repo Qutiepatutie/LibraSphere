@@ -9,19 +9,9 @@
     overflow: hidden;
 }
 
-.logo {
-    position: absolute;
-    width: auto;
-    height: auto;
-
-    transform: scale(0.5) translateY(-380%);
-
-    z-index: 2;
-}
-
 .formContainer {
-    height: clamp(30%, 420px, 90%);
-    width: clamp(10%, 350px, 90%);     
+    height: clamp(30%, 420px, 55%);
+    width: clamp(10%, 350px, 75%);     
     background-color:white;
 
     display: grid;
@@ -41,7 +31,7 @@
 }
 
 .resetPassHeader {
-    font-size: 2em;
+    font-size: clamp(1.5em, 2vw, 3em);
     color: var(--primary-color);
 }
 

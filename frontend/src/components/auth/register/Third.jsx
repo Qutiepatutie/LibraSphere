@@ -1,11 +1,11 @@
-import { FormInput, PasswordInput } from "../../ui/Inputs"
+import { TextInput, PasswordInput } from "../../ui/Inputs"
 
 export default function Third({ isEmpty, registerData, onChange }) {
 
     return (
         <>
-            <FormInput 
-                label="Email"
+            <TextInput 
+                placeholder="Email"
                 value={registerData.email}
                 name="email"
                 onChange={(e) => onChange("email", e.target.value)}
@@ -13,7 +13,7 @@ export default function Third({ isEmpty, registerData, onChange }) {
             />        
             
             <PasswordInput 
-                label="Password"
+                placeholder="Password"
                 value={registerData.password}
                 name="password"
                 onChange={(e) => onChange("password", e.target.value)}
@@ -21,7 +21,7 @@ export default function Third({ isEmpty, registerData, onChange }) {
             />        
             
             <PasswordInput
-                label="Confirm Password"
+                placeholder="Confirm Password"
                 value={registerData.confirm_password}
                 name="confirm_password"
                 onChange={(e) => onChange("confirm_password", e.target.value)}

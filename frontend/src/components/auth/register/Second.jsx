@@ -1,4 +1,4 @@
-import { FormInput, Selector } from "../../ui/Inputs.jsx";
+import { TextInput, Selector } from "../../ui/Inputs.jsx";
 import { programs, sex } from "./register.constants.js"
 
 export default function Second({ isEmpty, registerData, onChange }) {
@@ -6,7 +6,7 @@ export default function Second({ isEmpty, registerData, onChange }) {
     return (
         <>
             <Selector 
-                label="Sex"
+                placeholder="Sex"
                 value={registerData.sex}
                 name="sex"
                 onChange={(e) => onChange("sex", e.target.value)}
@@ -15,7 +15,7 @@ export default function Second({ isEmpty, registerData, onChange }) {
             />
 
             <Selector 
-                label="Program"
+                placeholder="Program"
                 value={registerData.program}
                 name="program"
                 onChange={(e) => onChange("program", e.target.value)}
@@ -23,8 +23,8 @@ export default function Second({ isEmpty, registerData, onChange }) {
                 options={programs}
             />
 
-            <FormInput 
-                label="ID Number"
+            <TextInput 
+                placeholder="ID Number"
                 value={registerData.id_number}
                 name="student_number"
                 onChange={(e) => onChange("id_number", e.target.value)}
