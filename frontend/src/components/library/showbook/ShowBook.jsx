@@ -140,18 +140,13 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                             {isEdit && 
                                 <CustomButton 
                                 value="Cancel"
-                                height="3em"
-                                width="30%"
-                                bgColor="#ededed"
-                                color="black"
+                                action="cancel"
                                 onClick={handleCancelEdit}
                                 />
                             }
 
                             <CustomButton 
                                 value={buttonLabel}
-                                height="3em"
-                                width="30%"
                                 onClick={() => {
                                     if(isAdmin){
                                         return isEdit 
@@ -162,7 +157,6 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                                         setShowConfirm(true);
                                     }}
                                     disabled={isBorrowed && role !== "admin"}
-                                    bgColor={isBorrowed && role !== "admin" ? "darkgray" : ""}
                             />
                         </div>
                     </div>

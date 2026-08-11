@@ -73,9 +73,13 @@
 
 .button {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     margin-top: auto;
     gap: 0.5em;
-    height: 100%;
+    height: 2.5em;
+
+    & > * {
+        width: 30%;
+    }
 }
 

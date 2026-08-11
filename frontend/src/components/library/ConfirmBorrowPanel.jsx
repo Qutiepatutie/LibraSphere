@@ -17,18 +17,13 @@ export default function ConfirmBorrowPanel({ showConfirm, setShowConfirm, currBo
                     <CustomButton 
                         value="Cancel"
                         type="button"
-                        height="100%"
-                        width="45%"
-                        bgColor="#ededed"
-                        color="black"
+                        action="cancel"
                         onClick={() => setShowConfirm(false)}
                     />
                     <CustomButton 
                         value={loading ? "Borrowing" : "Confirm"}
                         type="button"
-                        height="100%"
-                        width="45%"
-                        bgColor={loading ? "darkgray" : ""}
+                        disabled={loading}
                         onClick={() => handleConfirmBorrow(currBook)}
                     />
                 </div>

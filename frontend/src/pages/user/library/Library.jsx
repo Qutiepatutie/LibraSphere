@@ -78,7 +78,6 @@ export default function Library() {
             <div className={styles.library}>
                 <form className={styles.header} onSubmit={handleSearchBooks}>
                     <SearchBar
-                        label="Find all the literatures you want in just one search"
                         name="search"
                         value={searchQuery}
                         placeholder="Search title, author, ISBN"

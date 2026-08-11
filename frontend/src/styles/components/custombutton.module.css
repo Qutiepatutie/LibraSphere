@@ -26,3 +26,7 @@
     background-color: lightgrey;
     color: black;
 }
+
+button[disabled] {
+    background-color: darkgrey;
+}
