@@ -204,7 +204,7 @@ export default function AddBook() {
                             if(label === "Description") {
                                 return (
                                     <div key={name} className={styles.descriptionWrapper}>
-                                        <DescriptionInput {...props} rows="10" />
+                                        <DescriptionInput {...props} rows="15" />
                                     </div>
                                 );
                             }
@@ -227,18 +227,14 @@ export default function AddBook() {
                         <CustomButton 
                             value="Clear" 
                             type="button"
-                            height="40%"
-                            width="20%"
-                            bgColor="#ededed"
-                            color="black"
+                            action="clear"
                             onClick={handleClear}
                         />
 
                         <CustomButton 
                             value={isSubmitting ? "Adding Book" : "Add Book"}
+                            action={isSubmitting ? "loading" : ""}
                             type="submit"
-                            height="40%"
-                            width="20%"
                             onClick={handleSubmit}                            
                         />
                     </div>

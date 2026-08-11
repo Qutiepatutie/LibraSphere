@@ -23,7 +23,7 @@ export default function ConfirmBorrowPanel({ showConfirm, setShowConfirm, currBo
                     <CustomButton 
                         value={loading ? "Borrowing" : "Confirm"}
                         type="button"
-                        disabled={loading}
+                        action={loading ? "loading" : ""}
                         onClick={() => handleConfirmBorrow(currBook)}
                     />
                 </div>

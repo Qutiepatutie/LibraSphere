@@ -87,9 +87,6 @@ export default function Borrowers() {
                 <CustomButton 
                     onClick={handleExport}
                     value="Export Data"
-                    height="100%" 
-                    width="10%"
-                    borderRadius=""
                 />
             </div>
         </div>

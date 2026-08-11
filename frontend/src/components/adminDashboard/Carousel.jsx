@@ -39,37 +39,34 @@ export default function Carousel({ borrowers, updateBookStatus, acceptBook, load
                             <p>ISBN: {borrower.book.isbn}</p>
                         </div>
                     </div>
-                    <div className={styles.button}>
+                    <div className={styles.buttonsContainer}>
                         {borrower.status !== "Pending" &&
                             <p>
                                 Due Date: {borrower.due_date}
                             </p>
                         }
-                        {borrower.status === "Pending" && 
-                            <CustomButton 
-                                value="Cancel"
-                                height="3em"
-                                width="30%"
-                                bgColor="#ededed"
-                                color="black"
-                                onClick={() => updateBookStatus(borrower.book.isbn, borrower.book.call_number, "cancel")}
-                                disabled={loading}
-                            />
-                        }
-                        <CustomButton 
-                            value={borrower.status !== "Pending" ? "Return" : "Accept"}
-                            height="3em"
-                            width="30%"
-                            onClick={() => {
-                                if(borrower.status !== "Pending") {
-                                    updateBookStatus(borrower.book.isbn, borrower.book.call_number, "return");
-                                } else {
-                                    acceptBook(borrower.book.isbn, borrower.book.call_number);
-                                }
-                                }
+                        <div className={styles.buttons}>
+                            {borrower.status === "Pending" && 
+                                <CustomButton 
+                                    value="Cancel"
+                                    action="cancel"
+                                    onClick={() => updateBookStatus(borrower.book.isbn, borrower.book.call_number, "cancel")}
+                                    disabled={loading}
+                                />
                             }
-                            disabled={loading}
-                        />
+                            <CustomButton 
+                                value={borrower.status !== "Pending" ? "Return" : "Accept"}
+                                onClick={() => {
+                                    if(borrower.status !== "Pending") {
+                                        updateBookStatus(borrower.book.isbn, borrower.book.call_number, "return");
+                                    } else {
+                                        acceptBook(borrower.book.isbn, borrower.book.call_number);
+                                    }
+                                }}
+                                
+                                action={loading ? "loading" : ""}
+                            />
+                        </div>
                     </div>
                 </div>
             ))}

@@ -16,8 +16,7 @@
     }
 
     &[disabled] {
-        user-select: none;
-        pointer-events: none;
+        background-color: darkgrey;
     }
 }
 
@@ -27,6 +26,12 @@
     color: black;
 }
 
-button[disabled] {
-    background-color: darkgrey;
+.clear {
+    background-color: #BA1A1A;
+}
+
+.loading {
+    opacity: 0.8;
+    user-select: none;
+    pointer-events: none;
 }

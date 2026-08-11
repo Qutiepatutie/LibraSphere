@@ -10,7 +10,7 @@
 }
 
 .cover {
-    width: 25%;
+    width: 30%;
     border: 3px dashed var(--primary-color);
     border-radius: 10px;
 
@@ -44,6 +44,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+
+    padding: 1.5em 5%;
     
 }
 
@@ -52,19 +54,21 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(auto-fill, min-content);
-    row-gap: 0.5em;
+    row-gap: 1em;
     justify-items: center;
-    padding: 5%;
+
+    & > * {
+        width: 95%;
+    }
 }
 
 .descriptionWrapper {
     grid-column: 1;
     grid-row: span 3;
-    width: 80%;
 }
 
 .buttons {
-    height: 15%;
+    height: 5em;
     width: 100%;
     margin-top: auto;
 
@@ -72,5 +76,9 @@
     justify-content: end;
     align-items: center;
     gap: 0.5em;
-    padding-right: 2em; 
+
+    & > * {
+        width: 20%;
+        height: 3em;
+    }
 }

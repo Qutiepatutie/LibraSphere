@@ -84,7 +84,7 @@
     gap: 0.5em;
 }
 
-.button {
+.buttonsContainer {
     height: 3em;
     position: relative;
     display: flex;
@@ -92,23 +92,35 @@
     align-items: center;
     padding: 1% 2%;
     gap: 0.5em;
-}
 
-.button::after {
-    content: '';
-    position: absolute;
-    width: 95%;
-    top: 0;
-    border: 1px solid rgba(0,0,0,0.2);
-    left: 50%;
-    transform: translateX(-50%);
+    &::after {
+        content: '';
+        position: absolute;
+        width: 95%;
+        top: 0;
+        border: 1px solid rgba(0,0,0,0.2);
+        left: 50%;
+        transform: translateX(-50%);
+    }
 
-}
+    & p {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-80%);
+        top: 30%;
+        color: lightgrey;
+        
+    }
 
-.button p {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-80%);
-    top: 30%;
-    color: lightgrey;
+    & > .buttons {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: right;
+        gap: 1em;
+
+        & > * {
+            width: 30%;
+        }
+    }
 }

@@ -52,7 +52,7 @@ export default function Login({ isEmpty, setIsEmpty, credentials, setCredentials
                     <CustomButton
                         value={isLoading ? "Logging in..." : "Login"}
                         type="submit"
-                        disabled={isLoading}
+                        action={isLoading ? "loading" : ""}
                     />
                 </div>
             </div>
