@@ -161,84 +161,86 @@ export default function AddBook() {
         <>
             <Toast message={toastMessage} show={showToast}/>
             <div className={styles.addbook}>
-                <div className={styles.cover} 
-                style={{borderColor:(bookData.cover_url && !isAutofilling 
-                            ? "transparent" 
-                            : "")}}
-                >
-                    {isAutofilling 
-                        ? <p>Loading...</p>
-                        : bookData.cover_url
-                            ? <img src={bookData.cover_url} />
-                            : !autofilled
-                                ? <p>Add Cover</p>
-                                : <p>No Available Cover</p> 
-                    }
+                <div className={styles.container}>
+                    <div className={styles.cover} 
+                    style={{borderColor:(bookData.cover_url && !isAutofilling 
+                                ? "transparent" 
+                                : "")}}
+                    >
+                        {isAutofilling 
+                            ? <p>Loading...</p>
+                            : bookData.cover_url
+                                ? <img src={bookData.cover_url} />
+                                : !autofilled
+                                    ? <p>Add Cover</p>
+                                    : <p>No Available Cover</p> 
+                        }
+                    </div>
+    
+                    <form className={styles.infos} onSubmit={handleSubmit}>
+                        <div className={styles.formContainer}>
+    
+                            {Object.keys(labelToName).map((label) => {
+                                const name = labelToName[label];
+    
+                                const props = {
+                                    label: label.replaceAll("_", " "),
+                                    name: name,
+                                    value: bookData[name],
+                                    onChange: (e) => handleChange(name, e.target.value),
+                                    isEmpty: valueErrors[name],
+                                    disabled: isSubmitting || isAutofilling
+                                }
+    
+                                if(label === "ISBN") {
+                                    return (
+                                        <TextInput 
+                                            key={name}
+                                            {...props}
+                                            onBlur={handleAutofill}
+                                        />
+                                    )
+                                }
+    
+                                if(label === "Description") {
+                                    return (
+                                        <div key={name} className={styles.descriptionWrapper}>
+                                            <DescriptionInput {...props} rows="15" />
+                                        </div>
+                                    );
+                                }
+    
+                                if(label === "Classification") {
+                                    return (
+                                        <Selector
+                                            key={name}
+                                            {...props}
+                                            options={categories}
+                                        />
+                                    )
+                                }
+    
+                                return <TextInput key={name} {...props} />;
+                            })}
+                        </div>
+    
+                        <div className={styles.buttons}>
+                            <CustomButton 
+                                value="Clear" 
+                                type="button"
+                                action="clear"
+                                onClick={handleClear}
+                            />
+    
+                            <CustomButton 
+                                value={isSubmitting ? "Adding Book" : "Add Book"}
+                                action={isSubmitting ? "loading" : ""}
+                                type="submit"
+                                onClick={handleSubmit}                            
+                            />
+                        </div>
+                    </form>
                 </div>
-
-                <form className={styles.infos} onSubmit={handleSubmit}>
-                    <div className={styles.formContainer}>
-
-                        {Object.keys(labelToName).map((label) => {
-                            const name = labelToName[label];
-
-                            const props = {
-                                label: label.replaceAll("_", " "),
-                                name: name,
-                                value: bookData[name],
-                                onChange: (e) => handleChange(name, e.target.value),
-                                isEmpty: valueErrors[name],
-                                disabled: isSubmitting || isAutofilling
-                            }
-
-                            if(label === "ISBN") {
-                                return (
-                                    <TextInput 
-                                        key={name}
-                                        {...props}
-                                        onBlur={handleAutofill}
-                                    />
-                                )
-                            }
-
-                            if(label === "Description") {
-                                return (
-                                    <div key={name} className={styles.descriptionWrapper}>
-                                        <DescriptionInput {...props} rows="15" />
-                                    </div>
-                                );
-                            }
-
-                            if(label === "Classification") {
-                                return (
-                                    <Selector
-                                        key={name}
-                                        {...props}
-                                        options={categories}
-                                    />
-                                )
-                            }
-
-                            return <TextInput key={name} {...props} />;
-                        })}
-                    </div>
-
-                    <div className={styles.buttons}>
-                        <CustomButton 
-                            value="Clear" 
-                            type="button"
-                            action="clear"
-                            onClick={handleClear}
-                        />
-
-                        <CustomButton 
-                            value={isSubmitting ? "Adding Book" : "Add Book"}
-                            action={isSubmitting ? "loading" : ""}
-                            type="submit"
-                            onClick={handleSubmit}                            
-                        />
-                    </div>
-                </form>
             </div>
         </>
     )

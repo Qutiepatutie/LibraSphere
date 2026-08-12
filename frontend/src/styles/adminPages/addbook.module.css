@@ -9,8 +9,16 @@
     gap: 0.5em;
 }
 
+.container {
+    width: 90%;
+    height: 80%;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    column-gap: 0.5em;
+}
+
 .cover {
-    width: 30%;
+    width: 100%;
     border: 3px dashed var(--primary-color);
     border-radius: 10px;
 
@@ -33,8 +41,8 @@
 }
 
 .infos {
-    width: 55%;
-    height: 80%;
+    width: 100%;
+    height: 100%;
     background-color: white;
 
     border: none;
@@ -45,17 +53,20 @@
     flex-direction: column;
     justify-content: center;
 
-    padding: 1.5em 5%;
+    padding: 1.5em 5em;
     
 }
 
 .formContainer {
-    height: 85%;
+    width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(auto-fill, min-content);
     row-gap: 1em;
     justify-items: center;
+
+    overflow-y: auto;
 
     & > * {
         width: 95%;
