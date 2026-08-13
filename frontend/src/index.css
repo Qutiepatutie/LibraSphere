@@ -2,12 +2,12 @@
 
 :root {
     color-scheme: light;
-    font-family: "Manrope", sans-serif;
+    font-family: "Manrope";
     background-image: url("./assets/background.webp");
     background-repeat: no-repeat;
     background-size: cover;
 
-    --primary-color: #4D643A;
+    --primary-color: #5D6D4F;
     --sidebar-width: clamp(5rem, 3vw, 16rem);
     --sidebar-expanded-width: clamp(16rem, 1vw, 20rem);
     --header-height: clamp(4rem, 1.5vh, 5em);

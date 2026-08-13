@@ -9,30 +9,55 @@ select {
     font-size: clamp(0.8em, 1vw, 2em);
     padding-left: 0.5em;
     box-sizing: border-box;
-    background-color: #ededed;
+    background-color: #E8E9E2;
 
     outline: none;
     transition: outline 0.25s;
 }
 .rememberMe {
+    user-select: none;
     width: auto;
     height: 2em;
     display: flex;
     justify-content: left;
     align-items: center;
-    gap: 1.5%;
+    gap: 2%;
+    color: var(--primary-color);
 
     white-space: nowrap;
 
     &:hover {
-        color: var(--primary-color);
+        color: #455538;
         cursor: pointer;
     }
 }
 
 input[type="checkbox"] {
-    height: 100%;
+
+    
     accent-color: var(--primary-color);
+    background-color: #E8E9E2;
+    appearance: none;
+    cursor: pointer;
+    width: clamp(1em, 1.2vw, 2em); /* tbc */
+    aspect-ratio: 1/1;
+    border-radius: 4px;
+    border: 1px solid #969891;
+
+}
+
+input[type="checkbox"]:hover {
+    outline: 1px solid var(--primary-color);
+}
+
+input[type="checkbox"]:checked {
+    border-radius: 5px;
+    background-color: var(--primary-color);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+}
+input[type="checkbox"]:checked:after{
+    background-size:contain;
+    
 }
 
 textarea {
@@ -46,6 +71,8 @@ textarea {
 
 select {
     border: none;
+    cursor: pointer;
+    color: var(--primary-color);
 }
 
 .searchContainer input {
@@ -55,7 +82,7 @@ select {
 .formInput input,
 .descriptionInput textarea,
 .selector select {
-    outline: 2px solid #aaaaaa;
+    outline: 1.5px solid #969891;
 }
 
 label:not(.rememberMe) {
@@ -84,11 +111,11 @@ label:not(.rememberMe) {
     display: flex;
     align-items: center;
 
-    background-color: #ededed;
+    background-color: #E8E9E2;
     border: none;
     border-radius: 7px;
 
-    outline: 2px solid #aaaaaa;
+    outline: 1.5px solid #969891;
     transition: outline 0.25s;
 }
 
@@ -117,5 +144,5 @@ label:not(.rememberMe) {
 }
 
 .empty {
-    outline: 2px solid red !important;
+    outline: 1px solid #BA1A1A !important;
 }

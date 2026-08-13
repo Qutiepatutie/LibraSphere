@@ -10,12 +10,12 @@
 
     padding: 10px;
     box-sizing: border-box;
-    color: white;
+    color: #DCEEC9;
 
     z-index: 2147483647;
     border: none;
     border-radius: 10px;
-    background-color: #4D643A;
+    background-color: var(--primary-color);
     box-shadow: rgba(0, 0, 0, 0.5) 0px 1px 4px;
 
     opacity: 0;

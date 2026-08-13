@@ -10,8 +10,8 @@
 }
 
 .formContainer {
-    height: clamp(30%, 420px, 55%);
-    width: clamp(10%, 350px, 75%);     
+    height: clamp(30%, 500px, 55%);
+    width: clamp(10%, 420px,75%);     
     background-color:white;
 
     display: grid;
@@ -21,11 +21,11 @@
     justify-content: center;
     align-content:center;
     
-    border:1px solid #969891;
+    border:2px solid #969891;
     border-radius: 10px;
 
     box-sizing: border-box;
-    padding: 0.5%;
+    padding: 2% 2% 0% 2%;  /* from .5% */
 
     /*box-shadow: 10px 10px 100px 8px lightgrey, -10px -10px 100px 8px lightgrey;*/
 }

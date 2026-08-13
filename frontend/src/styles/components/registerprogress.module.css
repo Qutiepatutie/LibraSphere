@@ -17,7 +17,7 @@
     aspect-ratio: 1;
     border: 1.5px solid #969891;
     border-radius: 10px;
-    background-color: #ededed;
+    background-color: #E8E9E2;
 
     user-select: none;
     pointer-events: none;
@@ -28,15 +28,15 @@
     height: 5px;
     border-radius: 3px;
     border: 1px solid #969891;
-    background-color: #ededed;
+    background-color: #E8E9E2;
 }
 
 .filled {
-    background-color: #4D643A;
+    background-color: var(--primary-color);
 }
 
 .current {
-    background-color: #4D643A;
+    background-color: var(--primary-color);
 }
 
 .icon {
