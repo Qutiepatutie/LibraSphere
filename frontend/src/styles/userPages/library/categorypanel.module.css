@@ -1,5 +1,5 @@
 .category {
-    width: clamp(270px, 65vw, 1500px);
+    width: clamp(300px, 65vw, 1500px);
     height: clamp(200px, 20vw, 300px);
 
     border: none;
