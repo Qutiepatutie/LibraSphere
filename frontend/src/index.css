@@ -8,8 +8,8 @@
     background-size: cover;
 
     --primary-color: #5D6D4F;
-    --sidebar-width: clamp(4rem, 3vw, 16rem);
-    --sidebar-expanded-width: clamp(16rem, 1vw, 20rem);
+    --sidebar-width: clamp(3rem, 4vw, 16rem);
+    --sidebar-expanded-width: clamp(14vw, 5vw, 15rem);
     --header-height: clamp(4rem, 1.5vh, 5em);
 
     --active-color: #10b981;
