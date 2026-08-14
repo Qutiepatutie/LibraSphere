@@ -8,7 +8,7 @@
     background-size: cover;
 
     --primary-color: #5D6D4F;
-    --sidebar-width: clamp(5rem, 3vw, 16rem);
+    --sidebar-width: clamp(4rem, 3vw, 16rem);
     --sidebar-expanded-width: clamp(16rem, 1vw, 20rem);
     --header-height: clamp(4rem, 1.5vh, 5em);
 

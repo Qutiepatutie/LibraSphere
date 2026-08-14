@@ -24,8 +24,8 @@
 
 .return,
 .cancel {
-    background-color: lightgrey;
-    color: black;
+    background-color: #E8E9E2;
+    color: #2F312D;
 }
 
 .clear {

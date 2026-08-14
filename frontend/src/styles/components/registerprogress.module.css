@@ -25,7 +25,7 @@
 
 .line{
     flex-grow: 1;
-    height: 5px;
+    height: 4px;
     border-radius: 3px;
     border: 1px solid #969891;
     background-color: #E8E9E2;

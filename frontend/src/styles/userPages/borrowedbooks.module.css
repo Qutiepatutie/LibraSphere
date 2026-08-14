@@ -132,7 +132,9 @@
 }
 
 .panel {
-    background-color: #edededed;
+    background-color: #E8E9E2; /* changed to match figma design */
+    user-select: none;
+
     border-radius: 10px;
     /*border: 1px solid black;*/
 }
