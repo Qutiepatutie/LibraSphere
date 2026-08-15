@@ -29,37 +29,39 @@ export default function BorrowedBooks() {
 
     return (
         <div className={styles.borrowedBooks}>
-            <div className={styles.panel}>
-                <p className={styles.value}>{borrowedBooks.length}</p>
-                <p className={styles.label}>Total Borrowed</p>
-            </div>
-            <div className={styles.panel}>
-                <p className={styles.value}>{overdueBooks.length}</p>
-                <p className={styles.label}>Overdue</p>
-            </div>
-
-            <div className={styles.panel}>
-                <p className={styles.value}>{dueBooks.length}</p>
-                <p className={styles.label}>Due this week</p>
-            </div>
-
-            <div className={styles.panel}>
-                <p className={styles.value}>₱ {bookFine}</p>
-                <p className={styles.label}>Fine</p>
-            </div>
-
-            <div className={styles.panel}>
-                {borrowedBooks.length === 0
-                    ? (<h1 className={styles.noBooks}>No Books Borrowed</h1>)
-                    : (borrowedBooks.map((book, index) => (
-                        <BookPanel
-                            key={index}
-                            book={book.book}
-                            status={book.status}
-                            hover={false}
-                        />
-                    )))
-                }
+            <div className={styles.container}>
+                <div className={styles.panel}>
+                    <p className={styles.value}>{borrowedBooks.length}</p>
+                    <p className={styles.label}>Total Borrowed</p>
+                </div>
+                <div className={styles.panel}>
+                    <p className={styles.value}>{overdueBooks.length}</p>
+                    <p className={styles.label}>Overdue</p>
+                </div>
+    
+                <div className={styles.panel}>
+                    <p className={styles.value}>{dueBooks.length}</p>
+                    <p className={styles.label}>Due this week</p>
+                </div>
+    
+                <div className={styles.panel}>
+                    <p className={styles.value}>₱ {bookFine}</p>
+                    <p className={styles.label}>Fine</p>
+                </div>
+    
+                <div className={styles.panel}>
+                    {borrowedBooks.length === 0
+                        ? (<h1 className={styles.noBooks}>No Books Borrowed</h1>)
+                        : (borrowedBooks.map((book, index) => (
+                            <BookPanel
+                                key={index}
+                                book={book.book}
+                                status={book.status}
+                                hover={false}
+                            />
+                        )))
+                    }
+                </div>
             </div>
         </div>
     )

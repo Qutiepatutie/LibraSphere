@@ -1,134 +1,24 @@
-/*.borrowedBooks {
-    width: 100%;
-    height: 100%;
-    display: grid;
-
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: auto 1fr;
-    column-gap: 2em;
-    row-gap: 1em;
-
-    grid-template-areas:
-    "total overdue due fine"
-    "books books books books";
-
-    padding: 2% 4% 1% 4%;
-}
-
-.panel {
-    border: 2px solid #ededed;
-    border-radius: 10px;
-    background-color: white;
-    box-shadow:
-        rgba(0, 0, 0, 0.1) 0px 0px 5px 0px,
-        rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    padding: 1.5em;
-
-}
-
-.panel .info{
-    display: flex;
-    gap: 0.5em;
-}
-
-.panel .info img {
-    height: 1.5em;
-    width: 1.5em;
-    object-fit: contain;
-}
-
-.panel:nth-child(1) { grid-area: total; }
-.panel:nth-child(2) { grid-area: overdue; }
-.panel:nth-child(3) { grid-area: due; }
-.panel:nth-child(4) { grid-area: fine; }
-.panel:nth-child(5) { grid-area: books; }
-
-.panel:last-child {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 1em;
-
-    padding: 2em;
-
-    justify-content: start;
-    align-items: start;
-
-    overflow-y: auto;
-}
-
-.bookPanel {
-    width: 10%;
-    aspect-ratio: 2/3;
-                    
-    display: flex;
-    flex-direction: column;
-
-    justify-content: start;
-    align-items: center;
-    gap: 0.5em;
-
-}
-
-.cover {
-    width: 100%;
-    aspect-ratio: 2/3;
-    
-    border-radius: 10px;
-    
-    box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.5);
-}
-
-.status {
-    display: flex;
-    height: 13%;
-    width: 80%;
-}
-
-.panel .noBooks {
-    position: relative;
-    display: flex;
-    width: 100%;
-    height: 100%;
-    justify-content: center;
-    align-items: center;
-    color: #ededed;
-
-    user-select: none;
-}
-
-@media (max-width: 768px) {
-    .borrowedBooks {
-        grid-template-columns: repeat(2, 1fr);
-
-        grid-template-areas:
-            "total overdue"
-            "due fine"
-            "books books books books";
-    }
-}*/
-
 .borrowedBooks {
     height: 100%;
     width: 100%;
 
+    display: flex;
+    justify-content: center;
+
+    padding: clamp(1em, 4vw, 10rem) 0;
+}
+
+.container {
+    height: 100%;
+    width: clamp(300px, 65vw, 1500px);
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: 1fr 4fr;
     gap: clamp(0.3em, 1vw, 3em);
-
+    
     grid-template-areas: 
         "total overdue due fine"
         "books books books books";
-
-    padding: 
-        clamp(0.75em, 2vh, 2em)
-        clamp(1em, 6.5vw, 10rem);
 }
 
 .panel {
@@ -136,60 +26,59 @@
     user-select: none;
 
     border-radius: 10px;
-    /*border: 1px solid black;*/
-}
 
-.panel:not(:last-child) {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    &:not(:last-child) {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        
+        gap: clamp(0.3em, 0.5vw, 2em);
+        padding: 1em;
+    }
+
+    & > .value {
+        font-size: clamp(1.5em, 3.5vw, 5em);
+    }
+
+    & > .label {
+        opacity: 0.5;
+        font-size: clamp(0.8em, 1vw, 3em);
+    }
+
+    &:last-child {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        overflow-y: auto;
+        flex-wrap: wrap;
     
-    gap: clamp(0.3em, 0.5vw, 2em);
-    padding: 1em;
+        padding: clamp(0.2em, 1vw, 3em);
+        gap: clamp(0.2em, 1vw, 2em);
+    }
+
+    & > .noBooks {
+        display: block;
+        width: 100%;
+        align-self: center;
+        text-align: center;
     
-}
+        font-size: clamp(1em, 2.5vw, 5em);
+        opacity: 0.5;
+    }
 
-.panel > .value {
-    font-size: clamp(1.5em, 3.5vw, 5em);
-}
-
-.panel > .label {
-    opacity: 0.5;
-    font-size: clamp(0.8em, 1vw, 3em);
-}
-
-.panel:nth-child(1) { grid-area: total; }
-.panel:nth-child(2) { grid-area: overdue; }
-.panel:nth-child(3) { grid-area: due; }
-.panel:nth-child(4) { grid-area: fine; }
-.panel:nth-child(5) { grid-area: books; }
-
-.panel:last-child {
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    overflow-y: auto;
-    flex-wrap: wrap;
-
-    padding: clamp(0.2em, 1vw, 3em);
-    gap: clamp(0.2em, 1vw, 2em);
-}
-
-.panel > .noBooks {
-    display: block;
-    width: 100%;
-    align-self: center;
-    text-align: center;
-
-    font-size: clamp(1em, 2.5vw, 5em);
-    opacity: 0.5;
+    &:nth-child(1) { grid-area: total; }
+    &:nth-child(2) { grid-area: overdue; }
+    &:nth-child(3) { grid-area: due; }
+    &:nth-child(4) { grid-area: fine; }
+    &:nth-child(5) { grid-area: books; }
 }
 
 @media (max-width: 600px) {
-    .borrowedBooks {
+    .container {
         grid-template-columns: repeat(2, 1fr);
         grid-template-rows: 1fr 1fr 4fr;
         
