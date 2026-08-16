@@ -1,4 +1,4 @@
-import styles from "../../../styles/userPages/library/showBook/bookinfos.module.css"
+import styles from "../../../styles/library/showBook/bookinfos.module.css"
 
 export default function BookInfos({ bookDetails, details, handleChange, isEdit }){
     return (
@@ -8,7 +8,7 @@ export default function BookInfos({ bookDetails, details, handleChange, isEdit }
                 <h2>{bookDetails.author}</h2>
             </div>
             <div className={styles.description}>
-                <textarea 
+                <textarea
                     name="description"
                     value={bookDetails.description}
                     onChange={handleChange}
@@ -32,7 +32,7 @@ export default function BookInfos({ bookDetails, details, handleChange, isEdit }
                     return (
                         <p key={index}>
                             <span>{details[key]}:</span>
-                            <input 
+                            <input
                                 {...props}
                             />
                         </p>

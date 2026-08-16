@@ -1,4 +1,4 @@
-import styles from "../../styles/userPages/library/confirmborrowpanel.module.css"
+import styles from "../../styles/library/confirmborrowpanel.module.css"
 
 import CustomButton from "../../components/ui/CustomButton.jsx"
 

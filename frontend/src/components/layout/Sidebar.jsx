@@ -1,6 +1,6 @@
 import styles from "../../styles/components/layout/sidebar.module.css"
 
-import { NavLink } from "react-router-dom"
+import { NavLink, useLocation } from "react-router-dom"
 
 import logo from "../../assets/libraSphere-logo.svg"
 import dashboard from "../../assets/sidebar/dashboard.svg"
@@ -14,6 +14,13 @@ import { logout, getStorage } from "../../pages/auth/auth.util.js"
 
 export default function Sidebar({ showSidebar, setShowSidebar }) {
     const role = getStorage().getItem("role");
+
+    const location = useLocation();
+    
+    const isDashboardActive =
+        role === "admin"
+            ? location.pathname.startsWith("/admin/dashboard")
+            : location.pathname === "/dashboard"
 
     return (
         <>
@@ -36,8 +43,8 @@ export default function Sidebar({ showSidebar, setShowSidebar }) {
                 </div>
                 <div className={styles.buttons}>
                     <NavLink
-                        to = {role === "admin" ? "/admin/dashboard" : "/dashboard"}
-                        className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
+                        to = {role === "admin" ? "/admin/dashboard/statistics" : "/dashboard"}
+                        className={`${styles.navButton} ${isDashboardActive ? styles.active : ""}`}
                         onClick={() => setShowSidebar(false)}
                     >
                         <img className={styles.icon} src={dashboard} />

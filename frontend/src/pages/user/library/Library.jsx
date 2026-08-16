@@ -1,4 +1,4 @@
-import styles from "../../../styles/userPages/library/library.module.css"
+import styles from "../../../styles/library/library.module.css"
 
 import { useState } from "react"
 

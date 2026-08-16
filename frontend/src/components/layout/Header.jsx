@@ -15,9 +15,16 @@ export default function Header({ showSidebar, setShowSidebar}) {
         "/library" : "Library",
         "/borrowed-books" : "Borrowed Books",
 
-        "/admin/dashboard" : "Admin Dashboard",
         "/admin/borrowers" : "Borrowers",
         "/admin/add-book" : "Add Book",
+    }
+
+    const getPageTitle = (path) => {
+        if (path.startsWith("/admin/dashboard")) {
+            return "Dashboard";
+        }
+
+        return currPage[path] || "";
     }
 
     return (
@@ -28,7 +35,7 @@ export default function Header({ showSidebar, setShowSidebar}) {
             >
                 <img src={burger} />
             </div>
-            <p className={styles.title}>{currPage[pathname]}</p>
+            <p className={styles.title}>{getPageTitle(pathname)}</p>
 
             <div className={styles.profile}>
                 <img className={styles.avatar} src={avatar}/>

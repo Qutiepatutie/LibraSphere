@@ -1,4 +1,4 @@
-import styles from "../../styles/userPages/library/expandedcategory.module.css"
+import styles from "../../styles/library/expandedcategory.module.css"
 
 import { useEffect } from "react";
 

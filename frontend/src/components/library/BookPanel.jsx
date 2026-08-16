@@ -1,4 +1,4 @@
-import styles from "../../styles/userPages/library/bookpanel.module.css"
+import styles from "../../styles/library/bookpanel.module.css"
 
 export default function BookPanel({ setActiveBook, setShowBook, book, status = null, hover = true }) {
     return (

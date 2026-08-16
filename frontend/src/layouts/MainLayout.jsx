@@ -1,4 +1,4 @@
-import styles from "../styles/mainlayout.module.css"
+import styles from "../styles/layouts/mainlayout.module.css"
 
 import { Outlet } from "react-router-dom"
 import { useState } from "react"

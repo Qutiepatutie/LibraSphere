@@ -1,4 +1,4 @@
-import styles from "../../styles/userPages/library/categorypanel.module.css"
+import styles from "../../styles/library/categorypanel.module.css"
 
 import arrow from "../../assets/pages/library/arrow-right.svg"
 

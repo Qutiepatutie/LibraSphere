@@ -1,4 +1,4 @@
-import styles from "../../../styles/userPages/library/showBook/showbook.module.css"
+import styles from "../../../styles/library/showBook/showbook.module.css"
 import close from "../../../assets/close-icon.svg"
 
 import { useState, useEffect } from "react";
@@ -16,17 +16,17 @@ import ConfirmBorrowPanel from "../ConfirmBorrowPanel.jsx";
 export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBook }){
     const role =
         localStorage.getItem("role") || sessionStorage.getItem("role");
-    
+
     const notify = () => {
         setShowToast(true);
         setTimeout(() => setShowToast(false), 2000);
     }
-    
+
     const [showConfirm, setShowConfirm] = useState(false);
     const [bookDetails, setBookDetails] = useState(currBook);
 
     const [showToast, setShowToast] = useState(false);
-    
+
     const { allBorrowers, setAllBorrowers } = useBorrowers();
     const {
         loading,
@@ -37,7 +37,7 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
         borrowBook,
         editBook,
     } = useUpdateBook(setShowConfirm, notify);
-    
+
     const isBorrowed = allBorrowers.some(
         b => b.status !== "Returned" && b.status !== "Cancelled"
         && b.book.isbn === currBook.isbn
@@ -59,11 +59,11 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
 
         window.addEventListener("keydown", handleEsc);
         return () => window.removeEventListener("keydown", handleEsc);
-    }, [showBook]); 
+    }, [showBook]);
 
     const handleChange = (e) => {
         const {value, name} = e.target;
-        
+
         setBookDetails({ ...bookDetails, [name]: value});
     }
 
@@ -95,8 +95,8 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     const handleConfirmBorrow = (book) => {
         borrowBook(book);
 
-        setAllBorrowers(prev => 
-            prev.map(b => 
+        setAllBorrowers(prev =>
+            prev.map(b =>
                 b.book.isbn === book.isbn
                     ? {...b, status: "Pending"}
                     : b
@@ -107,18 +107,18 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     return (
         <>
             <Toast message={toastMessage} show={showToast}/>
-            <ConfirmBorrowPanel 
-                showConfirm={showConfirm} 
+            <ConfirmBorrowPanel
+                showConfirm={showConfirm}
                 setShowConfirm={setShowConfirm}
                 currBook={currBook}
                 loading={loading}
-                handleConfirmBorrow={handleConfirmBorrow}  
+                handleConfirmBorrow={handleConfirmBorrow}
             />
             <div
                 className={styles.backdrop}
                 onClick={() => setShowBook(false)}
             >
-                <div 
+                <div
                     className={styles.showBook}
                     onClick={(e) => e.stopPropagation()}
                 >
@@ -128,7 +128,7 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                     </div>
 
                     <div className={styles.bodyContainer}>
-                        <BookInfos 
+                        <BookInfos
                             bookDetails={bookDetails}
                             details={details}
                             handleChange={handleChange}
@@ -137,23 +137,23 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                             />
 
                         <div className={styles.button}>
-                            {isEdit && 
-                                <CustomButton 
+                            {isEdit &&
+                                <CustomButton
                                 value="Cancel"
                                 action="cancel"
                                 onClick={handleCancelEdit}
                                 />
                             }
 
-                            <CustomButton 
+                            <CustomButton
                                 value={buttonLabel}
                                 onClick={() => {
                                     if(isAdmin){
-                                        return isEdit 
-                                            ? handleConfirmEdit() 
+                                        return isEdit
+                                            ? handleConfirmEdit()
                                             : setIsEdit(true)
                                         }
-                                        
+
                                         setShowConfirm(true);
                                     }}
                                 disabled={isBorrowed && role !== "admin"}

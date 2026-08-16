@@ -6,9 +6,8 @@ import { getBookStatus } from "../utils/getBookStatus";
 export function useBorrowers() {
 
     const [allBorrowers, setAllBorrowers] = useState([]);
-    
     const [toastMessage, setToastMessage] = useState("");
-
+    const [showToast, setShowToast] = useState(false);
     const [loading, setLoading] = useState(false);
 
     const pendingBorrowers = useMemo(() => 
@@ -37,13 +36,27 @@ export function useBorrowers() {
 
         fetchBorrowers();
     }, []);
+    
+    function showToastFunc(message) {
+        setToastMessage(message);
+        
+        // Show toast for 3 seconds
+        setShowToast(() => {
+            const timer = setTimeout(() => {
+                setShowToast(false);
+                setToastMessage("");
+            }, 3000); // 3 seconds
+    
+            return () => clearTimeout(timer);
+        });
+    }
 
     async function updateBookStatus(isbn, call_num, action) {
         setLoading(true);
         const resp = await returnBookUtil(isbn, call_num, action);
         setLoading(false);
             
-        setToastMessage(resp.message);
+        showToastFunc(resp.message);
 
         if(resp.status === "failed") { return; }
 
@@ -59,7 +72,7 @@ export function useBorrowers() {
         setLoading(false);
         console.log(resp);
 
-        setToastMessage(resp.message);
+        showToastFunc(resp.message);
 
         if (resp.status !== 200)
             return;
@@ -87,5 +100,5 @@ export function useBorrowers() {
             .includes(query)
         );
 
-    return { toastMessage, loading, pendingBorrowers, currentBorrowers, allBorrowers, setAllBorrowers, updateBookStatus, acceptBook, searchBorrowers };
+    return { toastMessage, showToast, loading, pendingBorrowers, currentBorrowers, allBorrowers, setAllBorrowers, updateBookStatus, acceptBook, searchBorrowers };
 }

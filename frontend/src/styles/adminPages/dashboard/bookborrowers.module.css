@@ -1,0 +1,13 @@
+.bookBorrowers {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+
+    padding-bottom: 4em;
+}
+
+.listContainer {
+    flex: 1;
+    min-height: 0;
+}
