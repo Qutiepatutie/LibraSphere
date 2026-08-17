@@ -35,13 +35,15 @@ export default function Header({ showSidebar, setShowSidebar}) {
             >
                 <img src={burger} />
             </div>
-            <p className={styles.title}>{getPageTitle(pathname)}</p>
-
-            <div className={styles.profile}>
-                <img className={styles.avatar} src={avatar}/>
-                <div className={styles.profileInfo}>
-                    <p>{getStorage().getItem("user")}</p>
-                    <p className={styles.id}>ID: <span>{getStorage().getItem("id_number")}</span></p>
+            <div className={styles.infoContainer}>
+                <p className={styles.title}>{getPageTitle(pathname)}</p>
+    
+                <div className={styles.profile}>
+                    <img className={styles.avatar} src={avatar}/>
+                    <div className={styles.profileInfo}>
+                        <p>{getStorage().getItem("user")}</p>
+                        <p className={styles.id}>ID: <span>{getStorage().getItem("id_number")}</span></p>
+                    </div>
                 </div>
             </div>
         </div>

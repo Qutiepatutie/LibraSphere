@@ -4,7 +4,7 @@
     height: var(--header-height);
 
     display: flex;
-    justify-content: left;
+    justify-content: center;
     align-items: center;
 
     padding: 0 3% 0 3%;
@@ -13,7 +13,7 @@
     right: 0;
 }
 
-.header::after {
+/*.header::after {
     content:"";
     position: absolute;
     bottom: 0;
@@ -21,7 +21,7 @@
     transform: translateX(-50%);
     width: 90%;
     border-bottom: 1px solid var(--primary-color);
-}
+}*/
 
 .burgerContainer {
     height: 30px;
@@ -31,41 +31,69 @@
     justify-content: center;
 
     border-radius: 50px;
-    margin-right: 0.2em;
+    margin-right: auto;
 }
 
 .burgerContainer:active {
     background-color: lightgrey;
 }
 
-.title {
-    font-size: clamp(1em, 1.5vw, 3em);
-}
-
-.profile {
-    width: clamp(9rem, 12vw, 13rem);
-    height: 60%;
+.infoContainer {
+    /*flex: 1;*/
     display: flex;
-    justify-content: center;
+    width: clamp(300px, 65vw, 1500px);
+    justify-content: space-between;
     align-items: center;
-    margin-left: auto;
-    gap: 5%;
 
-    padding: 0.3em;
+    /*padding: 0 3% 0 3%;*/
     box-sizing: border-box;
 
-}
+    right: 0;
 
-.profileInfo {
-    font-size: clamp(0.7em, 1vw, 1.5rem);
-}
+    /*background-color: antiquewhite;*/
 
-.avatar {
-    height: 100%;
-}
+    & > .title {
+        font-size: clamp(1em, 1.5vw, 3em);
+    }
 
-.id {
-    color: lightgrey;
+    & > .profile {
+        width: clamp(9rem, 12vw, 13rem);
+        height: 60%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-left: auto;
+        gap: 5%;
+    
+        padding: 0.3em;
+        box-sizing: border-box;
+        
+        & > .avatar {
+            height: clamp(1.5em, 2vw, 3em);
+        }
+        
+        & > .profileInfo {
+            font-size: clamp(0.7em, 1vw, 1.5rem);
+            
+            & > .id {
+                color: lightgrey;
+            }
+        }
+        
+        &::after {
+            content:"";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            /*width: 90%;*/
+            width: clamp(300px, 65vw, 1500px);
+            border-bottom: 1px solid var(--primary-color);
+        }
+    
+    
+    }
+
 }
 
 @media (max-width: 768px) {
@@ -76,5 +104,6 @@
 
    .burgerContainer {
        display: flex;
+       margin: 0;
    }
 }
