@@ -18,12 +18,6 @@
         width 0.2s ease,
         transform 0.2s ease-in-out; 
 }
-@media (hover:hover) {
-    .sidebar:hover {
-         width: var(--sidebar-expanded-width); 
-
-    }
-}
 
 .header {
     min-width: 0;
@@ -48,26 +42,6 @@
     } 
 }
 
-.burgerContainer {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 0.5em;
-    width: 25px;
-    height: 25px;
-
-    border-radius: 50px;
-
-    &:active {
-        background-color: lightgrey;
-    }
-
-    & > img {
-        height: 20px;
-        width: 20px;
-    }
-}
-
 .logo {
     height: clamp(2rem, 3vw, 2.5em);
     width: clamp(2rem, 3vw, 2.5em);
@@ -83,27 +57,17 @@
     display: flex;
     flex-direction: column;
 
-    padding: 0.5em;
+    padding: clamp(5px, 0.9vw, 2em);
     gap: 2%;
 
-    transition: padding 0.1s ease;
-
     & > .navButton {
-        height: clamp(35px, 2.5em, 80px);
+        position: relative;
+        width: 100%;
+        aspect-ratio: 1;
         
         display: flex;
-        justify-content: left;
         align-items: center;
-        padding-left: 1em;
         gap: 5%;
-        box-sizing: border-box;
-        overflow:hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    
-        color: black;
-        text-decoration: none;
-        font-size: clamp(0.7em, 1vw, 2em);
     
         border:none;
         border-radius: 7px;    
@@ -118,7 +82,8 @@
         }
 
         & > .icon {
-            width: clamp(1.2em, 1.2em, 3em);
+            /*width: clamp(0.1em, 1.2em, 3em);*/
+            width: 60%;
             aspect-ratio: 1;
             object-fit: contain;
             user-select: none;
@@ -127,18 +92,57 @@
 
         &.active {
             background-color: var(--primary-color);
-            color: white;
         
             & > .icon {
                 filter: invert(1);
+            }
+        }
+
+        & > .tooltip {
+            position: absolute;
+            color: black;
+            text-decoration: none;
+            font-size: clamp(0.7em, 1vw, 2em);
+
+            visibility: hidden;
+            
+            white-space: nowrap;
+            
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            
+            left: 0;
+            transform: translateX(var(--sidebar-width));
+            
+            background-color: var(--secondary-color);
+
+            &::before {
+                z-index: -1;
+                content: "";
+                position: absolute;
+                height: 50%;
+                background-color: var(--secondary-color);
+                aspect-ratio: 1;
+                left: 0;
+                top: 0;
+                transform: 
+                    translateY(50%)
+                    translateX(-15%)
+                    rotate(40deg);
             }
         }
     }
 }
 
 @media (hover: hover) {
-    .buttons .navButton:hover:not(.active) {
-        box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset; /* changed to match the hover effect on figma */
+    .buttons .navButton:hover{
+        &:not(.active){
+            box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset; /* changed to match the hover effect on figma */
+        }
+
+        & > .tooltip {
+            visibility: visible;
+        }
     }
 }
 
@@ -154,49 +158,21 @@
 }
 
 @container (max-width: 10vw) {
-    .logoTitle,
-    .buttons p,
-    .footer {
-        display: none;
-    }
-
     .buttons .navButton {
         justify-content: center;
         align-items: center;
         padding: 0;
     }
-
 }
 
 @media (max-width: 768px) {
     .sidebar {
-        transform: translateX(-100%);
-        width: clamp(12rem, 40vw, 16rem);
-        box-shadow: none;
-    }
-
-    .burgerContainer {
-        display: flex;
-    }
-
-    .sidebar.active {
-        transform: translateX(0);
-    }
-    
-    .backDrop {
-        position: fixed;
-        inset: 0;
-        z-index: 10;
-    
-        background-color: rgba(0,0,0,0.5);
-
-        opacity: 0;
-        animation: fadeIn 0.2s ease forwards;
+        display: none;
     }
 }
 
-@keyframes fadeIn {
+/*@keyframes fadeIn {
     to {
         opacity: 1;
     }
-}
+}*/

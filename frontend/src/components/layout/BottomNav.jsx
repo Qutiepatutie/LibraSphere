@@ -1,8 +1,7 @@
-import styles from "../../styles/components/layout/sidebar.module.css"
+import styles from "../../styles/components/layout/bottomnav.module.css"
 
 import { NavLink, useLocation } from "react-router-dom"
 
-import logo from "../../assets/libraSphere-logo.svg"
 import dashboard from "../../assets/sidebar/dashboard.svg"
 import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"
@@ -23,17 +22,13 @@ export default function Sidebar() {
 
     return (
         <>
-            <div className={styles.sidebar}>
-                <div className={styles.header}>
-                    <img className={styles.logo} src={logo} />
-                </div>
+            <div className={styles.bottomNav}>
                 <div className={styles.buttons}>
                     <NavLink
                         to = {role === "admin" ? "/admin/dashboard/statistics" : "/dashboard"}
                         className={`${styles.navButton} ${isDashboardActive ? styles.active : ""}`}
                     >
                         <img className={styles.icon} src={dashboard} />
-                        <p className={styles.tooltip}>Dashboard</p>
                     </NavLink>
                     
                     <NavLink
@@ -41,7 +36,6 @@ export default function Sidebar() {
                         className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
                     >
                         <img className={styles.icon} src={library} />
-                        <p className={styles.tooltip}>Library</p>                    
                     </NavLink>
                     
                     <NavLink
@@ -49,7 +43,6 @@ export default function Sidebar() {
                         className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
                     >
                         <img className={styles.icon} src={borrowedBooks} />
-                        <p className={styles.tooltip}>{role === "admin" ? "Borrowers" : "Borrowed Books"}</p>
                     </NavLink>
                     
                     {role === "admin" &&
@@ -58,7 +51,6 @@ export default function Sidebar() {
                               className={({isActive}) => `${styles.navButton} ${isActive? styles.active : ""}`}
                          >
                               <img className={styles.icon} src={addBook} />
-                              <p className={styles.tooltip}>Add Book</p>
                          </NavLink>
                     }
                     
@@ -69,7 +61,6 @@ export default function Sidebar() {
                         }}    
                     >
                         <img className={styles.icon} src={logoutIcon} />
-                        <p className={styles.tooltip}>Log out</p>
                     </div>
                 </div>
                 {/* <p className={styles.footer}>LibraSphere v1.0 | Copyright © by SOFE311 TEAM</p>*/}

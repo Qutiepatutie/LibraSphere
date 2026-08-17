@@ -1,12 +1,11 @@
 import styles from "../../styles/components/layout/header.module.css"
 
 import avatar from "../../assets/profile-icon.svg"
-import burger from "../../assets/sidebar/burger.svg" 
 
 import { useLocation } from "react-router-dom"
 import { getStorage } from "../../pages/auth/auth.util"
 
-export default function Header({ showSidebar, setShowSidebar}) {
+export default function Header() {
 
     const { pathname } = useLocation();
 
@@ -29,12 +28,6 @@ export default function Header({ showSidebar, setShowSidebar}) {
 
     return (
         <div className={styles.header}>
-            <div
-                className={styles.burgerContainer}
-                onClick={() => setShowSidebar(!showSidebar)}
-            >
-                <img src={burger} />
-            </div>
             <div className={styles.infoContainer}>
                 <p className={styles.title}>{getPageTitle(pathname)}</p>
     
