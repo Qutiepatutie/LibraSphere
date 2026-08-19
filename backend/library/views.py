@@ -38,7 +38,7 @@ def add_books(request):
 
     if not serializer.is_valid():
         print(serializer.errors)
-        
+
         return Response({"message": serializer.errors["isbn"][0]}, status=status.HTTP_400_BAD_REQUEST)
 
     serializer.save()
@@ -48,10 +48,10 @@ def add_books(request):
 @permission_classes([IsAuthenticated])
 def edit_book(request):
     isbn = request.data.get("isbn")
-    
+
     if not isbn:
         return Response({"message":"Missing isbn"}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     try:
         book = Books.objects.get(isbn=isbn)
     except Books.DoesNotExist:
@@ -61,7 +61,7 @@ def edit_book(request):
 
     if new_call_number and Books.objects.exclude(pk=book.pk).filter(call_number=new_call_number).exists():
         return Response({"message":"Call number already exists"}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     book.description = request.data.get("description", book.description)
     book.title = request.data.get("title", book.title)
     book.author = request.data.get("author", book.author)
@@ -80,20 +80,20 @@ def edit_book(request):
 def borrow_book(request):
     id_number = request.data.get("id_number")
     isbn = request.data.get("isbn")
-    
+
     try:
         user = UserProfile.objects.get(id_number=id_number)
     except UserProfile.DoesNotExist:
         return Response({"message":"User not found"}, status=status.HTTP_404_NOT_FOUND)
-        
+
     try:
         book = Books.objects.get(isbn=isbn)
     except Books.DoesNotExist:
         return Response({"message":"Book not found"}, status=status.HTTP_404_NOT_FOUND)
-    
+
     if BorrowRecords.objects.filter(book=book, return_date__isnull=True).exists():
         return Response({"message":"Book is already borrowed"}, status=status.HTTP_400_BAD_REQUEST)
-    
+
     BorrowRecords.objects.create(
         status = StatusChoices.PENDING,
         user = user,
@@ -106,12 +106,12 @@ def borrow_book(request):
 @permission_classes([IsAuthenticated])
 def get_user_borrowed_books(request):
     id_number = request.data.get("id")
-    
+
     try:
         user = UserProfile.objects.get(id_number=id_number)
     except UserProfile.DoesNotExist:
         return Response({"message":"User not found"}, status=status.HTTP_404_NOT_FOUND)
-    
+
     borrowed_books = BorrowRecords.objects.filter(user=user, return_date__isnull=True)
     serializer = UserBorrowRecordSerializer(borrowed_books, many=True)
 
@@ -122,13 +122,13 @@ def get_user_borrowed_books(request):
 def get_all_borrowed_books(request):
     records = BorrowRecords.objects.filter(user__user__isnull=False).select_related("user__user", "book")
     serializer = AllBorrowRecordSerializer(records, many=True)
-    
+
     return Response({
         "message": "Borrowed books fetched successfully",
         "data":serializer.data
     }, status=status.HTTP_200_OK)
-        
-# TO FIX        
+
+# TO FIX
 # You can do this in frontend
 # Just export the table contents
 @csrf_exempt
@@ -196,7 +196,7 @@ def export_borrowed_books_csv(request):
 def accept_borrowed_book(request):
     isbn = request.data.get("isbn")
     call_num = request.data.get("call_num")
-    
+
     book_record = BorrowRecords.objects.filter(book__isbn=isbn, book__call_number=call_num, return_date__isnull=True).first()
     if not book_record:
         return Response({"message":"Book not found"}, status=status.HTTP_404_NOT_FOUND)
@@ -230,11 +230,11 @@ def return_book(request):
         return Response({"message": "No active book found"}, status=status.HTTP_404_NOT_FOUND)
 
     book.status = (
-        StatusChoices.RETURNED 
-        if action == "return"  
+        StatusChoices.RETURNED
+        if action == "return"
         else StatusChoices.CANCELLED
     )
-    
+
     book.return_date = timezone.now().date()
     book.save()
 
@@ -252,9 +252,8 @@ def analytics_dashboard(request):
         data = {
             'circulation_trends' : circulation_trends(),
             'borrowing_frequency' : borrowing_frequency(),
-            'inventory_status': inventory_status(),    
-        }  
+            'inventory_status': inventory_status(),
+        }
         return JsonResponse({'status' : 'success', 'message' : 'Analytics data fetched successfully','data' : data})
     except Exception as e:
         return JsonResponse({'status' : 'failed', 'message' : 'Analytics data fetch failed', 'error' : str(e)})
-    

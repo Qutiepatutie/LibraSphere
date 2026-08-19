@@ -1,12 +1,13 @@
 .infos {
-    height: 95%;
+    height: 100%;
     width: 100%;
 
     display: grid;
-    grid-template-rows: 12% 50% 38%;
+    grid-template-rows: 1fr 3.2fr 2fr;
 }
 
-.infos .header {
+.header {
+    cursor: default;
     display: flex;
     flex-direction: column;
     padding: 0.5em;
@@ -14,79 +15,115 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 
-    border-bottom: 1px solid var(--primary-color);
+    & > p:first-child {
+        font-size: clamp(1.5em, 2.5vw, 3em);
+        font-weight: 600;
+    }
+
+    & > p:last-child {
+        opacity: 50%;
+        font-size: clamp(1em, 1.5vw, 2em);
+        & > span {
+            font-weight: 600;
+        }
+    }
 }
 
-.infos .header:hover {
-    white-space: wrap;
-    cursor: default;
+.description {
+    min-height: 0;
 }
 
-.infos h2 {
-    color: lightgray;
-}
-
-.infos .details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: baseline;
-    gap: 0.5em;
-
-    font-size: 1.2em;
-}
-
-.infos .details p {
-    display:flex;
+.description > textarea {
+    height: 95%;
     width: 100%;
-}
-
-.infos .details p span {
-    width: 25%;
-    text-align: right;
-    font-weight: 650;
-}
-
-.infos textarea {
+    font-family: inherit;
     background-color: white;
-    border-radius: 0;
+    border-radius: 0px;
     padding: 0.5em;
     margin-top: 0.5em;
-    height: 95%;
     overflow-x: auto;
-    font-size: 1.2em;
+    font-size: clamp(0.8em, 1vw, 2em);
+
+    &.edit {
+        border-left: 1px solid var(--primary-color);
+    }
 }
 
-.infos p .edit,
-.infos p .noEdit {
-    height: 1.5em;
-    width: 40%;
-    margin-left:0.5em;
-    border-radius: 0;
-    background-color: white;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    font-weight: light;
+.details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas: 
+        "tags isbn"
+        "publisher pages"
+        "year-published call-number";
+    align-content: center;
+    gap: clamp(0.2em, 1vw, 2em);
+
+    font-size: clamp(0.8em, 1.2vw, 2em);
+
+    border-top: 2px solid var(--primary-color);
+
+    & > p {
+        display:flex;
+        width: 100%;
+        font-size: 1em;
+        white-space: nowrap;
+
+        &.tags              {grid-area: tags;}
+        &.publisher         {grid-area: publisher;}
+        &.year-published    {grid-area: year-published;}
+        &.isbn              {grid-area: isbn;}
+        &.pages             {grid-area: pages;}
+        &.call-number       {grid-area: call-number;}
+        
+        & > span {
+            /*text-align: right;*/
+            width: 50%;
+            font-weight: 650;
+        }
+
+        & > .edit,
+        & > .noEdit {
+            flex: 1;
+            height: 1.5em;
+            margin-left:0.5em;
+            border-radius: 7px 7px 0 0;
+            background-color: white;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: light;
+
+            &:read-only {
+                pointer-events: none;
+                user-select: none;
+            }
+        }
+        
+        & > .edit{
+            border-bottom: 1px solid var(--primary-color);
+
+            &:read-only {
+                border-bottom: 1px dashed var(--primary-color);
+                color: gray;
+            }
+        }
+        
+        & > .noEdit {
+            cursor: default;
+        }
+    }
 }
 
-.edit {
-    border-bottom: 1px solid var(--primary-color);
-}
-
-.noEdit {
-    cursor: default;
-}
-
-
-.infos input,
-.infos textarea {
+.details input,
+.description textarea {
     outline: 2px solid transparent;
     transition: all 0.3s ease;
-}
+} 
 
 .infos input:focus:not(.noEdit),
 .infos textarea:focus:not(.noEdit) {
-    border:none;
+    border-color: transparent;
     border-radius: 7px;
     outline-color: var(--primary-color);
 }

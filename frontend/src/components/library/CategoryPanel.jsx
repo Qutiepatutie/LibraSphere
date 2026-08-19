@@ -7,28 +7,28 @@ import BookPanel from "./BookPanel";
 import { useEffect, useRef, useState } from "react";
 
 export default function CategoryPanel({ categories, books, setActiveCategory, setShowCategory, showBook, setShowBook, setActiveBook }) {
-    
+
     const booksRefs = useRef({});
     const [overflow, setOverflow] = useState({});
-    
+
     useEffect(() => {
         const checkOverflow = () => {
             const result = {};
-    
+
             categories.forEach(({ code }) => {
                 const el = booksRefs.current[code];
-    
+
                 if (el) {
                     result[code] = el.scrollWidth > el.clientWidth;
                 }
             });
-    
+
             setOverflow(result);
         };
-    
+
         checkOverflow();
         window.addEventListener("resize", checkOverflow);
-    
+
         return () => window.removeEventListener("resize", checkOverflow);
     }, [books, categories]);
 
@@ -46,11 +46,11 @@ export default function CategoryPanel({ categories, books, setActiveCategory, se
                     ref={(el) => (booksRefs.current[code] = el)}
                     className={`${styles.books} ${overflow[code] ? styles.overflow : ""}`} id={`books-${index}`}
                 >
-                    {!books[code]?.length 
+                    {!books[code]?.length
                         ? <p className={styles.noBooks}>No Books Available</p>
                         : (books[code]?.map((book, index) => {
                             return (
-                                <BookPanel 
+                                <BookPanel
                                     key={index}
                                     setActiveBook={setActiveBook}
                                     showBook={showBook}
@@ -59,7 +59,7 @@ export default function CategoryPanel({ categories, books, setActiveCategory, se
                                 />
                             )
                         }))
-                        
+
                     }
                     {overflow[code] && (
                         <div className={styles.seeMoreContainer}>
@@ -77,6 +77,6 @@ export default function CategoryPanel({ categories, books, setActiveCategory, se
                     )}
                 </div>
             </div>
-        )) 
+        ))
     )
 }

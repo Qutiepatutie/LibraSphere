@@ -7,13 +7,12 @@ import CustomButton from "../../ui/CustomButton.jsx";
 import BookInfos from "./BookInfos.jsx";
 
 import { details } from "./showbook.constants.js"
-import { useBorrowers } from "../../../hooks/useBorrowers.js";
 import { useUpdateBook } from "./useUpdateBook.js";
 
 import Toast from "../../ui/Toast.jsx"
 import ConfirmBorrowPanel from "../ConfirmBorrowPanel.jsx";
 
-export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBook }){
+export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBook, allBorrowers, setAllBorrowers }){
     const role =
         localStorage.getItem("role") || sessionStorage.getItem("role");
 
@@ -26,8 +25,7 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     const [bookDetails, setBookDetails] = useState(currBook);
 
     const [showToast, setShowToast] = useState(false);
-
-    const { allBorrowers, setAllBorrowers } = useBorrowers();
+    
     const {
         loading,
         toastMessage,
@@ -38,9 +36,8 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
         editBook,
     } = useUpdateBook(setShowConfirm, notify);
 
-    const isBorrowed = allBorrowers.some(
-        b => b.status !== "Returned" && b.status !== "Cancelled"
-        && b.book.isbn === currBook.isbn
+    const isBorrowed = allBorrowers.find(
+        b => b.status === "Active" && b.book.isbn === currBook.isbn
     );
 
     const isAdmin = role === "admin";
@@ -48,8 +45,6 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     const buttonLabel = isAdmin
         ? (isEdit ? "Submit" : "Edit Book")
         : (isBorrowed ? "Borrowed" : "Borrow Book");
-
-    useEffect(() => setBookDetails(currBook), [currBook]);
 
     useEffect(() => {
         const handleEsc = (e) => {
@@ -118,46 +113,53 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
                 className={styles.backdrop}
                 onClick={() => setShowBook(false)}
             >
+                <div className={styles.close} onClick={() => setShowBook(false)}>
+                    <img src={close} />
+                </div>
+                
+                <div className={styles.coverContainer}>
+                    <img className={styles.cover} src={bookDetails.cover_url}/>
+                </div>
+                
                 <div
                     className={styles.showBook}
                     onClick={(e) => e.stopPropagation()}
                 >
-                    <img className={styles.cover} src={bookDetails.cover_url}/>
-                    <div className={styles.close} onClick={() => setShowBook(false)}>
-                        <img src={close} />
-                    </div>
 
                     <div className={styles.bodyContainer}>
-                        <BookInfos
-                            bookDetails={bookDetails}
-                            details={details}
-                            handleChange={handleChange}
-                            isEdit={isEdit}
-
+                        <div className={styles.infoContainer}>
+                            <BookInfos
+                                bookDetails={bookDetails}
+                                details={details}
+                                handleChange={handleChange}
+                                isEdit={isEdit}
                             />
+                        </div>
 
-                        <div className={styles.button}>
-                            {isEdit &&
+                        <div className={styles.buttonContainer}>
+                            <div className={styles.buttons}>
+                                {isEdit &&
+                                    <CustomButton
+                                    value="Cancel"
+                                    action="cancel"
+                                    onClick={handleCancelEdit}
+                                    />
+                                }
+    
                                 <CustomButton
-                                value="Cancel"
-                                action="cancel"
-                                onClick={handleCancelEdit}
+                                    value={buttonLabel}
+                                    onClick={() => {
+                                        if(isAdmin){
+                                            return isEdit
+                                                ? handleConfirmEdit()
+                                                : setIsEdit(true)
+                                            }
+    
+                                            setShowConfirm(true);
+                                        }}
+                                    disabled={isBorrowed && role !== "admin"}
                                 />
-                            }
-
-                            <CustomButton
-                                value={buttonLabel}
-                                onClick={() => {
-                                    if(isAdmin){
-                                        return isEdit
-                                            ? handleConfirmEdit()
-                                            : setIsEdit(true)
-                                        }
-
-                                        setShowConfirm(true);
-                                    }}
-                                disabled={isBorrowed && role !== "admin"}
-                            />
+                            </div>
                         </div>
                     </div>
                 </div>

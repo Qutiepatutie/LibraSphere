@@ -4,8 +4,8 @@ export default function BookInfos({ bookDetails, details, handleChange, isEdit }
     return (
         <div className={styles.infos}>
             <div className={styles.header}>
-                <h1>{bookDetails.title}</h1>
-                <h2>{bookDetails.author}</h2>
+                <p>{bookDetails.title}</p>
+                <p>By <span>{bookDetails.author}</span></p>
             </div>
             <div className={styles.description}>
                 <textarea
@@ -24,13 +24,13 @@ export default function BookInfos({ bookDetails, details, handleChange, isEdit }
                         type: "text",
                         name: key,
                         className: isEdit ? styles.edit : styles.noEdit,
-                        readOnly: !isEdit,
+                        readOnly: !isEdit || key === "isbn",
                         value: bookDetails[key],
                         onChange: handleChange
                     }
 
                     return (
-                        <p key={index}>
+                        <p key={index} className={styles[key.replaceAll(" ","-").toLowerCase()]}>
                             <span>{details[key]}:</span>
                             <input
                                 {...props}

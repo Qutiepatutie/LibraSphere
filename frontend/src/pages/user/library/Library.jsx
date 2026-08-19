@@ -11,6 +11,7 @@ import BookPanel from "../../../components/library/BookPanel.jsx"
 
 import { categories } from "./library.constants.js"
 import { useLibraryBooks } from "./useLibraryBooks.js"
+import { useBorrowers } from "../../../hooks/useBorrowers.js"
 
 export default function Library() {
 
@@ -18,6 +19,8 @@ export default function Library() {
             searchedBooks,
             updateBook,
             searchBooks } = useLibraryBooks();
+    
+    const { allBorrowers, setAllBorrowers } = useBorrowers();
 
     const [searchQuery, setSearchQuery] = useState("");
     const [searching, setSearching] = useState(false);
@@ -92,8 +95,8 @@ export default function Library() {
                 <div className={`${styles.content} ${searching 
                         ? !searchedBooks.length ? "" : styles.searching 
                         : ""
-                    }
-                `}>
+                    }`
+                }>
                     {content}
                 </div>
 
@@ -113,6 +116,8 @@ export default function Library() {
                         setShowBook={setShowBook}
                         currBook={activeBook}
                         onConfirmEdit={handleUpdateBook}
+                        allBorrowers={allBorrowers}
+                        setAllBorrowers={setAllBorrowers}
                     />
                 )}
             </div>

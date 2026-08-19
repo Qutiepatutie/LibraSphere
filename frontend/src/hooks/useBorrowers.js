@@ -9,6 +9,16 @@ export function useBorrowers() {
     const [toastMessage, setToastMessage] = useState("");
     const [showToast, setShowToast] = useState(false);
     const [loading, setLoading] = useState(false);
+    
+    useEffect(() => {
+        const fetchBorrowers = async () => {
+            const fetchedBorrowers = await getAllBorrowers();
+
+            setAllBorrowers(fetchedBorrowers.data);
+        }
+
+        fetchBorrowers();
+    }, []);
 
     const pendingBorrowers = useMemo(() => 
         allBorrowers.filter(b => b.status === "Pending"),
@@ -26,16 +36,6 @@ export function useBorrowers() {
                 })),
         [allBorrowers]
     );
-    
-    useEffect(() => {
-        const fetchBorrowers = async () => {
-            const fetchedBorrowers = await getAllBorrowers();
-
-            setAllBorrowers(fetchedBorrowers.data);
-        }
-
-        fetchBorrowers();
-    }, []);
     
     function showToastFunc(message) {
         setToastMessage(message);

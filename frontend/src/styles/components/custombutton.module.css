@@ -19,6 +19,9 @@
 
     &[disabled] {
         background-color: darkgrey;
+        color: grey;
+        user-select: none;
+        pointer-events: none;
     }
 }
 

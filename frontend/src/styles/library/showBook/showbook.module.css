@@ -1,28 +1,95 @@
 .backdrop {
     position: fixed;
     inset: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100dvw;
+    height: 100dvh;
     background-color: rgba(0,0,0,0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+    display: grid;
+    grid-template-columns: 1fr clamp(500px, 60vw, 900px);
+    grid-template-rows: 1fr;
     z-index: 1000;
 }
 
 .showBook {
-    margin-left: auto;
-    
+    min-height: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
-    width: 65%;
+    width: 100%;
     height: 100%;
     background-color: white;
     
-    transform: translateX(70%);
-    animation: slideIn 0.5s forwards;
+    transform: translateX(100%);
+    animation: slideIn 0.25s forwards;
+}
+
+.close {
+    position: absolute;
+    top: clamp(1em, 2.5vw, 3em);
+    right: clamp(1em, 4vw, 5em);
+    height: clamp(2em, 2.5vw, 3em);
+    aspect-ratio: 1;
+
+    border-radius: 50%;
+    display: flex;
+
+    cursor: pointer;
+    z-index: 1001;
+
+    background-color: white;
+
+    & > img {
+        width: 30%;
+        height: 30%;
+        margin: auto;
+    }
+
+    &:hover {
+        background-color: #ededed;
+    }
+}
+
+.coverContainer {
+    height: 100%;
+    width: 100%;
+    
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & > .cover {
+        border-radius: 20px;
+        width: 70%;
+        aspect-ratio: 2/3;
+    
+        background-color: white;
+        box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.5);
+    }
+}
+
+.bodyContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(30px, 4vw, 100px);
+
+    & > .infoContainer {
+        height: 95%;
+    }
+    
+    & > .buttonContainer {
+        flex-grow: 1;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        & > .buttons {
+            height: clamp(2em, 2.5vw, 3em);
+            width: 35%; 
+            display: flex;
+            gap: 0.5em;
+        }
+    }
 }
 
 @keyframes slideIn {
@@ -31,55 +98,14 @@
     }
 }
 
-.cover {
-    position: absolute;
-    border-radius: 20px;
-    width: 45%;
-    aspect-ratio: 2/3;
+@media (max-width: 768px) {
+    .backdrop {
+        grid-template-columns: 1fr;
+        grid-template-rows: clamp(40dvh, 50dvw, 60dvh) auto;
+    }
 
-    background-color: white;
-    right: 50%;
-    transform: translateX(-65%);
-
-    box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.5);
-}
-
-.close {
-    position: absolute;
-    top: 2em;
-    right: 4em;
-    height: 2.5em;
-    width: 2.5em;
-
-    border-radius: 50%;
-    display: flex;
-
-    cursor: pointer;
-}
-
-.close img {
-    margin: auto;
-}
-
-.close:hover {
-    background-color: #ededed;
-}
-
-.bodyContainer {
-    height: 90%;
-    width: 60%;
-    margin-left: 10%;
-}
-
-.button {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: auto;
-    gap: 0.5em;
-    height: 2.5em;
-
-    & > * {
-        width: 30%;
+    .coverContainer > .cover {
+        width: auto;
+        height: 80%; 
     }
 }
-
