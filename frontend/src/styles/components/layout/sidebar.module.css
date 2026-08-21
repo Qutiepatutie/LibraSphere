@@ -10,8 +10,6 @@
     grid-template-columns: 1fr;
     container-type: inline-size;
 
-    box-shadow: 2px 2px 10px #ededed;
-
     z-index: 11;
 
     transition: 
@@ -30,16 +28,6 @@
     padding: 1em;
 
     color: var(--primary-color);
-
-    &::after {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 85%;
-        border-bottom: 1px solid var(--primary-color);
-    } 
 }
 
 .logo {
@@ -82,7 +70,6 @@
         }
 
         & > .icon {
-            /*width: clamp(0.1em, 1.2em, 3em);*/
             width: 60%;
             aspect-ratio: 1;
             object-fit: contain;
@@ -109,26 +96,31 @@
             white-space: nowrap;
             
             padding: 0.5em 1em;
-            border-radius: 5px;
+            border-radius: 5px 0 0 5px;
             
             left: 0;
             transform: translateX(var(--sidebar-width));
             
             background-color: var(--secondary-color);
 
-            &::before {
+            &::before,
+            &::after {
                 z-index: -1;
                 content: "";
                 position: absolute;
                 height: 50%;
                 background-color: var(--secondary-color);
                 aspect-ratio: 1;
-                left: 0;
+                right: 0;
+                bottom: 0;  
+                clip-path: polygon(0% 0%, 0% 100%, 100% 100%);
+                border-bottom-right-radius: 5px;
+                transform: translateX(90%);
+            }
+
+            &::after {
                 top: 0;
-                transform: 
-                    translateY(50%)
-                    translateX(-15%)
-                    rotate(40deg);
+                transform: translateX(90%) rotate(90deg);
             }
         }
     }
@@ -170,9 +162,3 @@
         display: none;
     }
 }
-
-/*@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
-}*/

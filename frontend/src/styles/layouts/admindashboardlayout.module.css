@@ -1,10 +1,6 @@
 .page {
-    height: 100%;
-    width: 100%;
-
     display: flex;
     justify-content: center;
-
 }
 
 .container {
@@ -33,16 +29,12 @@
 
         border-bottom:3px solid #969891;
 
-        /*background-color: aquamarine;*/
-
         &.active {
             font-weight: 600;
             color: var(--primary-color);
             border-color: var(--primary-color);
         }
     }
-
-    /*background-color: antiquewhite;*/
 }
 
 .content {

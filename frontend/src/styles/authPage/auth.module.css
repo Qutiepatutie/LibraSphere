@@ -5,6 +5,9 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("../../assets/background.webp");
+    background-repeat: no-repeat;
+    background-size: cover;
 
     overflow: hidden;
 }
@@ -26,8 +29,6 @@
 
     box-sizing: border-box;
     padding: 2% 2% 0% 2%;  /* from .5% */
-
-    /*box-shadow: 10px 10px 100px 8px lightgrey, -10px -10px 100px 8px lightgrey;*/
 }
 
 .resetPassHeader {

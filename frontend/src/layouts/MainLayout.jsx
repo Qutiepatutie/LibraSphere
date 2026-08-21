@@ -14,7 +14,7 @@ export default function MainLayout() {
                 <Header />
             </div>
 
-            <div className={styles.content}>
+            <div className={styles.contentContainer}>
                 <Outlet />
             </div>
             

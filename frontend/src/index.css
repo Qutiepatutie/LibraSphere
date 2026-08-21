@@ -3,15 +3,14 @@
 :root {
     color-scheme: light;
     font-family: "Manrope";
-    background-image: url("./assets/background.webp");
-    background-repeat: no-repeat;
-    background-size: cover;
 
     --primary-color: #5D6D4F;
     --secondary-color: #E8E9E2;
     --sidebar-width: clamp(3rem, 4vw, 16rem);
     --bottomnav-height: 7dvh;
-    --header-height: clamp(4rem, 1.5vh, 5em);
+    --header-height: clamp(3.5rem, 3vw, 16rem);
+
+    --scrollbar-width: clamp(5px, 1vw, 10px);
 
     --active-color: #10b981;
     --pending-color: #f59e0b;
@@ -23,7 +22,7 @@
 }
 
 ::-webkit-scrollbar {
-        width: clamp(5px, 1vw, 10px);
+    width: var(--scrollbar-width);
 }
 
 ::-webkit-scrollbar-track {

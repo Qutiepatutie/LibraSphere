@@ -99,13 +99,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    height: clamp(30px, 5vh, 60px);
     width: clamp(30px, 3vw, 60px);
+    aspect-ratio: 1;
+    box-sizing: border-box;
 
     border-radius: 50px;
     
     background-color: lightgrey;
-
 }
 
 .seeMore:hover {

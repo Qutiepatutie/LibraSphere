@@ -63,7 +63,7 @@ export default function Library() {
                     />
                 ))
              : <h1 className={styles.noBooks}>No Books Found</h1>
-     } else {
+    } else {
         content =
             <CategoryPanel
                 categories={categories}
@@ -83,6 +83,7 @@ export default function Library() {
                     <SearchBar
                         name="search"
                         value={searchQuery}
+                        label="Find all the literatures you want in just one search"
                         placeholder="Search title, author, ISBN"
                         onChange={(e) => {
                             if(!e.target.value){

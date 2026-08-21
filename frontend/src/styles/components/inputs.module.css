@@ -33,8 +33,6 @@ select {
 }
 
 input[type="checkbox"] {
-
-    
     accent-color: var(--primary-color);
     background-color: #E8E9E2;
     appearance: none;
@@ -92,10 +90,11 @@ label:not(.rememberMe) {
     font-weight: 600;
 }
 
-.searchBar label {
+.searchBar > label {
     margin-left: 0;
     font-weight: normal;
     text-align: center;
+    font-size: clamp(0.7em, 1vw, 2em);
 }
 
 .formInput input:focus,
