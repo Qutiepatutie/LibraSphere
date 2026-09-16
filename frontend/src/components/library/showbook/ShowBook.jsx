@@ -37,7 +37,7 @@ export default function ShowBook({ currBook, onConfirmEdit, showBook, setShowBoo
     } = useUpdateBook(setShowConfirm, notify);
 
     const isBorrowed = allBorrowers.find(
-        b => b.status === "Active" && b.book.isbn === currBook.isbn
+        b => (b.status === "Active" || b.status === "Pending") && b.book.isbn === currBook.isbn
     );
 
     const isAdmin = role === "admin";
