@@ -61,6 +61,23 @@ export default function CategoryPanel({ categories, books, setActiveCategory, se
                         }))
 
                     }
+
+                    {/*FOR TESTING */}
+                    
+                    {/* {!books[code]?.length
+                        ? <p className={styles.noBooks}>No Books Available</p>
+                        : (Array.from({length: 10}).map((book, index) => {
+                            return (
+                                <BookPanel
+                                    key={index}
+                                    setActiveBook={setActiveBook}
+                                    showBook={showBook}
+                                    setShowBook={setShowBook}
+                                    book={book}
+                                />
+                            )
+                        }))
+                    }*/}
                     {overflow[code] && (
                         <div className={styles.seeMoreContainer}>
                             <div

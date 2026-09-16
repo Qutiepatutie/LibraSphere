@@ -28,13 +28,6 @@
     font-size: clamp(0.8em, 1vw, 3em);
 }
 
-.categoryHeader .expandIcon {
-    height: 1em;
-    width: 1em;
-    margin-left: auto;
-    display: none;
-}
-
 .books .noBooks {
     width: 100%;
     display: flex;
@@ -95,14 +88,14 @@
 }
 
 .seeMoreContainer > p {
-    font-size: clamp(0.5em, 1vw, 1em);
+    font-size: clamp(0.5em, 0.7vw, 1em);
 }
 
 .seeMore {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: clamp(30px, 3vw, 60px);
+    width: clamp(30px, 2vw, 60px);
     aspect-ratio: 1;
     box-sizing: border-box;
 

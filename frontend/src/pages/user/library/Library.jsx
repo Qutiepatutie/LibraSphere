@@ -106,7 +106,7 @@ export default function Library() {
                     setShowCategory={setShowCategory}
                     categories={categories}
                     activeCategory={activeCategory}
-                    books={books}
+                    books={books[activeCategory]}
                     setActiveBook={setActiveBook}    
                     showBook={showBook}
                     setShowBook={setShowBook}

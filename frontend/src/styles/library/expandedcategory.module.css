@@ -17,7 +17,7 @@
 .expandedCategory {
     margin: auto;
     height: 80%;
-    width: 80%;
+    width: 70%;
     
     border-radius: 10px;
 
@@ -75,12 +75,6 @@
     cursor: pointer;
 }
 
-@media (hover:hover) {
-    .header .close:hover {
-        background-color: rgba(0,0,0,0.2);
-    }
-}
-
 .header .close img {
     height: 50%;
     user-select: none;
@@ -117,9 +111,84 @@
     color: #ededed;
 }
 
+.pageButtons {
+    position: absolute;
+    bottom: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: flex;
+    align-items: center;
+
+    background-color: #ededed;
+    padding: 0em;
+
+    border-radius: 50px;
+
+    z-index: 2;
+
+    & > button {
+        width: 1.5em;
+        height: 1.5em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        border-radius: 100%;
+        border: none;
+
+        user-select: none;
+
+        &:disabled {
+            filter: opacity(0.2);
+            pointer-events: none;
+        }
+
+    }
+
+    & > .pageSelector {
+        height: clamp(1.5em, 2.5vw, 3em);
+        width: clamp(1.5em, 2.5vw, 3em);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        &:hover {
+            background-color: rgba(0,0,0,0.2);
+        }
+
+        & > img {
+            height: 100%;
+            aspect-ratio: 1;
+        }
+    }
+
+    & > .pageDot {
+        height: clamp(0.8em, 1vw, 1.2em);
+        width: clamp(0.8em, 1vw, 1.2em);
+        margin: 0 0.5em;
+        background-color: rgba(0,0,0,0.2);
+
+        &.active {
+            background-color: var(--primary-color);
+        }
+    }
+    
+}
+
 @media (max-width: 768px) {
     .expandedCategory {
         height: 85%;
-        width: 97%;
+        width: 95%;
+    }
+}
+
+@media (hover: hover) {
+    .header .close:hover {
+        background-color: rgba(0,0,0,0.2);
+    }
+    
+    .pageButtons button:hover {
+        cursor: pointer;
     }
 }
