@@ -27,7 +27,16 @@ export default function ExpandedCategory({ showCategory, setShowCategory, catego
         setCurrPage(1);
     }, [activeCategory])
 
-    const booksPerPage = 14;
+    const booksPerPage = 24;
+
+// FOR TESTING
+
+//     books = Array.from({ length: 50 }).map((_, index) => ({
+//         title: `title ${index + 1}`,
+//         author: "author",
+//     }));
+// 
+//     const booksPerPage = 24;
     
     const lastIndex = currPage * booksPerPage;
     const firstIndex = lastIndex - booksPerPage;
@@ -44,50 +53,52 @@ export default function ExpandedCategory({ showCategory, setShowCategory, catego
                     e.stopPropagation();
                 }}>
                 <div className={styles.header}>
-                    <p className={styles.headerTitle}>{headerTitle}</p>
+                    <p className={styles.headerTitle}>{activeCategory} | {headerTitle}</p>
                     <div className={styles.close} onClick={() => setShowCategory(false)}>
                         <img src={close}/>
                     </div>
                 </div>
-                <div className={styles.books}>
-                    {currentBooks.map((book, key) => (
-                        <BookPanel 
-                            key={key}                            
-                            setActiveBook={setActiveBook}
-                            showBook={showBook}
-                            setShowBook={setShowBook}
-                            book={book}
-                        />
-                    ))}
-                </div>
-                {books?.length > booksPerPage && (
-                    <div className={styles.pageButtons}>
-                        <button
-                            onClick={() => setCurrPage(currPage - 1)}
-                            disabled={currPage === 1}
-                            className={styles.pageSelector}
-                        >
-                            <img src={prevIcon}/>
-                        </button>
-                        {Array.from({ length: totalPages }).map((_, index) => {
-                            index += 1;
-                            return (
-                                <button
-                                    key={index}
-                                    onClick={() => setCurrPage(index)}
-                                    className={`${styles.pageDot} ${currPage === index ? styles.active : ""}`}
-                                />
-                            )
-                        })}
-                        <button
-                            onClick={() => setCurrPage(currPage + 1)}
-                            disabled={currPage === totalPages}
-                            className={styles.pageSelector}
-                        >
-                            <img src={nextIcon}/>
-                        </button>
+                <div className={styles.bodyContainer}>
+                    <div className={styles.books}>
+                        {currentBooks.map((book, key) => (
+                            <BookPanel 
+                                key={key}                            
+                                setActiveBook={setActiveBook}
+                                showBook={showBook}
+                                setShowBook={setShowBook}
+                                book={book}
+                            />
+                        ))}
                     </div>
-                )}
+                    {books?.length > booksPerPage && (
+                        <div className={styles.pageButtons}>
+                            <button
+                                onClick={() => setCurrPage(currPage - 1)}
+                                disabled={currPage === 1}
+                                className={styles.pageSelector}
+                            >
+                                <img src={prevIcon}/>
+                            </button>
+                            {Array.from({ length: totalPages }).map((_, index) => {
+                                index += 1;
+                                return (
+                                    <button
+                                        key={index}
+                                        onClick={() => setCurrPage(index)}
+                                        className={`${styles.pageDot} ${currPage === index ? styles.active : ""}`}
+                                    />
+                                )
+                            })}
+                            <button
+                                onClick={() => setCurrPage(currPage + 1)}
+                                disabled={currPage === totalPages}
+                                className={styles.pageSelector}
+                            >
+                                <img src={nextIcon}/>
+                            </button>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )
