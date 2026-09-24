@@ -7,8 +7,8 @@
 }
 
 .container {
-    width: 90%;
-    height: 80%;
+    width: clamp(300px, 90vw, 1500px);
+    height: clamp(300px, 80vh, 1200px);
     display: grid;
     grid-template-columns: 1fr 2fr;
     column-gap: 0.5em;
