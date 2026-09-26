@@ -2,7 +2,7 @@ import styles from "../../styles/components/layout/sidebar.module.css"
 
 import { NavLink, useLocation } from "react-router-dom"
 
-import logo from "../../assets/libraSphere-logo.svg"
+import logo from "../../assets/libra-logo.png"
 import dashboard from "../../assets/sidebar/dashboard.svg"
 import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"

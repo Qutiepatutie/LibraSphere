@@ -34,6 +34,10 @@
     height: clamp(2rem, 3vw, 2.5em);
     width: clamp(2rem, 3vw, 2.5em);
     user-select:none;
+
+    border: 1px solid #dededede;
+    border-radius: 10px;
+
 }
 
 .logoTitle {
