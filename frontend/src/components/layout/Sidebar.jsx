@@ -8,6 +8,7 @@ import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"
 import addBook from "../../assets/sidebar/addbook-icon.svg"
 import logoutIcon from "../../assets/sidebar/logout.svg"
+import discussionRoom from "../../assets/sidebar/discussion-room.svg"
 
 import { logout, getStorage } from "../../pages/auth/auth.util.js"
 
@@ -50,6 +51,14 @@ export default function Sidebar() {
                     >
                         <img className={styles.icon} src={borrowedBooks} />
                         <p className={styles.tooltip}>{role === "admin" ? "Borrowers" : "Borrowed Books"}</p>
+                    </NavLink>
+
+                    <NavLink
+                        to="/discussion-room-reservation"
+                        className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
+                    >
+                        <img className={styles.icon} src={discussionRoom} />
+                        <p className={styles.tooltip}>Discussion Room Reservation</p>
                     </NavLink>
                     
                     {role === "admin" &&

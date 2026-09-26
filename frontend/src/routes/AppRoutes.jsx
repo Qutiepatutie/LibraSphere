@@ -17,6 +17,7 @@ import ReturnBooks from "../pages/admin/dashboard/ReturnBooks.jsx";
 import Borrowers from "../pages/admin/Borrowers.jsx"
 import AddBook from "../pages/admin/addbook/AddBook.jsx"
 import Attendance from "../pages/attendance/Attendance.jsx"
+import DiscussionRoom from "../pages/user/DiscussionRoom.jsx";
 
 export default function AppRoutes() {
 
@@ -32,6 +33,7 @@ export default function AppRoutes() {
                <Route path="/dashboard" element = {<Dashboard />} />
                <Route path="/library" element = {<Library />} />
                <Route path="/borrowed-books" element = {<BorrowedBooks />} />
+               <Route path="/discussion-room-reservation" element = {<DiscussionRoom />} />
 
                <Route  element = {<AdminRoute />} >
                     <Route path ="/admin/dashboard" element={<AdminDashboardLayout />}>

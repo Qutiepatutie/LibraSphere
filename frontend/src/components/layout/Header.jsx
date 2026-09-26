@@ -13,6 +13,7 @@ export default function Header() {
         "/dashboard" : "Dashboard",
         "/library" : "Library",
         "/borrowed-books" : "Borrowed Books",
+        "/discussion-room-reservation" : "Discussion Room Reservation",
 
         "/admin/borrowers" : "Borrowers",
         "/admin/add-book" : "Add Book",
