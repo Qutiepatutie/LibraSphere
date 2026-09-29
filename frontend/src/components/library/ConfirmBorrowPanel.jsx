@@ -6,7 +6,7 @@ export default function ConfirmBorrowPanel({ showConfirm, setShowConfirm, currBo
     return (
         <div className={showConfirm ? styles.backdrop : styles.hidden} onClick={() => setShowConfirm(false)}>
             <div className={styles.panel} onClick={(e) => e.stopPropagation()}>
-                <h2>Are you sure you want to borrow this book?</h2>
+                <p className={styles.header}>Are you sure you want to borrow this book?</p>
                 <img className={styles.cover} src={currBook.cover_url}/>
                 <div className={styles.details}>
                     <p><span>TITLE:</span><span>{currBook.title}</span></p>
