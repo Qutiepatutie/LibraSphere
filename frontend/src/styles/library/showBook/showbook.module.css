@@ -73,9 +73,10 @@
     display: flex;
     flex-direction: column;
     padding: clamp(30px, 4vw, 100px);
+    gap: 1em;
 
     & > .infoContainer {
-        height: 95%;
+        height: 100%;
     }
     
     & > .buttonContainer {
@@ -102,7 +103,7 @@
 @media (max-width: 768px) {
     .backdrop {
         grid-template-columns: 1fr;
-        grid-template-rows: clamp(40dvh, 50dvw, 60dvh) auto;
+        grid-template-rows: clamp(40dvh, 50dvw, 60dvh) 1fr;
     }
 
     .coverContainer > .cover {

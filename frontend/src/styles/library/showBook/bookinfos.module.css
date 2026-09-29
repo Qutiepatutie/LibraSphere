@@ -2,8 +2,8 @@
     height: 100%;
     width: 100%;
 
-    display: grid;
-    grid-template-rows: 1fr 3.2fr 2fr;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
@@ -31,6 +31,7 @@
 
 .description {
     min-height: 0;
+    flex: 1;
 }
 
 .description > textarea {
@@ -50,6 +51,7 @@
 }
 
 .details {
+    flex: 0.5;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: repeat(3, auto);
