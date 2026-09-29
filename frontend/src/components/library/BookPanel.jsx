@@ -1,11 +1,12 @@
 import styles from "../../styles/library/bookpanel.module.css"
 
-export default function BookPanel({ setActiveBook, setShowBook, book, status = null, hover = true }) {
+import info from "../../assets/pages/bookpanel/info-icon.svg"
+
+export default function BookPanel({ setActiveBook, setShowBook, status = null, book, hover = true }) {
     return (
         <div
             className={`${styles.bookPanel} ${hover ? "" : styles.noHover}`}
-            onClick={(e) => {
-                e.stopPropagation();
+            onClick={() => {
                 if (!hover) return;
                 setActiveBook(book);
                 setShowBook(true);
@@ -15,7 +16,10 @@ export default function BookPanel({ setActiveBook, setShowBook, book, status = n
             <div className={styles.cover}>
                 <img src={book?.cover_url} />
                 {status && 
-                    <div className={`${styles.badge} ${styles[status]}`}>{status}</div>
+                    <div className={styles.detailsPill}>
+                        <p>Tap for details</p>
+                        <img src={info} className={styles.icon} />
+                    </div>
                 }
             </div>
             <p className={styles.title}>{book?.title}</p>

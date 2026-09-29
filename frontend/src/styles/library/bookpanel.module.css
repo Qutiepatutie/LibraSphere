@@ -37,11 +37,36 @@
     box-shadow: -5px 5px 0px 1px rgba(0,0,0,0.5);
 
     overflow: hidden;
-}
 
-.cover > img {
-    height: 100%;
-    width: 100%;
+    & > img {
+        height: 100%;
+        width: 100%;
+    }
+
+    & > .detailsPill {
+        position: absolute;
+        bottom: 0.5em;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-wrap: nowrap;
+        
+        font-size: clamp(6px, 0.65vw, 1em);
+        padding: clamp(1.5px, 0.2vw, 0.8em);
+        gap: 0.5em;
+
+        border-radius: 50px;
+        
+        background-color: #edededed;
+
+        & > .icon {
+            height: clamp(10px, 1.2em, 25px);
+            aspect-ratio: 1;
+        }
+    }
 }
 
 .bookPanel .title,
@@ -57,40 +82,4 @@
 
 .author {
     color: grey;
-}
-
-.badge {
-    position: absolute;
-
-    width: 100%;
-    height: clamp(13px, 1.5vw, 20px);
-
-    top: 10%;
-    right: -25%;
-
-    text-align: center;
-    font-size: clamp(0.5em, 1vw, 0.85em);
-    color: white;
-    user-select: none;
-    
-    transform: rotateZ(45deg);
-}
-
-.Due {
-    background-color: var(--due-color);
-}
-
-.Overdue {
-    background-color: var(--overdue-color);
-}
-
-.Pending {
-    background-color: var(--pending-color);
-}
-
-.Active {
-    background-color: var(--active-color);
-}
-.Returned {
-    background-color: var(--returned-color);
 }

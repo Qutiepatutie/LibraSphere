@@ -9,7 +9,7 @@ import AttendanceRoute from "./AttendanceRoute.jsx"
 
 import Dashboard from "../pages/user/Dashboard.jsx"
 import Library from "../pages/user/library/Library.jsx"
-import BorrowedBooks from "../pages/user/BorrowedBooks.jsx"
+import BorrowedBooks from "../pages/user/borrowedBooks/BorrowedBooks.jsx"
 
 import Statistics from "../pages/admin/dashboard/Statistics.jsx";
 import BookBorrowers from "../pages/admin/dashboard/BookBorrowers.jsx";

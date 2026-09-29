@@ -2,7 +2,7 @@
     display: flex;
     justify-content: center;
 
-    padding: clamp(1em, 4vw, 10rem) 0;
+    padding: clamp(1em, 4vw, 10rem) 0.5em;
 }
 
 .container {
@@ -16,6 +16,44 @@
     grid-template-areas: 
         "total overdue due fine"
         "books books books books";
+}
+
+.panel.books {
+    & > .bookContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        & > .statusBar {
+            height: clamp(1.5em, 1.8vw, 2.5em);
+            font-size: clamp(0.8em, 1vw, 2em);
+            width: 90%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 5px;
+            border: 2px solid rgba(0,0,0,0.2);
+        }
+    }
+}
+
+.Due {
+    background-color: var(--due-color);
+}
+
+.Overdue {
+    background-color: var(--overdue-color);
+}
+
+.Pending {
+    background-color: var(--pending-color);
+}
+
+.Active {
+    background-color: var(--active-color);
 }
 
 .panel {
@@ -84,4 +122,10 @@
         "due fine"
         "books books";
     }
+}
+
+@media (hover: hover) {
+    .panel.books > .bookContainer:hover {
+        cursor: pointer;
+    }    
 }

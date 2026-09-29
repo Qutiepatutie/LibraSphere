@@ -1,0 +1,178 @@
+.backdrop {
+    position: fixed;
+    inset: 0;
+    height: 100vh;
+    width: 100vw;
+
+    background-color: rgba(0,0,0,0.5);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 2000;
+}
+
+.details {
+    position: relative;
+    height: min(60vh, 400px);
+    width: min(70vw, 700px);
+
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    column-gap: clamp(1em, 2vw, 2.5em);
+    justify-content: center;
+    
+    padding: clamp(0.8em, 2vw, 3em);
+    
+    background-color: white;
+
+    border-radius: 10px;
+
+    font-size: clamp(1em, 1.35vw, 2em);
+    
+    & > .coverContainer {
+        width: 100%;
+        
+        & > .cover {
+            position: relative;
+            width: min(90%, 220px);
+            height: auto;
+            aspect-ratio: 2/3;
+            margin-bottom: 0.5em;
+            margin-left: 5px;
+            object-fit: contain;
+        
+            border-radius: 5px 0 0 5px;
+            box-shadow: -5px 5px 0px 1px rgba(0,0,0,0.5);
+        
+            overflow: hidden;
+        
+            & > img {
+                display: block;
+                height: 100%;
+                width: 100%;
+            }
+        }
+    }
+
+
+    & > .bookDetails {
+        display: flex;
+        flex-direction: column;
+
+        & > .header {
+            font-weight: 600;
+            padding: clamp(0.8em, 1vw, 1.5em) 0;
+            border-bottom: 1px solid var(--primary-color);
+
+            & > .author {
+                font-size: 1em;
+                opacity: 0.5;
+            }
+        }
+
+        & > .body {
+            display: flex;
+            flex-direction: column;
+            padding: 1em 0;
+            gap: 0.5em;
+            
+            & > p span {
+                color: black;
+                font-weight: 600;
+            }
+        }
+    }
+
+    & > .buttonContainer {
+        position: absolute;
+        bottom: 1em;
+        right: 1em;
+        
+        height: clamp(1em, 1.8vh, 2em);
+        width: clamp(8em, 10vw, 13em);
+
+        & > button {
+            font-size: 0.8em;
+            padding: 1em;
+        }
+
+    }
+
+    & > .footer {
+        position: absolute;
+        bottom: 1em;
+        left: 50%;
+        transform: translateX(-50%);
+
+        text-wrap: nowrap;
+        font-size: clamp(0.6em, 0.8vw, 1em);
+        opacity: 0.5;
+    }
+}
+
+.close {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0.5em;
+    border-radius: 100%;
+}
+
+.Due:not(span) {
+    color: var(--due-color);
+}
+
+.Overdue:not(span) {
+    color: var(--overdue-color);
+}
+
+.Pending {
+    color: var(--pending-color);
+}
+
+.Active {
+    color: var(--active-color);
+}
+
+@media (hover: hover) {
+    .close:hover {
+        cursor: pointer;
+        background-color: lightgray;
+    }
+}
+
+@media (max-width: 768px) {
+    .details {
+        height: min(80vh, 600px);
+        width: min(90vw, 350px);
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        padding: 2em;
+
+        & > .coverContainer {
+            width: 70%;
+        }
+
+        & > .footer {
+            text-wrap: wrap;
+            text-align: center;
+        }
+
+        & > .buttonContainer {
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
+}
