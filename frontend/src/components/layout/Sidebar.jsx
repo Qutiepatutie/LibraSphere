@@ -52,23 +52,25 @@ export default function Sidebar() {
                         <p className={styles.tooltip}>{role === "admin" ? "Borrowers" : "Borrowed Books"}</p>
                     </NavLink>
 
-                    <NavLink
-                        to="/discussion-room-reservation"
-                        className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
-                    >
-                        <img className={styles.icon} src={discussionRoom} />
-                        <p className={styles.tooltip}>Discussion Room Reservation</p>
-                    </NavLink>
-                    
-                    {role === "admin" &&
-                         <NavLink 
-                              to = "/admin/add-book"
-                              className={({isActive}) => `${styles.navButton} ${isActive? styles.active : ""}`}
-                         >
-                              <img className={styles.icon} src={addBook} />
-                              <p className={styles.tooltip}>Add Book</p>
-                         </NavLink>
-                    }
+                    {role !== "admin" && (
+                        <NavLink
+                            to="/discussion-room-reservation"
+                            className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
+                        >
+                            <img className={styles.icon} src={discussionRoom} />
+                            <p className={styles.tooltip}>Discussion Room Reservation</p>
+                        </NavLink>
+                        
+                    )}
+                    {role === "admin" && (
+                        <NavLink 
+                            to = "/admin/add-book"
+                            className={({isActive}) => `${styles.navButton} ${isActive? styles.active : ""}`}
+                        >
+                            <img className={styles.icon} src={addBook} />
+                            <p className={styles.tooltip}>Add Book</p>
+                        </NavLink>
+                    )}
                 </div>
             </div>
         </>
