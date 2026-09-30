@@ -44,8 +44,10 @@ export function useAuth() {
 
             const storage = rememberMe ? localStorage : sessionStorage;
             
-            storage.setItem("user", profile?.first_name);
+            storage.setItem("user_firstName", profile?.first_name);
+            storage.setItem("user_lastName", profile?.last_name);
             storage.setItem("id_number", profile?.id_number);
+            storage.setItem("program", profile?.program);
             storage.setItem("role", role);
             storage.setItem("access", access);
             storage.setItem("refresh", refresh);

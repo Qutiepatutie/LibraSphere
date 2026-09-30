@@ -1,0 +1,144 @@
+.wrapper {
+    position: fixed;
+    width: 100dvw;
+    height: 100dvh;
+
+    z-index: 1000;
+}
+
+.userMenu {
+    position: absolute;
+    right: 2em;
+    top: calc(var(--header-height) + 1em);
+
+    height: clamp(300px, 40vh, 600px);
+    width: clamp(250px, 17vw, 550px);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.5em;
+    padding: 0.5em;
+    
+    background-color: #E8E9E2;
+
+    border-radius: 10px;
+    border: 2px solid rgba(0,0,0,0.2);
+}
+
+.idHole {
+    height: clamp(1em, 1.5vw, 2em);
+    width: 50%;
+
+    border-radius: 50px;
+
+    background-color: white;
+}
+
+.profile {
+    flex: 1;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    gap: 0.5em;
+
+    font-size: clamp(0.8em, 1vw, 1.2em);
+    
+    & > .avatarContainer {
+        flex-grow: 1;
+        position: relative;
+        height: 100px;
+        aspect-ratio: 1;
+
+        & > .avatar {
+            height: 100%;
+
+            border: 2px solid var(--primary-color);
+            border-radius: 10px;
+        }
+
+        & > .uploadImage {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 40%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            color: white;
+            font-size: clamp(1em, 1.2vw, 1.5em);
+
+            visibility: hidden;
+
+            border-radius: 0 0 10px 10px;
+            
+            background: linear-gradient(to bottom, transparent, var(--primary-color) 90%);
+        }
+    }
+
+    & > .infoContainer {
+        width: 100%;
+
+        display: flex;
+        flex-direction: column;
+
+        align-items: center;
+        text-align: center;
+
+        & > p span {
+            font-weight: 800;
+        }
+    }
+}
+
+.logout {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    height: clamp(2em, 2vw, 3em);
+    width: 90%;
+
+    gap: 0.5em;
+    padding: 0.5em;
+
+    border-radius: 10px;
+    border: none;
+
+    background-color: var(--primary-color);
+    color: white;
+
+    & > img {
+        height: 100%;
+        filter: invert(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .profile > .avatarContainer > .uploadImage {
+        visibility: visible;
+    }
+}
+
+@media (hover: hover) {
+    .logout:hover {
+        cursor: pointer;
+        transform: scale(1.02);
+    }
+
+    .avatarContainer:hover { 
+        cursor: pointer;
+        
+        & .uploadImage {
+            visibility: visible;
+        }
+    }
+}

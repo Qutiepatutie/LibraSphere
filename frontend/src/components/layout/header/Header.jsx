@@ -1,11 +1,11 @@
-import styles from "../../styles/components/layout/header.module.css"
+import styles from "../../../styles/components/layout/header.module.css"
 
-import avatar from "../../assets/profile-icon.svg"
+import avatar from "../../../assets/profile-icon.png"
 
 import { useLocation } from "react-router-dom"
-import { getStorage } from "../../pages/auth/auth.util"
+import { getStorage } from "../../../pages/auth/auth.util.js"
 
-export default function Header() {
+export default function Header({ setShowUserMenu, showUserMenu}) {
 
     const { pathname } = useLocation();
 
@@ -32,11 +32,10 @@ export default function Header() {
             <div className={styles.infoContainer}>
                 <p className={styles.title}>{getPageTitle(pathname)}</p>
     
-                <div className={styles.profile}>
+                <div className={styles.profile} onClick={() => setShowUserMenu(!showUserMenu)}>
                     <img className={styles.avatar} src={avatar}/>
                     <div className={styles.profileInfo}>
-                        <p>{getStorage().getItem("user")}</p>
-                        <p className={styles.id}>ID: <span>{getStorage().getItem("id_number")}</span></p>
+                        <p className={styles.userName}>{getStorage().getItem("user_firstName")}</p>
                     </div>
                 </div>
             </div>

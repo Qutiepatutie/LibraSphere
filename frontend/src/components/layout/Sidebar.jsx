@@ -7,10 +7,9 @@ import dashboard from "../../assets/sidebar/dashboard.svg"
 import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"
 import addBook from "../../assets/sidebar/addbook-icon.svg"
-import logoutIcon from "../../assets/sidebar/logout.svg"
 import discussionRoom from "../../assets/sidebar/discussion-room.svg"
 
-import { logout, getStorage } from "../../pages/auth/auth.util.js"
+import { getStorage } from "../../pages/auth/auth.util.js"
 
 export default function Sidebar() {
     const role = getStorage().getItem("role");
@@ -70,18 +69,7 @@ export default function Sidebar() {
                               <p className={styles.tooltip}>Add Book</p>
                          </NavLink>
                     }
-                    
-                    <div 
-                        className={styles.navButton}
-                        onClick={() => {
-                            logout();
-                        }}    
-                    >
-                        <img className={styles.icon} src={logoutIcon} />
-                        <p className={styles.tooltip}>Log out</p>
-                    </div>
                 </div>
-                {/* <p className={styles.footer}>LibraSphere v1.0 | Copyright © by SOFE311 TEAM</p>*/}
             </div>
         </>
     )

@@ -69,10 +69,6 @@
         user-select: none;
         cursor: pointer;
 
-        &:last-child {
-            margin-top: auto;
-        }
-
         & > .icon {
             width: 60%;
             aspect-ratio: 1;
@@ -140,17 +136,6 @@
             visibility: visible;
         }
     }
-}
-
-.footer {
-    position: absolute;
-    font-size: clamp(0.35em, 0.5vw, 1em);
-    color: grey;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-
-    user-select: none;
 }
 
 @container (max-width: 10vw) {
