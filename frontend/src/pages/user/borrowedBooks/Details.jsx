@@ -1,19 +1,29 @@
-import styles from "../../../styles/userPages/details.module.css"
+import styles from "../../../styles/userPages/borrowedBooks/details.module.css"
+
+import { useState } from "react"
 
 import close from "../../../assets/close-icon.svg"
-import CustomButton from "../../../components/ui/CustomButton";
+import CustomButton from "../../../components/ui/CustomButton"
+import ConfirmCancel from "./ConfirmCancel"
 
 export default function Details({ setShowDetails, book }) {
+
+    const [showConfirmCancel, setShowConfirmCancel] = useState(false);
+
+    function handleCancel() {
+        setShowDetails(false);
+    }
+
     return (
-        <div className={styles.backdrop}>
-            <div className={styles.details}>
+        <div className={styles.backdrop} onClick={() => setShowDetails(false)}>
+            <div className={styles.details} onClick={(e) => e.stopPropagation()}>
                 <div
                     className={styles.close}
                     onClick={() => setShowDetails(false)}
                 >
                     <img src={close} />
                 </div>
-                
+
                 <div className={styles.coverContainer}>
                     <div className={styles.cover}>
                         <img src={book?.cover_url} />
@@ -29,25 +39,34 @@ export default function Details({ setShowDetails, book }) {
                         {book.status !== "Pending" && (
                             <>
                                 <p className={styles.die}><span>Due Date:</span> {book.due_date || "--"}</p>
-                                <p className={styles.fine}><span>Fine:</span> {book.status === "Overdue" ? "P 25" : ""}</p>
+                                <p className={styles.fine}><span>Fine:</span> {book.status === "Overdue" ? "₱ 25" : ""}</p>
                             </>
                         )}
                     </div>
-                    
+
                 </div>
-                
+
                 {book.status === "Pending" ? (
                     <div className={styles.buttonContainer}>
                         <CustomButton
                             value={"Cancel Borrow"}
                             type="button"
                             action="clear"
+                            onClick={() => setShowConfirmCancel(true)}
                         />
                     </div>
                 ) : (
                     <p className={styles.footer}>Please return this book on or before the due date.</p>
                 )}
             </div>
+
+            {showConfirmCancel && (
+                <ConfirmCancel
+                    setShowConfirmCancel={setShowConfirmCancel}
+                    handleCancel={handleCancel}
+                />
+            )}
+
         </div>
     )
 }

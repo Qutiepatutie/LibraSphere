@@ -1,4 +1,4 @@
-import styles from "../../../styles/userPages/borrowedbooks.module.css"
+import styles from "../../../styles/userPages/borrowedBooks/borrowedbooks.module.css"
 
 import { useState } from "react"
 
