@@ -216,73 +216,71 @@ export default function AuthPage() {
     }
 
     return (
-        <>
-            <div className={styles.container}>
-                <Toast message={toastMessage} show={showToast} />
-                <form
-                    className={styles.formContainer}
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        submitHandler[mode]();
-                    }}
-                >
-                    <div className={styles.group}>
-                        {mode !== "forgotPass" ?
-                                <Switcher
-                                    option={mode}
-                                    handleSwitch={handleSwitch}
-                                    options={[ "Login", "Register" ]}
-                                    width="70%"
-                                />
-                            :
-                                <p className={styles.resetPassHeader}>Reset Password</p>
-                        }
-
-                    </div>
-
-                    <div className={styles.group}>
-                        {mode === "login" && 
-                            <Login
-                                isEmpty={loginErrors}
-                                setIsEmpty={setLoginErrors}
-                                credentials={loginCredentials}
-                                setCredentials={setLoginCredentials}
-                                rememberMe={rememberMe}
-                                setRememberMe={setRememberMe}
+        <div className={styles.container}>
+            <Toast message={toastMessage} show={showToast} />
+            <form
+                className={styles.formContainer}
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    submitHandler[mode]();
+                }}
+            >
+                <div className={styles.group}>
+                    {mode !== "forgotPass" ?
+                            <Switcher
+                                option={mode}
                                 handleSwitch={handleSwitch}
-                                setErrorMessage={setErrorMessage}
-                                errorMessage={errorMessage}
-                                isLoading={isLoading}
+                                options={[ "Login", "Register" ]}
+                                width="70%"
                             />
-                        }
-                        {mode === "register" &&
-                            <Register
-                                isEmpty={registerErrors}
-                                setIsEmpty={setRegisterErrors}
-                                part={part}
-                                setPart={setPart}
-                                registerData={registerData}
-                                errorMessage={errorMessage}
-                                setRegisterData={setRegisterData}
-                                setErrorMessage={setErrorMessage}
-                                isLoading={isLoading}
-                            />
-                        }
-                        {mode === "forgotPass" &&
-                            <ForgotPassword
-                                isEmpty={forgotPassErrors}
-                                setIsEmpty={setForgotPassErrors}
-                                forgotPassData={forgotPassData}
-                                setForgotPassData={setForgotPassData}
-                                setErrorMessage={setErrorMessage}
-                                errorMessage={errorMessage}
-                                handleSwitch={handleSwitch}
-                                isLoading={isLoading}
-                            />
-                        }
-                    </div>
-                </form>
-            </div>
-        </>
+                        :
+                            <p className={styles.resetPassHeader}>Reset Password</p>
+                    }
+
+                </div>
+
+                <div className={styles.group}>
+                    {mode === "login" && 
+                        <Login
+                            isEmpty={loginErrors}
+                            setIsEmpty={setLoginErrors}
+                            credentials={loginCredentials}
+                            setCredentials={setLoginCredentials}
+                            rememberMe={rememberMe}
+                            setRememberMe={setRememberMe}
+                            handleSwitch={handleSwitch}
+                            setErrorMessage={setErrorMessage}
+                            errorMessage={errorMessage}
+                            isLoading={isLoading}
+                        />
+                    }
+                    {mode === "register" &&
+                        <Register
+                            isEmpty={registerErrors}
+                            setIsEmpty={setRegisterErrors}
+                            part={part}
+                            setPart={setPart}
+                            registerData={registerData}
+                            errorMessage={errorMessage}
+                            setRegisterData={setRegisterData}
+                            setErrorMessage={setErrorMessage}
+                            isLoading={isLoading}
+                        />
+                    }
+                    {mode === "forgotPass" &&
+                        <ForgotPassword
+                            isEmpty={forgotPassErrors}
+                            setIsEmpty={setForgotPassErrors}
+                            forgotPassData={forgotPassData}
+                            setForgotPassData={setForgotPassData}
+                            setErrorMessage={setErrorMessage}
+                            errorMessage={errorMessage}
+                            handleSwitch={handleSwitch}
+                            isLoading={isLoading}
+                        />
+                    }
+                </div>
+            </form>
+        </div>
     )
 }

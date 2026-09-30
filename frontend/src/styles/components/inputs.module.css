@@ -37,11 +37,10 @@ input[type="checkbox"] {
     background-color: #E8E9E2;
     appearance: none;
     cursor: pointer;
-    width: clamp(1em, 1.2vw, 2em); /* tbc */
+    height: 1em;
     aspect-ratio: 1/1;
-    border-radius: 4px;
+    border-radius: 2.5px;
     border: 1px solid #969891;
-
 }
 
 input[type="checkbox"]:hover {
@@ -49,13 +48,12 @@ input[type="checkbox"]:hover {
 }
 
 input[type="checkbox"]:checked {
-    border-radius: 5px;
+    border-radius: 2.5px;
     background-color: var(--primary-color);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
 }
 input[type="checkbox"]:checked:after{
     background-size:contain;
-    
 }
 
 textarea {
