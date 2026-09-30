@@ -2,16 +2,25 @@ import styles from "../../../styles/userPages/borrowedBooks/details.module.css"
 
 import { useState } from "react"
 
+import { useBorrowers } from "../../../hooks/useBorrowers"
+
 import close from "../../../assets/close-icon.svg"
 import CustomButton from "../../../components/ui/CustomButton"
 import ConfirmCancel from "./ConfirmCancel"
 
-export default function Details({ setShowDetails, book }) {
+export default function Details({ setShowDetails, book, userBorrowedBooks, setUserBorrowedBooks }) {
 
     const [showConfirmCancel, setShowConfirmCancel] = useState(false);
 
+    const { updateBookStatus } = useBorrowers();
+
     function handleCancel() {
         setShowDetails(false);
+        setUserBorrowedBooks(
+            userBorrowedBooks
+                .filter(borrowedBook =>
+                    borrowedBook.book.call_number !== book.call_number));
+        updateBookStatus(book.isbn, book.call_number, "cancel");
     }
 
     return (
