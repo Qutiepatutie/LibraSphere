@@ -54,6 +54,6 @@ export const fieldsByPart = {
 export const routes = {
      admin: "/admin/dashboard/statistics",
      attendance: "/attendance",
-     student: "/dashboard",
-     faculty: "/dashboard",
+     student: "/dashboard/statistics",
+     faculty: "/dashboard/statistics",
 } 
