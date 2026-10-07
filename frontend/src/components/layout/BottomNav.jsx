@@ -53,17 +53,7 @@ export default function Sidebar() {
                               <img className={styles.icon} src={addBook} />
                          </NavLink>
                     }
-                    
-                    <div 
-                        className={styles.navButton}
-                        onClick={() => {
-                            logout();
-                        }}    
-                    >
-                        <img className={styles.icon} src={logoutIcon} />
-                    </div>
                 </div>
-                {/* <p className={styles.footer}>LibraSphere v1.0 | Copyright © by SOFE311 TEAM</p>*/}
             </div>
         </>
     )
