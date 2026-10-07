@@ -1,0 +1,39 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 0.5em;
+    flex-direction: column;
+}
+
+.header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    font-size: clamp(0.8em, 1vw, 1.2em);
+
+    & > .subHeader {
+        font-size: clamp(0.7em, 0.8vw, 1em);
+    }
+}
+
+.graphContainer {
+    height: 100%;
+    width: 100%;
+    min-height: 0;
+    
+    display: flex;
+    overflow-x: auto;
+    overflow-y: auto;
+
+    & > .graph {
+        width: 100%;
+        min-width: 500px;
+        height: 100%;
+    }
+
+    & > .bar {
+        min-height: 250px;
+    }
+}

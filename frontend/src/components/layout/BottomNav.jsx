@@ -18,14 +18,14 @@ export default function Sidebar() {
     const isDashboardActive =
         role === "admin"
             ? location.pathname.startsWith("/admin/dashboard")
-            : location.pathname === "/dashboard"
+            : location.pathname.startsWith("/dashboard")
 
     return (
         <>
             <div className={styles.bottomNav}>
                 <div className={styles.buttons}>
                     <NavLink
-                        to = {role === "admin" ? "/admin/dashboard/statistics" : "/dashboard"}
+                        to = {role === "admin" ? "/admin/dashboard/statistics" : "/dashboard/statistics"}
                         className={`${styles.navButton} ${isDashboardActive ? styles.active : ""}`}
                     >
                         <img className={styles.icon} src={dashboard} />

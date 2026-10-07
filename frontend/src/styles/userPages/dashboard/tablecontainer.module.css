@@ -1,0 +1,41 @@
+.container {
+    height: 100%;
+    width: 100%;
+    
+    font-size: clamp(0.8em, 1vw, 1em);
+}
+
+.tableContainer {
+    width: 100%;
+    height: 100%;
+
+    /*background-color: antiquewhite;*/
+    overflow-x: auto;
+    
+    & > table {
+        table-layout: fixed;
+        border-collapse: collapse;
+        width: 100%;
+        min-width: 600px;
+
+
+        & > thead {
+            text-align: center;
+            background-color: transparent;
+
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        & > tbody > tr > td {
+            text-align: center;
+        }
+    }
+}
+
+@media (hover: hover) {
+    table > tbody > tr:hover {
+        background-color: var(--primary-color) !important;
+        color: white;
+    }
+}
+
