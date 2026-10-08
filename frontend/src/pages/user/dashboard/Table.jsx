@@ -62,7 +62,7 @@ export default function CurrentBorrowedTable() {
                                     <td>{checkDate(book.borrow_date?.slice(0, 10))}</td>
                                     <td>{checkDate(book.due_date)}</td>
                                     <td>{book.return_date}</td>
-                                    <td>--</td> {/* TEMPORARY */}
+                                    <td>--</td>{/* TEMPORARY */}
                                 </tr>
                             )))
                         }
