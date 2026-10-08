@@ -121,8 +121,16 @@ class UserProfile(models.Model):
     )
 
     # Existing profiles remain unset until their academic cohort is known.
-    education_level = models.CharField(max_length=50, choices=EducationLevel.choices, blank=True)
-    year_level = models.CharField(max_length=50, blank=True, validators=[year_level_validator])
+    education_level = models.CharField(
+        max_length=50,
+        choices=EducationLevel.choices,
+        blank=True
+    )
+    year_level = models.CharField(
+        max_length=50,
+        blank=True,
+        validators=[year_level_validator]
+    )
 
     class Meta:
         db_table = 'user_profile'
