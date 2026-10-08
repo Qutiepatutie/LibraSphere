@@ -6,14 +6,19 @@ from django.views.decorators.csrf import csrf_exempt
 from .decorators import admin_role
 from django.http import HttpResponse, JsonResponse
 from django.utils import timezone
+from django.db.models import F
 
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.exceptions import NotFound
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Books, BorrowRecords, UserProfile, StatusChoices
 from .serializers import AllBorrowRecordSerializer, UserBorrowRecordSerializer, BooksSerializer, AddBooksSerializer
+from .serializers import DashboardLoanSerializer, DashboardPageQuerySerializer
+from . import user_analytics
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
@@ -202,7 +207,7 @@ def accept_borrowed_book(request):
         return Response({"message":"Book not found"}, status=status.HTTP_404_NOT_FOUND)
 
     book_record.borrow_date = timezone.now()
-    book_record.due_date = timezone.now().date() + timezone.timedelta(days=7)
+    book_record.due_date = user_analytics.library_today(book_record.borrow_date) + timezone.timedelta(days=7)
     book_record.status = StatusChoices.ACTIVE
 
     book_record.save()
@@ -235,7 +240,7 @@ def return_book(request):
         else StatusChoices.CANCELLED
     )
 
-    book.return_date = timezone.now().date()
+    book.return_date = user_analytics.library_today()
     book.save()
 
     actionReturn = "cancelled" if action == "cancel" else "returned"
@@ -257,3 +262,50 @@ def analytics_dashboard(request):
         return JsonResponse({'status' : 'success', 'message' : 'Analytics data fetched successfully','data' : data})
     except Exception as e:
         return JsonResponse({'status' : 'failed', 'message' : 'Analytics data fetch failed', 'error' : str(e)})
+
+
+def _dashboard_profile(request):
+    try:
+        return request.user.profile
+    except UserProfile.DoesNotExist:
+        raise NotFound('User profile not found.')
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_analytics(request):
+    profile = _dashboard_profile(request)
+    return Response(user_analytics.dashboard(profile, timezone.now()))
+
+
+def _dashboard_loan_page(request, loans, now, summary=None):
+    query = DashboardPageQuerySerializer(data=request.query_params)
+    query.is_valid(raise_exception=True)
+    paginator = PageNumberPagination()
+    paginator.page_size = query.validated_data['page_size']
+    loans = loans.select_related('book', 'fine').order_by(F('borrow_date').desc(nulls_last=True), '-pk')
+    page = paginator.paginate_queryset(loans, request)
+    serializer = DashboardLoanSerializer(page, many=True, context={'today': user_analytics.library_today(now)})
+    response = paginator.get_paginated_response(serializer.data)
+    if summary is not None:
+        response.data['summary'] = summary
+    return response
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_current_loans(request):
+    profile = _dashboard_profile(request)
+    now = timezone.now()
+    return _dashboard_loan_page(request, user_analytics.current_loans(profile, now), now)
+
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def get_user_borrowing_history(request):
+    profile = _dashboard_profile(request)
+    now = timezone.now()
+    return _dashboard_loan_page(
+        request, user_analytics.actual_loans(profile, now), now,
+        summary=user_analytics.history_summary(profile, now),
+    )
