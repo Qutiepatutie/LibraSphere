@@ -1,6 +1,15 @@
 from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.core.validators import RegexValidator
+
+
+class EducationLevel(models.TextChoices):
+    SENIOR_HIGH = 'senior_high', 'Senior high school'
+    COLLEGE = 'college', 'College'
+
+
+year_level_validator = RegexValidator(r'^[1-9][0-9]*$', 'Use a numeric year or grade level, e.g. 1 or 11.')
 
 #Manages users
 class GenderChoices(models.TextChoices):
@@ -109,6 +118,18 @@ class UserProfile(models.Model):
         max_length=100,
         blank=True,
         null=True
+    )
+
+    # Existing profiles remain unset until their academic cohort is known.
+    education_level = models.CharField(
+        max_length=50,
+        choices=EducationLevel.choices,
+        blank=True
+    )
+    year_level = models.CharField(
+        max_length=50,
+        blank=True,
+        validators=[year_level_validator]
     )
 
     class Meta:
