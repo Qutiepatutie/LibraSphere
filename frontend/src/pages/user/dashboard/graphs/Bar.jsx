@@ -3,11 +3,11 @@ import styles from "../../../../styles/userPages/dashboard/graphcontainer.module
 import {Chart as Chartjs, CategoryScale, LinearScale, BarElement, Tooltip, Legend} from "chart.js"
 import { Bar } from "react-chartjs-2"
 
-// import { barData } from "./test.data"
+import { barData } from "./test.data"
 
 export default function BarGraph() {
 
-    const data = [];
+    const data = barData;
     
     Chartjs.register(CategoryScale, LinearScale, BarElement, Tooltip, Legend);
     

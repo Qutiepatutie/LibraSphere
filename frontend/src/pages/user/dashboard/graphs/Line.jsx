@@ -3,11 +3,11 @@ import styles from "../../../../styles/userPages/dashboard/graphcontainer.module
 import {Chart as Chartjs, PointElement, LineElement, CategoryScale, LinearScale, Tooltip, Legend} from "chart.js"
 import { Line } from "react-chartjs-2"
 
-// import { lineData } from "./test.data";
+import { lineData } from "./test.data";
 
 export default function LineGraph() {
-
-    const data = [];
+    
+    const data = lineData;
 
     Chartjs.register(CategoryScale, LinearScale, LineElement, PointElement, Tooltip, Legend);
 
