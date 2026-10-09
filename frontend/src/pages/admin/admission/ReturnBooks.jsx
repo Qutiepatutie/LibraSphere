@@ -1,41 +1,39 @@
-import styles from "../../../styles/adminPages/dashboard/bookborrowers.module.css"
+import styles from "../../../styles/adminPages/dashboard/returnbooks.module.css"
 
 import { useState } from "react";
-import { useBorrowers } from "../../../hooks/useBorrowers"
+import { useBorrowers } from "../../../hooks/useBorrowers";
 
-import BorrowerList from "../../../components/adminDashboard/BorrowerList.jsx"
 import { SearchBar } from "../../../components/ui/Inputs";
+import BorrowerList from "../../../components/adminDashboard/BorrowerList.jsx"
 
 import Toast from "../../../components/ui/Toast.jsx"
 
-export default function BookBorrowers() {
-
-    const [pendingQuery, setPendingQuery] = useState("");
+export default function Inventory() {
+    const [currentQuery, setCurrentQuery] = useState("");
     
     const {
-        pendingBorrowers,
+        currentBorrowers,
         loading,
         updateBookStatus,
-        acceptBook,
         searchBorrowers,
         toastMessage,
         showToast,
     } = useBorrowers();
     
-    const displayedPending = pendingQuery
-        ? searchBorrowers(pendingBorrowers, pendingQuery)
-        : pendingBorrowers;
+    const displayedCurrent = currentQuery
+        ? searchBorrowers(currentBorrowers, currentQuery)
+        : currentBorrowers;
     
     return (
         <>
             <Toast message={toastMessage} show={showToast} />
-            <div className={styles.bookBorrowers}>
-                <div className={styles.header}>
+            <div className={styles.returnBooks}>
+                <div className={styles.carouselHeader}>
                     <SearchBar 
                         placeholder="Search by name or ID number"
-                        name="pending"
-                        value={pendingQuery}
-                        onChange={(e) => setPendingQuery(e.target.value)}
+                        name="current"
+                        value={currentQuery}
+                        onChange={(e) => setCurrentQuery(e.target.value)}
                     />
                 </div>
                 <div className={`
@@ -45,11 +43,10 @@ export default function BookBorrowers() {
                     }
                 >
                     <BorrowerList
-                        borrowers={displayedPending}
+                        borrowers={displayedCurrent}
                         updateBookStatus={updateBookStatus}
-                        acceptBook={acceptBook}
                         loading={loading}
-                        category={"Pending"}
+                        category={"Current"}
                     />
                 </div>
             </div>

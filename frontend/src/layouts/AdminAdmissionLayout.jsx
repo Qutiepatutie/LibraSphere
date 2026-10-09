@@ -2,19 +2,12 @@ import styles from "../styles/layouts/dashboardlayout.module.css"
 
 import { NavLink, Outlet } from "react-router-dom"
 
-export default function AdminDashboardLayout() {
+export default function AdminAdmissionLayout() {
     return (
         <>
             <div className={styles.page}>
                 <div className={styles.container}>
                     <div className={styles.buttons}>
-                        <NavLink
-                            to="circulation"
-                            className={({ isActive }) => isActive ? styles.active : ""}
-                        >
-                            Circulation
-                        </NavLink>
-
                         <NavLink
                             to="borrowers"
                             className={({ isActive }) => isActive ? styles.active : ""}
@@ -23,10 +16,10 @@ export default function AdminDashboardLayout() {
                         </NavLink>
 
                         <NavLink
-                            to="inventory"
+                            to="return-books"
                             className={({ isActive }) => isActive ? styles.active : ""}
                         >
-                            Inventory
+                            Return Books
                         </NavLink>
                     </div>
 

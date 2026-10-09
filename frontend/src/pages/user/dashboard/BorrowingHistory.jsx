@@ -15,12 +15,12 @@ export default function BorrowingHistory() {
             </div>
         
             <div className={styles.panel}>
-                <p className={styles.label}>Due this week</p>
+                <p className={styles.label}>Late Returned</p>
                 <p className={styles.value}>0</p>
             </div>
         
             <div className={styles.panel}>
-                <p className={styles.label}>Fine</p>
+                <p className={styles.label}>Total Fine</p>
                 <p className={styles.value}>₱0</p>
             </div>
         

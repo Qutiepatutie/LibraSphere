@@ -8,7 +8,7 @@ import { useBorrowers } from "../../hooks/useBorrowers.js";
 import Status from "../../components/ui/Status.jsx"
 import CustomButton from "../../components/ui/CustomButton.jsx"
 
-export default function Borrowers() {
+export default function History() {
 
     const { allBorrowers, searchBorrowers } = useBorrowers();
 

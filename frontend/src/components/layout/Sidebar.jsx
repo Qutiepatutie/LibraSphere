@@ -8,6 +8,7 @@ import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"
 import addBook from "../../assets/sidebar/addbook-icon.svg"
 import discussionRoom from "../../assets/sidebar/discussion-room.svg"
+import admission from "../../assets/sidebar/admission.svg"
 
 import { getStorage } from "../../pages/auth/auth.util.js"
 
@@ -21,6 +22,8 @@ export default function Sidebar() {
             ? location.pathname.startsWith("/admin/dashboard")
             : location.pathname.startsWith("/dashboard")
 
+    const isAdmissionActive = location.pathname.startsWith("admin/admission");
+
     return (
         <>
             <div className={styles.sidebar}>
@@ -29,12 +32,22 @@ export default function Sidebar() {
                 </div>
                 <div className={styles.buttons}>
                     <NavLink
-                        to = {role === "admin" ? "/admin/dashboard/statistics" : "/dashboard/statistics"}
+                        to = {role === "admin" ? "/admin/dashboard/circulation" : "/dashboard/statistics"}
                         className={`${styles.navButton} ${isDashboardActive ? styles.active : ""}`}
                     >
                         <img className={styles.icon} src={dashboard} />
                         <p className={styles.tooltip}>Dashboard</p>
                     </NavLink>
+                    
+                    {role === "admin" && (
+                        <NavLink 
+                            to = "admin/admission/borrowers"
+                            className={`${styles.navButton} ${isAdmissionActive ? styles.active : ""}`}
+                        >
+                            <img className={styles.icon} src={admission} />
+                            <p className={styles.tooltip}>Admission</p>
+                        </NavLink>
+                    )}
                     
                     <NavLink
                         to = "/library"
@@ -45,7 +58,7 @@ export default function Sidebar() {
                     </NavLink>
                     
                     <NavLink
-                        to = {role === "admin" ? "/admin/borrowers" : "/borrowed-books"}
+                        to = {role === "admin" ? "/admin/history" : "/borrowed-books"}
                         className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
                     >
                         <img className={styles.icon} src={borrowedBooks} />
