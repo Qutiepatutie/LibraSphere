@@ -6,9 +6,8 @@ import dashboard from "../../assets/sidebar/dashboard.svg"
 import library from "../../assets/sidebar/library.svg"
 import borrowedBooks from "../../assets/sidebar/borrowedBooks.svg"
 import addBook from "../../assets/sidebar/addbook-icon.svg"
-import logoutIcon from "../../assets/sidebar/logout.svg"
 
-import { logout, getStorage } from "../../pages/auth/auth.util.js"
+import { getStorage } from "../../pages/auth/auth.util.js"
 
 export default function Sidebar() {
     const role = getStorage().getItem("role");

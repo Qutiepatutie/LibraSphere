@@ -52,7 +52,7 @@ export const fieldsByPart = {
 };
 
 export const routes = {
-     admin: "/admin/dashboard/statistics",
+     admin: "/admin/dashboard/circulation",
      attendance: "/attendance",
      student: "/dashboard/statistics",
      faculty: "/dashboard/statistics",

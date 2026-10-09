@@ -22,7 +22,7 @@ export default function Sidebar() {
             ? location.pathname.startsWith("/admin/dashboard")
             : location.pathname.startsWith("/dashboard")
 
-    const isAdmissionActive = location.pathname.startsWith("admin/admission");
+    const isAdmissionActive = location.pathname.startsWith("/admin/admission")
 
     return (
         <>
@@ -62,7 +62,7 @@ export default function Sidebar() {
                         className={({ isActive }) => `${styles.navButton} ${isActive ? styles.active : ""}`}
                     >
                         <img className={styles.icon} src={borrowedBooks} />
-                        <p className={styles.tooltip}>{role === "admin" ? "Borrowers" : "Borrowed Books"}</p>
+                        <p className={styles.tooltip}>{role === "admin" ? "History" : "Borrowed Books"}</p>
                     </NavLink>
 
                     {role !== "admin" && (
